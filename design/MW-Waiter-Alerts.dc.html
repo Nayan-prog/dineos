@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Alerts · Waiter · Mobile web</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; overflow: hidden; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="flex: none; height: 56px; box-sizing: border-box; padding: 0 8px 0 4px; display: flex; align-items: center; gap: 4px">
+  <a href="MW-Waiter-Home.dc.html" aria-label="Back" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></a>
+  <div style="flex: 1; min-width: 0">
+    <div style="font-size: 16px; font-weight: 700">Alerts</div>
+    <div style="color: #a1a1a8; font-size: 12px">T1 to T7 · Main hall</div>
+  </div>
+  
+</header>
+<div style="flex: 1; overflow: hidden; padding: 4px 20px 16px; display: flex; flex-direction: column; gap: 18px"><section>
+  <div style="display: flex; align-items: center; gap: 8px"><h2 style="margin: 0; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">Needs someone</h2><span style="margin-left: auto; font-weight: 600; color: #a1a1a8">{{oN}}</span></div>
+  <sc-for list="{{open}}" as="a" hint-placeholder-count="4">
+    <div style="display: flex; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid #1c1c20">
+      <span style="flex: none; width: 8px; height: 8px; border-radius: 4px; background: {{a.dot}}"></span>
+      <div style="flex: 1; min-width: 0"><div style="font-weight: 600"><span style="font-weight: 700">{{a.table}}</span> · {{a.title}}</div><div style="font-size: 12px; color: #a1a1a8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{a.detail}}</div><div style="font-size: 12px; color: {{a.originFg}}">{{a.origin}}</div></div>
+      <button type="button" onClick="{{a.take}}" style="flex: none; height: 36px; padding: 0 16px; border: 0; border-radius: 18px; background: #3b82f6; color: #fff; font: inherit; font-size: 13px; font-weight: 600">On it</button>
+    </div>
+  </sc-for>
+</section>
+<section>
+  <div style="display: flex; align-items: center; gap: 8px"><h2 style="margin: 0; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">I'm handling</h2><span style="margin-left: auto; font-weight: 600; color: #a1a1a8">{{mN}}</span></div>
+  <sc-for list="{{mine}}" as="m" hint-placeholder-count="1">
+    <div style="display: flex; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid #1c1c20">
+      <span style="flex: none; width: 8px; height: 8px; border-radius: 4px; background: {{m.dot}}"></span>
+      <div style="flex: 1; min-width: 0; font-weight: 600"><span style="font-weight: 700">{{m.table}}</span> · {{m.title}}</div>
+      <button type="button" onClick="{{m.done}}" style="flex: none; height: 36px; padding: 0 16px; border: 1px solid #2c2c31; border-radius: 18px; background: transparent; color: #f2f2f3; font: inherit; font-size: 13px; font-weight: 600">Done</button>
+    </div>
+  </sc-for>
+  <sc-for list="{{taken}}" as="t" hint-placeholder-count="1"><div style="padding: 12px 0 0 20px; color: #8b8b93; font-size: 13px">{{t.table}} · {{t.title}} · {{t.by}} is on it</div></sc-for>
+</section>
+<div style="color: #8b8b93; font-size: 12px">Not taken in 60 s → all free waiters in the area. Not taken in 120 s → manager.</div></div>
+<nav aria-label="Main" style="flex: none; box-sizing: border-box; padding: 8px 16px 14px; background: #0b0b0c"><div style="height: 58px; box-sizing: border-box; border-radius: 29px; background: #17171a; padding: 5px; display: flex; gap: 4px"><a href="MW-Waiter-Home.dc.html" aria-label="Home" aria-current="page" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #f2f2f3; background: #2c2c31"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5L12 4l9 7.5M5.5 10v9.5a1 1 0 0 0 1 1H10v-6h4v6h3.5a1 1 0 0 0 1-1V10"></path></svg></a><a href="MW-Waiter-Tables.dc.html" aria-label="My tables" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18M5 9v11M19 9v11M8 9V6h8v3"></path></svg></a><a href="MW-TakeOrder.dc.html" aria-label="Take order" style="flex: 1.3; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; gap: 4px; background: #3b82f6; color: #ffffff; font-size: 13px; font-weight: 700"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Order</a><a href="MW-Waiter-Orders.dc.html" aria-label="Orders" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg></a><a href="MW-Profile.dc.html" aria-label="Profile" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center"><span style="width: 26px; height: 26px; border-radius: 13px; background: #232327; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">P</span></a></div></nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { st: {} }; }
+  renderVals() {
+    var self = this, S = this.state;
+
+    var _onBreak = !!this.state.onBreak, _me = this;
+    var duty = { dutyLabel: _onBreak ? 'On break · tap to resume' : 'On duty', dutyBg: 'transparent', dutyFg: _onBreak ? '#f5c27a' : '#7fcfa3', dutyDot: _onBreak ? '#f5b454' : '#5eb88a', toggleBreak: function () { _me.setState({ onBreak: !_onBreak }); } };
+
+    // id, kind, table, title, detail, origin, left(s), status, takenBy
+    var A = [
+      ['a1', 'food', 'T3', 'Food ready', '4 × Garlic Naan · Tandoor pass', 'Your table', 42, 'open', ''],
+      ['a2', 'call', 'T9', 'Guest calling', 'Asked for water and extra plates', 'Passed on from Rahul · no reply in 60 s', 38, 'open', ''],
+      ['a3', 'bill', 'T5', 'Bill requested', '3 guests · paying by UPI', 'Your table', 51, 'open', ''],
+      ['a4', 'food', 'T15', 'Food ready', '3 × Butter Naan · waiting 3 min', 'Any waiter can carry', 0, 'open', ''],
+      ['a5', 'call', 'T10', 'Guest calling', 'Wants to add dessert', 'Rahul\'s table', 0, 'taken', 'Amit'],
+      ['a6', 'food', 'T1', 'Food ready', '2 × Malai Tikka', 'Your table', 0, 'mine', '']
+    ];
+    var ic = { food: '#5eb88a', call: '#7db0f9', bill: '#c9b29b' };
+    var st = function (a) { return S.st[a[0]] || a[7]; };
+    var set = function (id, v) { var n = Object.assign({}, S.st); n[id] = v; self.setState({ st: n }); };
+    var open = A.filter(function (a) { return st(a) === 'open'; }).map(function (a) { var passed = a[5].indexOf('Passed') === 0, runner = a[6] === 0;
+      return { table: a[2], title: a[3], detail: a[4], origin: a[5], originFg: passed ? '#f5b454' : (runner ? '#7db0f9' : '#8b8b93'), dot: ic[a[1]],
+        timer: runner ? '' : 'Passes on in ' + a[6] + ' s', hasTimer: !runner, take: function () { set(a[0], 'mine'); } }; });
+    var mine = A.filter(function (a) { return st(a) === 'mine'; }).map(function (a) {
+      return { table: a[2], title: a[3], detail: a[4], dot: ic[a[1]], done: function () { set(a[0], 'done'); } }; });
+    var taken = A.filter(function (a) { return st(a) === 'taken'; }).map(function (a) { return { table: a[2], title: a[3], by: a[8] }; });
+    var steps = [
+      { n: '1', title: 'Your waiter', sub: 'Alert goes to the waiter who owns the table', time: '0 to 60 s', rule: 'transparent' },
+      { n: '2', title: 'Free waiters in the area', sub: 'Everyone not busy in Main hall sees it', time: '60 to 120 s', rule: '#232327' },
+      { n: '3', title: 'Manager', sub: 'Nobody took it, the manager is alerted', time: 'After 120 s', rule: '#232327' }
+    ];
+    return Object.assign({ open: open, mine: mine, taken: taken, steps: steps, oN: open.length, mN: mine.length, hasMine: mine.length > 0, noMine: mine.length === 0, hasTaken: taken.length > 0 }, duty);
+  }
+}
+</script>
+</body>
+</html>

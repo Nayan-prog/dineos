@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Verify number · Customer QR</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; overflow: hidden; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<div style="flex: 1; min-height: 0; box-sizing: border-box; padding: 12px 20px 28px; display: flex; flex-direction: column; color: #f5f5f5">
+  <div style="height: 48px; display: flex; align-items: center">
+    <sc-if value="{{showBack}}" hint-placeholder-val="{{false}}">
+      <a href="{{backHref}}" aria-label="Go back" style="width: 48px; height: 48px; margin-left: -12px; color: #f5f5f5; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></a>
+    </sc-if>
+    <sc-if value="{{showBrand}}" hint-placeholder-val="{{true}}">
+      <span style="font-family: Comfortaa, sans-serif; font-weight: 700; font-size: 18px">Spice Garden</span>
+    </sc-if>
+    <span style="flex: 1"></span>
+    <sc-if value="{{showResend}}" hint-placeholder-val="{{false}}">
+      <button type="button" style="height: 48px; padding: 0; border: 0; background: transparent; color: #f5f5f5; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer">Send a new code</button>
+    </sc-if>
+    <sc-if value="{{showTable}}" hint-placeholder-val="{{true}}">
+      <span style="font-size: 14px; font-weight: 600; color: #b3b3b3">Table 8</span>
+    </sc-if>
+  </div>
+
+  <div style="flex: 1; min-height: 0">
+    <h1 style="margin: 20px 0 8px; font-size: 34px; line-height: 40px; font-weight: 700; letter-spacing: -0.5px">{{title}}</h1>
+    <p style="margin: 0 0 16px; font-size: 15px; line-height: 21px; color: #b3b3b3">{{sub}}</p>
+
+    <sc-if value="{{s1}}" hint-placeholder-val="{{true}}">
+      <label style="margin-top: 32px; padding: 12px 0; display: flex; align-items: center; gap: 12px; font-size: 20px">
+        <span style="color: #b3b3b3">+91</span>
+        <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Mobile number</span>
+        <input type="tel" inputmode="numeric" autocomplete="tel-national" value="98765 43210" style="flex: 1; min-width: 0; padding: 0; border: 0; background: transparent; color: #f5f5f5; font: inherit; font-size: 20px; outline: none">
+      </label>
+    </sc-if>
+    <sc-if value="{{s2}}" hint-placeholder-val="{{false}}">
+      <label style="margin-top: 32px; padding: 12px 0; display: flex; align-items: center">
+        <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">4-digit code</span>
+        <input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="4" value="4719" style="flex: 1; min-width: 0; padding: 0; border: 0; background: transparent; color: #f5f5f5; font: inherit; font-size: 20px; letter-spacing: 4px; outline: none">
+      </label>
+    </sc-if>
+    <sc-if value="{{s3}}" hint-placeholder-val="{{false}}">
+      <label style="margin-top: 32px; padding: 12px 0; display: flex; align-items: center">
+        <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Your name</span>
+        <input type="text" autocomplete="given-name" value="Rahul" style="flex: 1; min-width: 0; padding: 0; border: 0; background: transparent; color: #f5f5f5; font: inherit; font-size: 20px; outline: none">
+      </label>
+    </sc-if>
+  </div>
+
+  <div>
+    <sc-if value="{{notLast}}" hint-placeholder-val="{{true}}">
+      <a href="{{nextHref}}" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 999px; background: #f5f5f5; color: #0b0b0c; font-size: 16px; font-weight: 600">Continue</a>
+    </sc-if>
+    <sc-if value="{{s3}}" hint-placeholder-val="{{false}}">
+      <a href="QR-Guests.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 999px; background: #f5f5f5; color: #0b0b0c; font-size: 16px; font-weight: 600">Start ordering</a>
+    </sc-if>
+    <sc-if value="{{s1}}" hint-placeholder-val="{{true}}">
+      <div style="margin-top: 28px; text-align: center; color: #b3b3b3; font-size: 14px">Just looking? <a href="QR-Guests.dc.html"><span style="color: #f5f5f5; font-weight: 700">Continue as guest</span></a></div>
+    </sc-if>
+    <div style="margin-top: 20px; text-align: center; color: #b3b3b3; font-size: 13px">By continuing you agree to the <a href="#" style="color: #f5f5f5; font-weight: 600">Terms</a> and <a href="#" style="color: #f5f5f5; font-weight: 600">Privacy Policy</a></div>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var s = 2;
+    var titles = { 1: 'Enter your mobile number', 2: 'Verify your number', 3: 'What should we call you?' };
+    var subs = { 1: 'Sign in to order from Table 8 and get your bill on your phone.', 2: 'We sent a 4-digit code to +91 98765 43210.', 3: '' };
+    var files = { 1: 'QR-SignIn.dc.html', 2: 'QR-Verify.dc.html', 3: 'QR-Name.dc.html' };
+    return {
+      s1: s === 1, s2: s === 2, s3: s === 3, notLast: s < 3,
+      showBack: s > 1, showBrand: s === 1, showResend: s === 2, showTable: s !== 2,
+      title: titles[s], sub: subs[s], nextHref: files[s + 1] || 'QR-Guests.dc.html', backHref: files[s - 1] || 'QR-SignIn.dc.html'
+    };
+  }
+}
+</script>
+</body>
+</html>

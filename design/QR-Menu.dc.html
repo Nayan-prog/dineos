@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Menu · Customer QR</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; overflow: hidden; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="flex: none; padding: 16px 16px 8px; display: flex; align-items: center; gap: 12px">
+  <span style="width: 44px; height: 44px; border-radius: 22px; background: #232327; display: flex; align-items: center; justify-content: center; font-weight: 700">SG</span>
+  <div style="flex: 1; min-width: 0"><div style="font-size: 17px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Spice Garden</div><div style="color: #a1a1a8; font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Table 8 · <a href="QR-Guests.dc.html" style="color: #7db0f9; font-weight: 600">4 guests</a></div></div>
+  <button type="button" onClick="{{cw.toggle}}" aria-expanded="{{cw.open}}" style="flex: none; display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border: 0; border-radius: 18px; background: {{cw.btnBg}}; color: {{cw.btnFg}}; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"></path></svg>{{cw.btnLabel}}</button>
+</header>
+<sc-if value="{{cw.open}}" hint-placeholder-val="{{false}}">
+<div style="flex: none; margin: 4px 16px 8px; background: #111113; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px; box-shadow: inset 0 0 0 1px #2c2c31">
+  <div style="font-size: 16px; font-weight: 700">What do you need?</div>
+  <div style="display: flex; flex-wrap: wrap; gap: 8px">
+    <sc-for list="{{cw.reasons}}" as="r" hint-placeholder-count="5">
+      <button type="button" onClick="{{r.pick}}" aria-pressed="{{r.on}}" style="height: 38px; padding: 0 14px; border: 0; border-radius: 19px; background: {{r.bg}}; color: {{r.fg}}; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">{{r.label}}</button>
+    </sc-for>
+  </div>
+  <div style="display: flex; gap: 8px">
+    <button type="button" onClick="{{cw.close}}" style="flex: 1; height: 44px; border: 0; border-radius: 22px; background: #232327; color: #f2f2f3; font: inherit; font-weight: 600; cursor: pointer">Not now</button>
+    <button type="button" onClick="{{cw.send}}" style="flex: 1.4; height: 44px; border: 0; border-radius: 22px; background: #3b82f6; color: #ffffff; font: inherit; font-weight: 600; cursor: pointer">Call waiter</button>
+  </div>
+</div>
+</sc-if>
+<sc-if value="{{cw.called}}" hint-placeholder-val="{{false}}">
+<div role="status" style="flex: none; margin: 4px 16px 8px; background: rgba(94,184,138,0.12); border-radius: 14px; padding: 10px 12px 10px 14px; display: flex; align-items: center; gap: 10px">
+  <span style="flex: none; width: 8px; height: 8px; border-radius: 4px; background: #5eb88a"></span>
+  <span style="flex: 1; min-width: 0"><span style="display: block; font-weight: 600; color: #7fcfa3">Priya is coming to Table 8</span><span style="display: block; color: #a1a1a8; font-size: 12px">{{cw.reason}} · usually within 2 min</span></span>
+  <button type="button" onClick="{{cw.cancel}}" style="height: 36px; padding: 0 6px; border: 0; background: transparent; color: #a1a1a8; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Cancel</button>
+</div>
+</sc-if>
+
+<div style="flex: none; padding: 4px 16px 0; display: flex; flex-direction: column; gap: 12px">
+  <label style="display: flex; align-items: center; gap: 8px; height: 44px; box-sizing: border-box; padding: 0 14px; border-radius: 22px; background: #17171a; color: #a1a1a8"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg><input type="search" aria-label="Search the menu" placeholder="Search the menu" style="flex: 1; min-width: 0; border: 0; outline: none; background: transparent; color: #f2f2f3; font: inherit; font-size: 14px"></label>
+  <div style="display: flex; gap: 8px; overflow: hidden">
+    <sc-for list="{{cats}}" as="c" hint-placeholder-count="5">
+      <button type="button" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="flex: none; height: 36px; padding: 0 14px; border: 0; border-radius: 18px; background: {{c.bg}}; color: {{c.fg}}; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">{{c.label}}</button>
+    </sc-for>
+  </div>
+</div>
+<div style="flex: 1; min-height: 0; overflow: hidden; padding: 10px 16px 0; display: flex; flex-direction: column; gap: 10px">
+  <sc-for list="{{dishes}}" as="d" hint-placeholder-count="4">
+    <div style="background: #111113; border-radius: 16px; padding: 12px; display: flex; flex-direction: column; gap: 10px; opacity: {{d.op}}; box-shadow: inset 0 0 0 1px {{d.ring}}">
+      <div style="display: flex; gap: 12px">
+        <span style="flex: none; width: 64px; height: 64px; border-radius: 12px; background: #1c1c20; display: flex; align-items: center; justify-content: center; color: #8b8b93; font-size: 20px; font-weight: 700">{{d.initial}}</span>
+        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+          <span style="display: flex; align-items: center; gap: 6px; font-weight: 600"><span style="flex: none; width: 10px; height: 10px; box-sizing: border-box; border: 1.5px solid {{d.veg}}; border-radius: 2px"></span>{{d.name}}</span>
+          <span style="color: #8b8b93; font-size: 12.5px">₹{{d.price}} · {{d.meta}}</span>
+          <span style="display: flex; align-items: center; justify-content: space-between; margin-top: auto">
+            <sc-if value="{{d.showStep}}" hint-placeholder-val="{{false}}"><button type="button" onClick="{{d.toggleCustom}}" aria-expanded="{{d.isOpen}}" style="display: flex; align-items: center; gap: 4px; height: 32px; padding: 0; border: 0; background: transparent; color: #7db0f9; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path></svg>{{d.customLabel}}</button></sc-if>
+            <sc-if value="{{d.notStep}}" hint-placeholder-val="{{true}}"><span></span></sc-if>
+            <sc-if value="{{d.showAdd}}" hint-placeholder-val="{{true}}"><button type="button" onClick="{{d.inc}}" style="height: 34px; padding: 0 16px; border: 0; border-radius: 17px; background: #17171a; color: #7db0f9; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Add</button></sc-if>
+            <sc-if value="{{d.showStep}}" hint-placeholder-val="{{false}}"><span style="display: flex; align-items: center; height: 34px; border-radius: 17px; background: #232327"><button type="button" onClick="{{d.dec}}" aria-label="Remove one" style="width: 34px; height: 34px; border: 0; background: transparent; color: #f2f2f3; font: inherit; font-size: 17px; cursor: pointer">−</button><span style="min-width: 16px; text-align: center; font-weight: 700">{{d.qty}}</span><button type="button" onClick="{{d.inc}}" aria-label="Add one" style="width: 34px; height: 34px; border: 0; background: transparent; color: #f2f2f3; font: inherit; font-size: 17px; cursor: pointer">+</button></span></sc-if>
+            <sc-if value="{{d.out}}" hint-placeholder-val="{{false}}"><span style="font-size: 12px; font-weight: 600; color: #8b8b93">Sold out</span></sc-if>
+          </span>
+        </div>
+      </div>
+      <sc-if value="{{d.showSummary}}" hint-placeholder-val="{{false}}">
+        <div style="color: #f5c27a; font-size: 12.5px">{{d.summary}}</div>
+      </sc-if>
+      <sc-if value="{{d.isOpen}}" hint-placeholder-val="{{false}}">
+        <div style="border-top: 1px solid #1c1c20; padding-top: 10px; display: flex; flex-direction: column; gap: 10px">
+          <div>
+            <div style="color: #a1a1a8; font-size: 12px; margin-bottom: 6px">Spice level</div>
+            <div style="display: flex; gap: 6px"><sc-for list="{{d.spices}}" as="o" hint-placeholder-count="3"><button type="button" onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="flex: 1; height: 34px; border: 0; border-radius: 17px; background: {{o.bg}}; color: {{o.fg}}; font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer">{{o.label}}</button></sc-for></div>
+          </div>
+          <div>
+            <div style="color: #a1a1a8; font-size: 12px; margin-bottom: 6px">Options</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px"><sc-for list="{{d.opts}}" as="o" hint-placeholder-count="4"><button type="button" onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="height: 34px; padding: 0 12px; border: 0; border-radius: 17px; background: {{o.bg}}; color: {{o.fg}}; font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer">{{o.label}}</button></sc-for></div>
+          </div>
+          <label style="display: flex; flex-direction: column; gap: 6px; color: #a1a1a8; font-size: 12px">Note for the kitchen
+            <textarea rows="2" value="{{d.note}}" onChange="{{d.setNote}}" placeholder="e.g. less oil, sauce on the side" style="box-sizing: border-box; padding: 10px 12px; border: 0; border-radius: 12px; background: #17171a; color: #f2f2f3; font: inherit; font-size: 13.5px; resize: none; outline: none"></textarea>
+          </label>
+          <button type="button" onClick="{{d.toggleCustom}}" style="height: 40px; border: 0; border-radius: 20px; background: #f2f2f3; color: #0b0b0c; font: inherit; font-weight: 600; cursor: pointer">Done</button>
+        </div>
+      </sc-if>
+    </div>
+  </sc-for>
+</div>
+<div style="flex: none; padding: 10px 16px 16px">
+  <a href="QR-Review.dc.html" style="height: 52px; border-radius: 26px; background: #3b82f6; color: #ffffff; display: flex; align-items: center; padding: 0 20px; font-weight: 600; font-size: 15px"><span>{{count}} items · ₹{{total}}</span><span style="flex: 1"></span><span>Review order</span></a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { cat: 'Starters', q: { pt: 1, tc: 1 }, open: 'pt', mods: { pt: { spice: 'Medium', opts: ['No onion'], note: 'Less oil please' } } }; }
+  renderVals() {
+    var _cs = this.state, _me = this;
+    var cw = {
+      open: !!_cs.cwOpen, called: !!_cs.cwCalled, reason: _cs.cwReason || 'Help with order',
+      btnLabel: _cs.cwCalled ? 'Coming' : 'Call waiter', btnBg: _cs.cwCalled ? 'rgba(94,184,138,0.16)' : '#17171a', btnFg: _cs.cwCalled ? '#7fcfa3' : '#f2f2f3',
+      reasons: ['Help with order', 'Water', 'Cutlery', 'Clean the table', 'Something else'].map(function (r) { var on = r === (_cs.cwReason || 'Help with order'); return { label: r, on: on, bg: on ? '#f2f2f3' : '#17171a', fg: on ? '#0b0b0c' : '#a1a1a8', pick: function () { _me.setState({ cwReason: r }); } }; }),
+      toggle: function () { _me.setState({ cwOpen: !_cs.cwOpen }); },
+      close: function () { _me.setState({ cwOpen: false }); },
+      send: function () { _me.setState({ cwOpen: false, cwCalled: true }); },
+      cancel: function () { _me.setState({ cwCalled: false }); }
+    };
+    var self = this, st = this.state;
+
+    var veg = '#5eb88a', non = '#e0705c';
+    var menu = {
+      Starters: [['pt', 'Paneer Tikka', 280, 'Tandoor · 12 min', veg, false], ['tc', 'Tandoori Chicken', 360, 'Tandoor · 18 min', non, false], ['hb', 'Hara Bhara Kabab', 220, 'Tandoor · 10 min', veg, false], ['ms', 'Manchow Soup', 160, 'Chinese · 8 min', veg, false]],
+      Mains: [['bc', 'Butter Chicken', 380, 'Curry · 15 min', non, false], ['dm', 'Dal Makhani', 240, 'Curry · 10 min', veg, false], ['vb', 'Veg Biryani', 260, 'Curry · 20 min', veg, false], ['hn', 'Hakka Noodles', 220, 'Chinese · 10 min', veg, false]],
+      Breads: [['bn', 'Butter Naan', 60, 'Tandoor · 4 min', veg, false], ['gn', 'Garlic Naan', 70, 'Tandoor · 4 min', veg, false]],
+      Desserts: [['gj', 'Gulab Jamun', 120, 'Dessert', veg, true], ['rm', 'Rasmalai', 140, 'Dessert', veg, false]],
+      Drinks: [['ml', 'Masala Lemonade', 90, 'Bar', veg, false], ['sl', 'Sweet Lassi', 110, 'Bar', veg, false]]
+    };
+    var price = {}; Object.keys(menu).forEach(function (k) { menu[k].forEach(function (d) { price[d[0]] = d[2]; }); });
+
+    var setQ = function (id, d) { var n = Object.assign({}, self.state.q); n[id] = Math.max(0, (n[id] || 0) + d); self.setState({ q: n }); };
+    var setMod = function (id, patch) { var all = Object.assign({}, self.state.mods); all[id] = Object.assign({ spice: 'Medium', opts: [], note: '' }, all[id] || {}, patch); self.setState({ mods: all }); };
+    var chip = function (on) { return { bg: on ? '#f2f2f3' : '#17171a', fg: on ? '#0b0b0c' : '#a1a1a8' }; };
+    var dishes = menu[st.cat].map(function (d) {
+      var id = d[0], n = st.q[id] || 0, m = st.mods[id] || { spice: 'Medium', opts: [], note: '' }, isOpen = st.open === id && n > 0;
+      var hasMods = !!st.mods[id] && (m.spice !== 'Medium' || m.opts.length || m.note);
+      var parts = []; if (m.spice !== 'Medium' || st.mods[id]) parts.push(m.spice + ' spicy'); parts = parts.concat(m.opts); if (m.note) parts.push('“' + m.note + '”');
+      return { name: d[1], price: d[2], meta: d[3], veg: d[4], out: d[5], op: d[5] ? 0.5 : 1, initial: d[1].charAt(0), qty: n,
+        showAdd: !d[5] && n === 0, showStep: !d[5] && n > 0, notStep: !(!d[5] && n > 0),
+        isOpen: isOpen, ring: isOpen ? '#2c2c31' : 'transparent', note: m.note,
+        customLabel: hasMods ? 'Edit changes' : 'Customize', showSummary: hasMods && !isOpen && n > 0, summary: parts.join(' · '),
+        toggleCustom: function () { self.setState({ open: isOpen ? null : id }); },
+        spices: ['Mild', 'Medium', 'Spicy'].map(function (x) { var c = chip(m.spice === x); return { label: x, on: m.spice === x, bg: c.bg, fg: c.fg, pick: function () { setMod(id, { spice: x }); } }; }),
+        opts: ['No onion', 'No garlic', 'Jain', 'Extra butter'].map(function (x) { var on = m.opts.indexOf(x) >= 0, c = chip(on); return { label: x, on: on, bg: c.bg, fg: c.fg, pick: function () { setMod(id, { opts: on ? m.opts.filter(function (y) { return y !== x; }) : m.opts.concat([x]) }); } }; }),
+        setNote: function (e) { setMod(id, { note: e && e.target ? e.target.value : '' }); },
+        inc: function () { setQ(id, 1); }, dec: function () { setQ(id, -1); } };
+    });
+    var count = 0, total = 0; Object.keys(st.q).forEach(function (k) { count += st.q[k]; total += st.q[k] * price[k]; });
+    var cats = Object.keys(menu).map(function (c) { var on = c === st.cat; return { label: c, on: on, bg: on ? '#f2f2f3' : '#17171a', fg: on ? '#0b0b0c' : '#a1a1a8', pick: function () { self.setState({ cat: c }); } }; });
+    return { cw: cw, cats: cats, dishes: dishes, count: count, total: total.toLocaleString('en-IN') };
+  }
+}
+</script>
+</body>
+</html>

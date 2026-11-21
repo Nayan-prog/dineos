@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Take order · Web</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+summary::-webkit-details-marker{display:none}
+summary::marker{content:""}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="height: 64px; box-sizing: border-box; padding: 0 24px; display: flex; align-items: center; gap: 14px"><a href="Web-Login.dc.html" style="font-family: Comfortaa, sans-serif; font-weight: 700; font-size: 22px">DineOS</a><span style="color: #a1a1a8; font-size: 15px; font-weight: 600">Waiter</span><span style="flex: 1"></span><a href="Web-Notifications.dc.html" aria-label="Notifications" style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg><span style="position: absolute; top: 11px; right: 12px; width: 8px; height: 8px; border-radius: 4px; background: #3b82f6"></span></a><details style="position: relative"><summary aria-label="Account menu" style="width: 36px; height: 36px; border-radius: 18px; background: #232327; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; cursor: pointer; list-style: none">P</summary><div role="menu" style="position: absolute; right: 0; top: 46px; z-index: 30; width: 240px; box-sizing: border-box; padding: 6px; border-radius: 14px; background: #111113; border: 1px solid #232327; box-shadow: 0 12px 32px rgba(0,0,0,0.5)"><div style="padding: 10px 12px 12px; border-bottom: 1px solid #232327; margin-bottom: 6px"><div style="font-weight: 600; font-size: 14px">Priya Sharma</div><div style="color: #8b8b93; font-size: 12.5px; margin-top: 2px">Waiter · Tables T1 to T7</div></div><a href="Web-Profile.dc.html" style="display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 12px; border-radius: 8px; font-size: 14px; font-weight: 500; color: #f2f2f3"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"></path></svg>Profile</a><div style="height: 1px; background: #232327; margin: 6px 0"></div><a href="Web-Login-Staff.dc.html" style="display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 12px; border-radius: 8px; font-size: 14px; font-weight: 500; color: #e0705c"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"></path><path d="M10 17l-5-5 5-5M5 12h11"></path></svg>Log out</a></div></details></header>
+<div style="display: flex; flex-wrap: wrap">
+<aside style="flex: 1 1 224px; max-width: 100%; box-sizing: border-box; padding: 8px 12px 24px">
+<div style="font-family: Comfortaa, sans-serif; font-size: 12px; font-weight: 700; color: #8b8b93; padding: 14px 14px 6px">Overview</div>
+<a href="Web-Waiter-Home.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5L12 4l9 7.5M5.5 10v9.5a1 1 0 0 0 1 1H10v-6h4v6h3.5a1 1 0 0 0 1-1V10"></path></svg>Home</a>
+<div style="font-family: Comfortaa, sans-serif; font-size: 12px; font-weight: 700; color: #8b8b93; padding: 14px 14px 6px">Service</div>
+<a href="Web-Waiter-Tables.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18M5 9v11M19 9v11M8 9V6h8v3"></path></svg>My tables</a>
+<a href="Web-Waiter-Orders.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg>Orders</a>
+<a href="Web-TakeOrder.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 600; color: #7db0f9; background: #17171a"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path></svg>Take order</a>
+<div style="font-family: Comfortaa, sans-serif; font-size: 12px; font-weight: 700; color: #8b8b93; padding: 14px 14px 6px">Account</div>
+<a href="Web-Waiter-Alerts.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg>Alerts</a>
+<a href="Web-Profile.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 20c0-3.5 3.5-6 8-6s8 2.5 8 6"></path></svg>Profile</a>
+</aside>
+<main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 24px 40px 64px; max-width: 1400px; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px">
+  <div>
+    <h1 style="margin: 0; font-size: 30px; font-weight: 700; letter-spacing: -0.4px">New order · Table 8</h1>
+    <div style="color: #a1a1a8; font-size: 13.5px; margin-top: 2px">Main hall · 6 seats</div>
+  </div>
+  <span style="display: flex; align-items: center; gap: 10px"><span style="color: #a1a1a8">Guests</span><span style="display: flex; align-items: center; height: 40px; border-radius: 20px; background: #17171a"><button type="button" onClick="{{gDec}}" aria-label="Fewer guests" style="width: 32px; height: 32px; border: 0; background: transparent; color: #f2f2f3; font: inherit; font-size: 16px; cursor: pointer; width: 40px">−</button><span style="min-width: 20px; text-align: center; font-weight: 700">{{guests}}</span><button type="button" onClick="{{gInc}}" aria-label="More guests" style="width: 32px; height: 32px; border: 0; background: transparent; color: #f2f2f3; font: inherit; font-size: 16px; cursor: pointer; width: 40px">+</button></span></span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+  <nav aria-label="Categories" style="flex: 0 1 170px; min-width: 150px; display: flex; flex-direction: column; gap: 4px">
+    <sc-for list="{{cats}}" as="c" hint-placeholder-count="5"><button type="button" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="height: 44px; padding: 0 14px; border: 0; border-radius: 12px; background: {{c.bg}}; color: {{c.fg}}; font: inherit; font-size: 14.5px; font-weight: {{c.weight}}; text-align: left; display: flex; justify-content: space-between; align-items: center; cursor: pointer">{{c.label}}<span style="color: #8b8b93; font-weight: 500; font-size: 12.5px">{{c.n}}</span></button></sc-for>
+  </nav>
+  <section style="flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+    <label style="display: flex; align-items: center; gap: 8px; height: 44px; box-sizing: border-box; padding: 0 14px; border-radius: 22px; background: #17171a; color: #a1a1a8"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg><input type="search" aria-label="Search dishes" placeholder="Search dishes" style="flex: 1; min-width: 0; border: 0; outline: none; background: transparent; color: #f2f2f3; font: inherit; font-size: 14px"></label>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px">
+      <sc-for list="{{dishes}}" as="d" hint-placeholder-count="6">
+        <article style="background: #111113; border-radius: 18px; padding: 12px; display: flex; flex-direction: column; gap: 8px; opacity: {{d.op}}">
+          <span style="height: 92px; border-radius: 12px; background: #1c1c20; display: flex; align-items: center; justify-content: center; color: #8b8b93; font-size: 26px; font-weight: 700">{{d.initial}}</span>
+          <span style="display: flex; align-items: center; gap: 6px; font-weight: 600"><span style="flex: none; width: 10px; height: 10px; box-sizing: border-box; border: 1.5px solid {{d.veg}}; border-radius: 2px"></span>{{d.name}}</span>
+          <span style="color: #8b8b93; font-size: 12px">{{d.meta}}</span>
+          <span style="display: flex; align-items: center; justify-content: space-between; margin-top: auto">
+            <span style="font-weight: 700">₹{{d.price}}</span>
+            <sc-if value="{{d.out}}" hint-placeholder-val="{{false}}"><span style="font-size: 12px; font-weight: 600; color: #8b8b93">Sold out</span></sc-if>
+            <sc-if value="{{d.canAdd}}" hint-placeholder-val="{{true}}"><button type="button" onClick="{{d.add}}" style="height: 32px; padding: 0 14px; border: 0; border-radius: 16px; background: #17171a; color: #7db0f9; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">+ Add</button></sc-if>
+          </span>
+        </article>
+      </sc-for>
+    </div>
+  </section>
+  <aside style="flex: 1 1 320px; min-width: 0; background: #111113; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 14px">
+    <div style="font-size: 17px; font-weight: 700">Order</div>
+    <div><div style="color: #8b8b93; font-size: 12px; margin-bottom: 6px">Adding for</div>
+      <div style="display: flex; flex-wrap: wrap; gap: 6px"><sc-for list="{{who}}" as="w" hint-placeholder-count="5"><button type="button" onClick="{{w.pick}}" aria-pressed="{{w.on}}" style="height: 30px; padding: 0 10px; border: 0; border-radius: 15px; background: {{w.bg}}; box-shadow: inset 0 0 0 1px {{w.ring}}; color: {{w.fg}}; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer">{{w.label}}</button></sc-for></div></div>
+    <div style="display: flex; flex-direction: column">
+      <sc-if value="{{empty}}" hint-placeholder-val="{{false}}"><div style="color: #8b8b93; padding: 16px 0">Add dishes from the menu.</div></sc-if>
+      <sc-for list="{{lines}}" as="l" hint-placeholder-count="4">
+        <div style="display: flex; align-items: center; gap: 10px; min-height: 52px; border-bottom: 1px solid #1c1c20">
+          <span style="flex: 1; min-width: 0"><span style="display: block; font-weight: 600; font-size: 13.5px">{{l.name}}</span><span style="display: block; color: #8b8b93; font-size: 12px">{{l.who}}<span style="color: #f5c27a">{{l.mods}}</span></span></span>
+          <span style="display: flex; align-items: center; height: 32px; border-radius: 16px; background: #232327"><button type="button" onClick="{{l.dec}}" aria-label="Remove one" style="width: 32px; height: 32px; border: 0; background: transparent; color: #f2f2f3; font: inherit; font-size: 16px; cursor: pointer">−</button><span style="min-width: 16px; text-align: center; font-weight: 700; font-size: 13px">{{l.qty}}</span><button type="button" onClick="{{l.inc}}" aria-label="Add one" style="width: 32px; height: 32px; border: 0; background: transparent; color: #f2f2f3; font: inherit; font-size: 16px; cursor: pointer">+</button></span>
+          <span style="width: 64px; text-align: right; font-weight: 600; font-size: 13px">₹{{l.total}}</span>
+        </div>
+      </sc-for>
+    </div>
+    <label style="display: flex; flex-direction: column; gap: 6px; color: #8b8b93; font-size: 12px">Note for the kitchen<input type="text" placeholder="e.g. starters first, less spicy" style="height: 40px; box-sizing: border-box; padding: 0 12px; border: 0; border-radius: 12px; background: #17171a; color: #f2f2f3; font: inherit; font-size: 13px; outline: none"></label>
+    <sc-if value="{{hasMissing}}" hint-placeholder-val="{{false}}"><div style="color: #f5c27a; font-size: 12.5px">{{missing}}</div></sc-if>
+    <div style="display: flex; flex-direction: column; gap: 4px; color: #a1a1a8; font-size: 13px"><div style="display: flex; justify-content: space-between"><span>Item total</span><span>₹{{sub}}</span></div><div style="display: flex; justify-content: space-between"><span>GST 5%</span><span>₹{{gst}}</span></div><div style="display: flex; justify-content: space-between; color: #f2f2f3; font-size: 17px; font-weight: 700"><span>Total</span><span>₹{{total}}</span></div></div>
+    <a href="Web-Waiter-Table.dc.html" style="height: 48px; border-radius: 24px; background: #3b82f6; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 600">Send {{count}} items to kitchen</a>
+  </aside>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { cat: 'Starters', guests: 4, who: 'G1', q: { 'S:bn': 4, 'G1:pt': 1, 'G2:tc': 1, 'G1:bc': 1, 'G2:dm': 1 } }; }
+  renderVals() {
+    var self = this, st = this.state, veg = '#5eb88a', non = '#e0705c';
+    var menu = {
+      Starters: [['pt', 'Paneer Tikka', 280, 'Tandoor · 12 min', veg, false], ['tc', 'Tandoori Chicken', 360, 'Tandoor · 18 min', non, false], ['hb', 'Hara Bhara Kabab', 220, 'Tandoor · 10 min', veg, false], ['ms', 'Manchow Soup', 160, 'Chinese · 8 min', veg, false], ['cc', 'Chilli Chicken', 320, 'Chinese · 12 min', non, false], ['mt', 'Malai Tikka', 340, 'Tandoor · 15 min', non, false]],
+      Mains: [['bc', 'Butter Chicken', 380, 'Curry · 15 min', non, false], ['dm', 'Dal Makhani', 240, 'Curry · 10 min', veg, false], ['vb', 'Veg Biryani', 260, 'Curry · 20 min', veg, false], ['hn', 'Hakka Noodles', 220, 'Chinese · 10 min', veg, false]],
+      Breads: [['bn', 'Butter Naan', 60, 'Tandoor · 4 min', veg, false], ['gn', 'Garlic Naan', 70, 'Tandoor · 4 min', veg, false], ['tr', 'Tandoori Roti', 30, 'Tandoor · 3 min', veg, false]],
+      Desserts: [['gj', 'Gulab Jamun', 120, 'Dessert', veg, true], ['rm', 'Rasmalai', 140, 'Dessert', veg, false]],
+      Drinks: [['ml', 'Masala Lemonade', 90, 'Bar', veg, false], ['sl', 'Sweet Lassi', 110, 'Bar', veg, false]]
+    };
+    var info = {}; Object.keys(menu).forEach(function (k) { menu[k].forEach(function (d) { info[d[0]] = d; }); });
+    var keys = ['S']; for (var g = 1; g <= st.guests; g++) keys.push('G' + g);
+    var lab = function (k) { return k === 'S' ? 'Shared' : 'Guest ' + k.slice(1); };
+    var setQ = function (key, d) { var n = Object.assign({}, self.state.q); n[key] = Math.max(0, (n[key] || 0) + d); if (!n[key]) delete n[key]; self.setState({ q: n }); };
+    var cnt = function (k) { var n = 0; Object.keys(st.q).forEach(function (x) { if (x.split(':')[0] === k) n += st.q[x]; }); return n; };
+    var chip = function (on) { return { bg: on ? '#f2f2f3' : 'transparent', fg: on ? '#0b0b0c' : '#a1a1a8' }; };
+    var cats = Object.keys(menu).map(function (c) { var on = c === st.cat; return { label: c, n: menu[c].length, on: on, bg: on ? '#17171a' : 'transparent', fg: on ? '#7db0f9' : '#a1a1a8', weight: on ? 600 : 500, pick: function () { self.setState({ cat: c }); } }; });
+    var dishes = menu[st.cat].map(function (d) { return { name: d[1], price: d[2], meta: d[3], veg: d[4], out: d[5], canAdd: !d[5], op: d[5] ? 0.5 : 1, initial: d[1].charAt(0), add: function () { setQ(st.who + ':' + d[0], 1); } }; });
+    var who = keys.map(function (k) { var on = k === st.who, c = cnt(k); return { label: lab(k) + (c ? ' · ' + c : ''), on: on, bg: on ? 'rgba(59,130,246,0.16)' : 'transparent', ring: on ? '#3b82f6' : '#2c2c31', fg: on ? '#9cc3fa' : '#a1a1a8', pick: function () { self.setState({ who: k }); } }; });
+    var sub = 0, count = 0;
+    var lines = Object.keys(st.q).filter(function (x) { return keys.indexOf(x.split(':')[0]) >= 0; }).sort().map(function (x) {
+      var k = x.split(':')[0], d = info[x.split(':')[1]], q = st.q[x]; sub += q * d[2]; count += q;
+      return { name: d[1], who: lab(k), mods: d[0] === 'pt' ? ' · Medium spicy, no onion' : '', qty: q, total: (q * d[2]).toLocaleString('en-IN'), inc: function () { setQ(x, 1); }, dec: function () { setQ(x, -1); } }; });
+    var miss = keys.filter(function (k) { return k !== 'S' && !cnt(k); }).map(lab);
+    var gst = Math.round(sub * 0.05);
+    return { cats: cats, dishes: dishes, who: who, lines: lines, empty: lines.length === 0, count: count, guests: st.guests, sub: sub.toLocaleString('en-IN'), gst: gst, total: (sub + gst).toLocaleString('en-IN'),
+      hasMissing: miss.length > 0, missing: miss.join(' and ') + (miss.length > 1 ? ' have' : ' has') + ' nothing yet',
+      gInc: function () { self.setState({ guests: Math.min(6, st.guests + 1) }); }, gDec: function () { var n = Math.max(1, st.guests - 1); self.setState({ guests: n, who: (st.who !== 'S' && +st.who.slice(1) > n) ? 'S' : st.who }); } };
+  }
+}
+</script>
+</body>
+</html>

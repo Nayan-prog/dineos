@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Notifications · App</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; overflow: hidden; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="flex: none; height: 56px; box-sizing: border-box; padding: 0 8px 0 4px; display: flex; align-items: center; gap: 4px">
+  <a href="App-Dashboard.dc.html" aria-label="Back" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></a>
+  <div style="flex: 1; min-width: 0">
+    <div style="font-size: 16px; font-weight: 700">Notifications</div>
+    <div style="color: #a1a1a8; font-size: 12px">5 new</div>
+  </div>
+  <button type="button" style="height: 44px; padding: 0 8px; border: 0; background: transparent; color: #7db0f9; font: inherit; font-size: 13px; font-weight: 600">Mark all read</button>
+</header>
+<div style="flex: 1; min-height: 0; overflow: hidden; padding: 4px 16px 0; display: flex; flex-direction: column; gap: 14px">
+  <div style="display: flex; gap: 8px">
+    <sc-for list="{{filters}}" as="f" hint-placeholder-count="4">
+      <button type="button" onClick="{{f.pick}}" aria-pressed="{{f.on}}" style="height: 36px; padding: 0 14px; border: 0; border-radius: 18px; background: {{f.bg}}; color: {{f.fg}}; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">{{f.label}}</button>
+    </sc-for>
+  </div>
+  <div>
+    <sc-for list="{{items}}" as="n" hint-placeholder-count="8">
+      <a href="{{n.href}}" style="display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #1c1c20">
+        <span style="flex: none; width: 40px; height: 40px; border-radius: 20px; background: #17171a; color: {{n.color}}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12.5px">{{n.tag}}</span>
+        <span style="flex: 1; min-width: 0"><span style="display: block; font-weight: {{n.weight}}">{{n.title}}</span><span style="display: block; color: #8b8b93; font-size: 12.5px">{{n.sub}}</span></span>
+        <span style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px"><span style="color: #8b8b93; font-size: 12px">{{n.time}}</span><span style="width: 8px; height: 8px; border-radius: 4px; background: {{n.dot}}"></span></span>
+      </a>
+    </sc-for>
+  </div>
+</div>
+<nav aria-label="Main" style="flex: none; box-sizing: border-box; padding: 8px 16px 14px; background: #0b0b0c"><div style="height: 58px; box-sizing: border-box; border-radius: 29px; background: #17171a; padding: 5px; display: flex; gap: 4px">
+<a href="App-Dashboard.dc.html" aria-label="Dashboard" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"></path></svg></a>
+<a href="App-Tables.dc.html" aria-label="Tables" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18M5 9v11M19 9v11M8 9V6h8v3"></path></svg></a>
+<a href="App-OrderDetail.dc.html" aria-label="Orders" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg></a>
+<a href="App-Chef.dc.html" aria-label="Kitchen" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"></path></svg></a>
+<a href="App-Profile.dc.html" aria-label="Profile" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; background: transparent"><span style="width: 26px; height: 26px; border-radius: 13px; background: #232327; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">P</span></a>
+</div></nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { f: 'All' }; }
+  renderVals() {
+    var self = this;
+    var raw = [
+      ['Orders', 'T4', '#5eb88a', 'Butter Chicken is ready', 'Table 4 · pick up from Curry station', 'Now', true, 'App-OrderDetail.dc.html'],
+      ['Orders', 'T11', '#c9b29b', 'Table 11 asked for the bill', '4 guests · ₹1,480', '2m', true, 'App-Bill.dc.html'],
+      ['Kitchen', 'T7', '#f5b454', 'Table 7 order is running late', 'Butter Chicken × 2 · 22 min', '3m', true, 'App-OrderDetail.dc.html'],
+      ['Orders', 'T9', '#5eb88a', 'Tandoori Chicken is ready', 'Table 9 · Tandoor station', '5m', true, 'App-OrderDetail.dc.html'],
+      ['Alerts', '!', '#e0705c', 'Gulab Jamun is sold out', 'Hidden from the menu by Vikram', '12m', true, 'App-TakeOrder.dc.html'],
+      ['Orders', 'T15', '#7db0f9', 'Guest at Table 15 called a waiter', 'From the table QR menu', '18m', false, 'App-Tables.dc.html'],
+      ['Kitchen', 'T3', '#a1a1a8', 'Kitchen accepted Table 3 order', 'Veg Biryani, Raita', '24m', false, 'App-OrderDetail.dc.html'],
+      ['Alerts', 'S', '#7db0f9', 'Shift starts at 6 PM', 'You are on Tables 1 to 7 tonight', '1h', false, 'App-Profile.dc.html']
+    ];
+    var f = this.state.f;
+    var items = raw.filter(function (n) { return f === 'All' || n[0] === f; }).map(function (n) { return { tag: n[1], color: n[2], title: n[3], sub: n[4], time: n[5], weight: n[6] ? 600 : 500, dot: n[6] ? '#3b82f6' : 'transparent', href: n[7] }; });
+    var filters = ['All', 'Orders', 'Kitchen', 'Alerts'].map(function (x) { var on = x === f; return { label: x, on: on, bg: on ? '#f2f2f3' : '#17171a', fg: on ? '#0b0b0c' : '#a1a1a8', pick: function () { self.setState({ f: x }); } }; });
+    return { items: items, filters: filters };
+  }
+}
+</script>
+</body>
+</html>

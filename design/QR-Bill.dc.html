@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bill and pay · Customer QR</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; overflow: hidden; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="flex: none; height: 56px; box-sizing: border-box; padding: 0 12px 0 4px; display: flex; align-items: center; gap: 4px">
+  <a href="QR-Track.dc.html" aria-label="Back" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></a>
+  <div style="flex: 1; min-width: 0"><div style="font-size: 16px; font-weight: 700">Your bill</div><div style="color: #a1a1a8; font-size: 12px">Table 8 · Bill #1052 · 4 guests</div></div>
+  <button type="button" onClick="{{cw.toggle}}" aria-expanded="{{cw.open}}" style="flex: none; display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border: 0; border-radius: 18px; background: {{cw.btnBg}}; color: {{cw.btnFg}}; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"></path></svg>{{cw.btnLabel}}</button>
+</header>
+<sc-if value="{{cw.open}}" hint-placeholder-val="{{false}}">
+<div style="flex: none; margin: 4px 16px 8px; background: #111113; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px; box-shadow: inset 0 0 0 1px #2c2c31">
+  <div style="font-size: 16px; font-weight: 700">What do you need?</div>
+  <div style="display: flex; flex-wrap: wrap; gap: 8px">
+    <sc-for list="{{cw.reasons}}" as="r" hint-placeholder-count="5">
+      <button type="button" onClick="{{r.pick}}" aria-pressed="{{r.on}}" style="height: 38px; padding: 0 14px; border: 0; border-radius: 19px; background: {{r.bg}}; color: {{r.fg}}; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">{{r.label}}</button>
+    </sc-for>
+  </div>
+  <div style="display: flex; gap: 8px">
+    <button type="button" onClick="{{cw.close}}" style="flex: 1; height: 44px; border: 0; border-radius: 22px; background: #232327; color: #f2f2f3; font: inherit; font-weight: 600; cursor: pointer">Not now</button>
+    <button type="button" onClick="{{cw.send}}" style="flex: 1.4; height: 44px; border: 0; border-radius: 22px; background: #3b82f6; color: #ffffff; font: inherit; font-weight: 600; cursor: pointer">Call waiter</button>
+  </div>
+</div>
+</sc-if>
+<sc-if value="{{cw.called}}" hint-placeholder-val="{{false}}">
+<div role="status" style="flex: none; margin: 4px 16px 8px; background: rgba(94,184,138,0.12); border-radius: 14px; padding: 10px 12px 10px 14px; display: flex; align-items: center; gap: 10px">
+  <span style="flex: none; width: 8px; height: 8px; border-radius: 4px; background: #5eb88a"></span>
+  <span style="flex: 1; min-width: 0"><span style="display: block; font-weight: 600; color: #7fcfa3">Priya is coming to Table 8</span><span style="display: block; color: #a1a1a8; font-size: 12px">{{cw.reason}} · usually within 2 min</span></span>
+  <button type="button" onClick="{{cw.cancel}}" style="height: 36px; padding: 0 6px; border: 0; background: transparent; color: #a1a1a8; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Cancel</button>
+</div>
+</sc-if>
+
+<div style="flex: 1; min-height: 0; overflow: hidden; padding: 4px 16px 0; display: flex; flex-direction: column; gap: 16px">
+  <section style="background: #111113; border-radius: 18px; padding: 16px">
+    <sc-for list="{{lines}}" as="l" hint-placeholder-count="4">
+      <div style="display: flex; gap: 8px; min-height: 30px; align-items: center; font-size: 13.5px"><span style="color: #a1a1a8; width: 26px">{{l.qty}}×</span><span style="flex: 1">{{l.name}}</span><span>₹{{l.total}}</span></div>
+    </sc-for>
+    <div style="height: 1px; background: #232327; margin: 8px 0"></div>
+    <div style="display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: #a1a1a8">
+      <div style="display: flex; justify-content: space-between"><span>Item total</span><span>₹750.00</span></div>
+      <div style="display: flex; justify-content: space-between"><span>CGST 2.5%</span><span>₹18.75</span></div>
+      <div style="display: flex; justify-content: space-between"><span>SGST 2.5%</span><span>₹18.75</span></div>
+      <sc-if value="{{hasTip}}" hint-placeholder-val="{{false}}"><div style="display: flex; justify-content: space-between"><span>Tip for staff</span><span>₹{{tip}}</span></div></sc-if>
+      <div style="display: flex; justify-content: space-between; color: #f2f2f3; font-size: 18px; font-weight: 700; margin-top: 4px"><span>Total</span><span>₹{{total}}</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 style="margin: 0 0 8px; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">Add a tip</h2>
+    <div style="display: flex; gap: 8px"><sc-for list="{{tips}}" as="o" hint-placeholder-count="4"><button type="button" onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="flex: 1; height: 38px; border: 0; border-radius: 19px; background: {{o.bg}}; color: {{o.fg}}; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">{{o.label}}</button></sc-for></div>
+  </section>
+
+  <section>
+    <h2 style="margin: 0 0 8px; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">Pay with</h2>
+    <div style="background: #111113; border-radius: 18px; padding: 4px 16px">
+      <sc-for list="{{methods}}" as="m" hint-placeholder-count="3">
+        <button type="button" onClick="{{m.pick}}" role="radio" aria-checked="{{m.on}}" style="width: 100%; display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 0; border: 0; border-bottom: 1px solid {{m.rule}}; background: transparent; color: #f2f2f3; font: inherit; text-align: left; cursor: pointer">
+          <span style="flex: 1"><span style="display: block; font-weight: 600">{{m.label}}</span><span style="display: block; color: #8b8b93; font-size: 12px">{{m.sub}}</span></span>
+          <span style="width: 20px; height: 20px; box-sizing: border-box; border-radius: 10px; box-shadow: inset 0 0 0 {{m.ringW}} {{m.ring}}"></span>
+        </button>
+      </sc-for>
+    </div>
+  </section>
+</div>
+<div style="flex: none; padding: 10px 16px 16px">
+  <a href="QR-Thanks.dc.html" style="height: 54px; border-radius: 27px; background: #3b82f6; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 15px">{{payLabel}}</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { method: 'UPI', split: false, people: 4, tip: 'No tip' }; }
+  renderVals() {
+    var _cs = this.state, _me = this;
+    var cw = {
+      open: !!_cs.cwOpen, called: !!_cs.cwCalled, reason: _cs.cwReason || 'Help with order',
+      btnLabel: _cs.cwCalled ? 'Coming' : 'Call waiter', btnBg: _cs.cwCalled ? 'rgba(94,184,138,0.16)' : '#17171a', btnFg: _cs.cwCalled ? '#7fcfa3' : '#f2f2f3',
+      reasons: ['Help with order', 'Water', 'Cutlery', 'Clean the table', 'Something else'].map(function (r) { var on = r === (_cs.cwReason || 'Help with order'); return { label: r, on: on, bg: on ? '#f2f2f3' : '#17171a', fg: on ? '#0b0b0c' : '#a1a1a8', pick: function () { _me.setState({ cwReason: r }); } }; }),
+      toggle: function () { _me.setState({ cwOpen: !_cs.cwOpen }); },
+      close: function () { _me.setState({ cwOpen: false }); },
+      send: function () { _me.setState({ cwOpen: false, cwCalled: true }); },
+      cancel: function () { _me.setState({ cwCalled: false }); }
+    };
+    var self = this, st = this.state;
+    var lines = [[1, 'Paneer Tikka', '280'], [2, 'Butter Naan', '120'], [1, 'Dal Makhani', '240'], [1, 'Sweet Lassi', '110']].map(function (l) { return { qty: l[0], name: l[1], total: l[2] }; });
+    var base = 787.5;
+    var tipAmt = { 'No tip': 0, '5%': 37.5, '10%': 75, '₹50': 50 }[st.tip];
+    var total = Math.round(base + tipAmt);
+    var share = Math.ceil(total / st.people);
+    var due = total;
+    var chip = function (on) { return { bg: on ? '#f2f2f3' : '#17171a', fg: on ? '#0b0b0c' : '#a1a1a8' }; };
+    var splitOpts = [['Pay full bill', false], ['Split equally', true]].map(function (o) { var on = o[1] === st.split, c = chip(on); return { label: o[0], on: on, bg: c.bg, fg: c.fg, pick: function () { self.setState({ split: o[1] }); } }; });
+    var tips = ['No tip', '5%', '10%', '₹50'].map(function (t) { var on = t === st.tip, c = chip(on); return { label: t, on: on, bg: c.bg, fg: c.fg, pick: function () { self.setState({ tip: t }); } }; });
+    var M = [['UPI', 'Google Pay, PhonePe, Paytm or any UPI app'], ['Card', 'Debit or credit card'], ['Pay at counter', 'Cash or card when you leave']];
+    var methods = M.map(function (m, i) { var on = m[0] === st.method; return { label: m[0], sub: m[1], on: on, ring: on ? '#3b82f6' : '#3a3a40', ringW: on ? '6px' : '1.5px', rule: i === M.length - 1 ? 'transparent' : '#1c1c20', pick: function () { self.setState({ method: m[0] }); } }; });
+    var amt = '₹' + due.toLocaleString('en-IN');
+    var payLabel = st.method === 'Pay at counter' ? 'I will pay ' + amt + ' at the counter' : 'Pay ' + amt + ' with ' + st.method;
+    return { cw: cw, lines: lines, total: total.toLocaleString('en-IN'), hasTip: tipAmt > 0, tip: Math.round(tipAmt), split: st.split, people: st.people, share: share.toLocaleString('en-IN'), splitOpts: splitOpts, tips: tips, methods: methods, payLabel: payLabel,
+      pInc: function () { self.setState({ people: Math.min(6, st.people + 1) }); }, pDec: function () { self.setState({ people: Math.max(2, st.people - 1) }); } };
+  }
+}
+</script>
+</body>
+</html>

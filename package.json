@@ -1,0 +1,17 @@
+{
+  "name": "dineos",
+  "private": true,
+  "packageManager": "pnpm@10.28.0",
+  "scripts": {
+    "dev": "turbo run dev --parallel --filter=@dineos/api --filter=@dineos/web",
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "db:push": "pnpm --filter @dineos/api db:push",
+    "db:seed": "pnpm --filter @dineos/api db:seed",
+    "db:reset": "pnpm --filter @dineos/api db:reset"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2"
+  }
+}

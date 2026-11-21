@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Kitchen Display · Mobile web</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="position: relative; flex: none; height: 56px; box-sizing: border-box; padding: 0 8px 0 4px; display: flex; align-items: center"><a href="MW-Menu.dc.html" aria-label="Open menu" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></a><span style="flex: 1"></span><a href="MW-Dashboard.dc.html" style="position: absolute; left: 50%; transform: translateX(-50%); font-family: Comfortaa, sans-serif; font-weight: 700; font-size: 20px">DineOS</a><a href="MW-Notifications.dc.html" aria-label="Notifications" style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg><span style="position: absolute; top: 11px; right: 12px; width: 8px; height: 8px; border-radius: 4px; background: #3b82f6"></span></a></header>
+<div style="display: flex; flex-wrap: wrap">
+
+<main style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; padding: 8px 16px 24px; max-width: 1400px; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px">
+  <div>
+    <h1 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.3px">Kitchen Display</h1>
+    <div style="color: #a1a1a8; font-size: 13.5px; margin-top: 2px">Live tickets for every station · updates instantly</div>
+  </div>
+  <div style="display: flex; gap: 8px; flex-wrap: wrap">
+    <sc-for list="{{stations}}" as="s" hint-placeholder-count="5">
+      <button type="button" onClick="{{s.pick}}" aria-pressed="{{s.on}}" style="height: 36px; padding: 0 14px; border: 0; border-radius: 18px; background: {{s.bg}}; color: {{s.fg}}; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">{{s.label}}</button>
+    </sc-for>
+  </div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; align-items: start">
+  <sc-for list="{{cols}}" as="c" hint-placeholder-count="3">
+    <section style="display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: center; gap: 8px; padding: 0 4px">
+        <span style="width: 8px; height: 8px; border-radius: 4px; background: {{c.color}}"></span>
+        <h2 style="margin: 0; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">{{c.title}}</h2>
+        <span style="margin-left: auto; background: transparent; border-radius: 0; padding: 0; font-size: 12.5px; font-weight: 600">{{c.count}}</span>
+      </div>
+      <sc-for list="{{c.tickets}}" as="t" hint-placeholder-count="3">
+        <article style="background: #111113; border-radius: 16px; padding: 14px; box-shadow: inset 0 0 0 1px {{t.ring}}">
+          <div style="display: flex; align-items: center; gap: 8px">
+            <span style="font-size: 17px; font-weight: 700">Table {{t.table}}</span>
+            <span style="color: #8b8b93; font-size: 12.5px">#{{t.id}}</span>
+            <span style="margin-left: auto; display: flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: {{t.timeColor}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2 2M10 3h4"></path></svg>{{t.elapsed}}</span>
+          </div>
+          <div style="color: #8b8b93; font-size: 12.5px; margin-top: 2px">{{t.station}} · {{t.waiter}}</div>
+          <div style="display: flex; flex-direction: column; gap: 6px; margin: 12px 0">
+            <sc-for list="{{t.items}}" as="it" hint-placeholder-count="2">
+              <div>
+                <div style="display: flex; gap: 8px; font-size: 14px"><span style="font-weight: 700; color: #7db0f9; min-width: 24px">{{it.qty}}×</span><span style="font-weight: 600">{{it.name}}</span></div>
+                <sc-if value="{{it.hasNote}}" hint-placeholder-val="{{false}}"><div style="color: #f5c27a; font-size: 12.5px; padding-left: 32px">{{it.note}}</div></sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <button type="button" onClick="{{t.act}}" style="width: 100%; height: 40px; border: 0; border-radius: 20px; background: {{t.btnBg}}; color: {{t.btnFg}}; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer">{{t.btn}}</button>
+        </article>
+      </sc-for>
+    </section>
+  </sc-for>
+</div>
+</main>
+</div>
+<nav aria-label="Main" style="flex: none; box-sizing: border-box; padding: 8px 16px 14px; background: #0b0b0c"><div style="height: 58px; box-sizing: border-box; border-radius: 29px; background: #17171a; padding: 5px; display: flex; gap: 4px"><a href="MW-Dashboard.dc.html" aria-label="Dashboard" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"></path></svg></a><a href="MW-Orders.dc.html" aria-label="Orders" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg></a><a href="MW-Tables.dc.html" aria-label="Tables" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18M5 9v11M19 9v11M8 9V6h8v3"></path></svg></a><a href="MW-Menu.dc.html" aria-label="More" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></a><a href="MW-Profile.dc.html" aria-label="Profile" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center"><span style="width: 26px; height: 26px; border-radius: 13px; background: #232327; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">N</span></a></div></nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1600}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { st: { a: 'new', b: 'new', c: 'new', d: 'cooking', e: 'cooking', f: 'cooking', g: 'ready', h: 'ready' }, station: 'All' }; }
+  renderVals() {
+    var self = this;
+    var T = [
+      ['a', 8, 1052, 'Tandoor', 'Priya', 'Just now', false, [[1, 'Paneer Tikka', ''], [1, 'Tandoori Chicken', 'Extra crispy'], [2, 'Butter Naan', '']]],
+      ['b', 14, 1051, 'Chinese', 'Rohit', '4 min', false, [[1, 'Manchow Soup', ''], [1, 'Hara Bhara Kabab', 'No onion']]],
+      ['c', 3, 1050, 'Curry', 'Priya', '6 min', false, [[1, 'Veg Biryani', ''], [1, 'Raita', '']]],
+      ['d', 7, 1049, 'Curry', 'Amit', '22 min', true, [[2, 'Butter Chicken', 'Less spicy'], [4, 'Garlic Naan', '']]],
+      ['e', 4, 1048, 'Curry', 'Priya', '9 min', false, [[1, 'Dal Makhani', '']]],
+      ['f', 11, 1053, 'South Indian', 'Rohit', '5 min', false, [[2, 'Masala Dosa', 'One without ghee']]],
+      ['g', 9, 1047, 'Tandoor', 'Rohit', '12 min', false, [[1, 'Tandoori Chicken', ''], [4, 'Butter Naan', '']]],
+      ['h', 12, 1046, 'Chinese', 'Amit', '3 min', false, [[1, 'Hakka Noodles', '']]]
+    ];
+    var st = this.state.st, station = this.state.station;
+    var next = { new: 'cooking', cooking: 'ready', ready: 'done' };
+    var btn = { new: ['Start cooking', '#232327', '#f2f2f3'], cooking: ['Mark ready', '#3b82f6', '#ffffff'], ready: ['Mark picked up', '#232327', '#7fcfa3'] };
+    var build = function (col) {
+      return T.filter(function (t) { return st[t[0]] === col && (station === 'All' || t[3] === station); }).map(function (t) {
+        var late = t[6] && col !== 'ready';
+        return {
+          id: t[2], table: t[1], station: t[3], waiter: t[4], elapsed: t[5],
+          timeColor: late ? '#f5b454' : '#8b8b93', ring: late ? 'rgba(245,180,84,0.45)' : 'transparent',
+          items: t[7].map(function (i) { return { qty: i[0], name: i[1], note: i[2], hasNote: i[2] !== '' }; }),
+          btn: btn[col][0], btnBg: btn[col][1], btnFg: btn[col][2],
+          act: function () { var n = Object.assign({}, self.state.st); n[t[0]] = next[col]; self.setState({ st: n }); }
+        };
+      });
+    };
+    var defs = [['new', 'New', '#a1a1a8'], ['cooking', 'Cooking', '#f5b454'], ['ready', 'Ready for pickup', '#5eb88a']];
+    var cols = defs.map(function (d) { var tk = build(d[0]); return { title: d[1], color: d[2], tickets: tk, count: tk.length }; });
+    var stations = ['All', 'Tandoor', 'Curry', 'Chinese', 'South Indian'].map(function (s) { var on = s === station; return { label: s, on: on, bg: on ? '#f2f2f3' : '#17171a', fg: on ? '#0b0b0c' : '#a1a1a8', pick: function () { self.setState({ station: s }); } }; });
+    return { cols: cols, stations: stations };
+  }
+}
+</script>
+</body>
+</html>

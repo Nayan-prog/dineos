@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Settings · Mobile web</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="position: relative; flex: none; height: 56px; box-sizing: border-box; padding: 0 8px 0 4px; display: flex; align-items: center"><a href="MW-Menu.dc.html" aria-label="Open menu" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></a><span style="flex: 1"></span><a href="MW-Dashboard.dc.html" style="position: absolute; left: 50%; transform: translateX(-50%); font-family: Comfortaa, sans-serif; font-weight: 700; font-size: 20px">DineOS</a><a href="MW-Notifications.dc.html" aria-label="Notifications" style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg><span style="position: absolute; top: 11px; right: 12px; width: 8px; height: 8px; border-radius: 4px; background: #3b82f6"></span></a></header>
+<div style="display: flex; flex-wrap: wrap">
+
+<main style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; padding: 8px 16px 24px; max-width: 1180px; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px">
+  <div>
+    <h1 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.3px">Settings</h1>
+    <div style="color: #a1a1a8; font-size: 13.5px; margin-top: 2px">Restaurant details, taxes, kitchen stations and tables</div>
+  </div>
+  
+</div>
+<section>
+  <h2 style="margin: 0 0 12px; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">Restaurant</h2>
+  <div style="background: #111113; border-radius: 18px; padding: 18px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px">
+    <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #a1a1a8">Restaurant name<input type="text" value="Spice Garden" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 0; border-radius: 12px; background: #17171a; color: #f2f2f3; font: inherit; font-size: 14px; outline: none"></label><label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #a1a1a8">GSTIN<input type="text" value="27ABCDE1234F1Z5" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 0; border-radius: 12px; background: #17171a; color: #f2f2f3; font: inherit; font-size: 14px; outline: none"></label><label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #a1a1a8">Phone<input type="tel" value="+91 98220 00000" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 0; border-radius: 12px; background: #17171a; color: #f2f2f3; font: inherit; font-size: 14px; outline: none"></label><label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #a1a1a8">Address<input type="text" value="FC Road, Pune 411004" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 0; border-radius: 12px; background: #17171a; color: #f2f2f3; font: inherit; font-size: 14px; outline: none"></label>
+  </div>
+</section>
+<section>
+  <h2 style="margin: 0 0 12px; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">Taxes and charges</h2>
+  <div style="background: #111113; border-radius: 18px; padding: 18px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px">
+    <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #a1a1a8">CGST %<input type="number" value="2.5" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 0; border-radius: 12px; background: #17171a; color: #f2f2f3; font: inherit; font-size: 14px; outline: none"></label><label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #a1a1a8">SGST %<input type="number" value="2.5" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 0; border-radius: 12px; background: #17171a; color: #f2f2f3; font: inherit; font-size: 14px; outline: none"></label><label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #a1a1a8">Service charge %<input type="number" value="0" style="height: 44px; box-sizing: border-box; padding: 0 14px; border: 0; border-radius: 12px; background: #17171a; color: #f2f2f3; font: inherit; font-size: 14px; outline: none"></label>
+  </div>
+</section>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 12px">
+  <section>
+    <h2 style="margin: 0 0 12px; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">Kitchen stations</h2>
+    <div style="background: #111113; border-radius: 18px; padding: 4px 18px">
+      <sc-for list="{{stations}}" as="s" hint-placeholder-count="5">
+        <div style="display: flex; align-items: center; gap: 12px; min-height: 52px; border-bottom: 1px solid {{s.rule}}">
+          <span style="flex: 1; font-weight: 600">{{s.name}}</span><span style="color: #8b8b93; font-size: 13px">{{s.chefs}}</span>
+          <a href="#" style="display: flex; align-items: center; min-height: 44px; color: #7db0f9; font-size: 13px; font-weight: 600">Edit</a>
+        </div>
+      </sc-for>
+      <a href="#" style="display: flex; align-items: center; gap: 6px; min-height: 52px; color: #7db0f9; font-weight: 600"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add station</a>
+    </div>
+  </section>
+  <section>
+    <h2 style="margin: 0 0 12px; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">Tables and QR codes</h2>
+    <div style="background: #111113; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+      <div style="display: flex; justify-content: space-between"><span style="color: #a1a1a8">Main hall</span><span style="font-weight: 600">20 tables</span></div>
+      <div style="display: flex; justify-content: space-between"><span style="color: #a1a1a8">Terrace</span><span style="font-weight: 600">8 tables</span></div>
+      <div style="display: flex; justify-content: space-between"><span style="color: #a1a1a8">Private room</span><span style="font-weight: 600">2 tables</span></div>
+      <div style="color: #8b8b93; font-size: 12.5px">Each table has its own QR code. Guests scan it to see the menu and order.</div>
+      <div style="display: flex; gap: 8px">
+        <a href="#" style="flex: 1; height: 42px; border-radius: 21px; background: #232327; display: flex; align-items: center; justify-content: center; font-weight: 600">Manage tables</a>
+        <a href="QR-Menu.dc.html" style="flex: 1; height: 42px; border-radius: 21px; background: #3b82f6; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 600">Download QR codes</a>
+      </div>
+    </div>
+  </section>
+</div>
+</main>
+</div>
+<nav aria-label="Main" style="flex: none; box-sizing: border-box; padding: 8px 16px 14px; background: #0b0b0c"><div style="height: 58px; box-sizing: border-box; border-radius: 29px; background: #17171a; padding: 5px; display: flex; gap: 4px"><a href="MW-Dashboard.dc.html" aria-label="Dashboard" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"></path></svg></a><a href="MW-Orders.dc.html" aria-label="Orders" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg></a><a href="MW-Tables.dc.html" aria-label="Tables" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18M5 9v11M19 9v11M8 9V6h8v3"></path></svg></a><a href="MW-Menu.dc.html" aria-label="More" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></a><a href="MW-Profile.dc.html" aria-label="Profile" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center"><span style="width: 26px; height: 26px; border-radius: 13px; background: #232327; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">N</span></a></div></nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1600}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var raw = [['Tandoor', 'Ravi Kumar'], ['Curry', 'Anita Shah, 1 more'], ['Chinese', 'Imran Shaikh'], ['South Indian', 'Sunil Pawar'], ['Bar and desserts', 'No chef assigned']];
+    return { stations: raw.map(function (s, i) { return { name: s[0], chefs: s[1], rule: '#1c1c20' }; }) };
+  }
+}
+</script>
+</body>
+</html>

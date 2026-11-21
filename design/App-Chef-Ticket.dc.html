@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Order ticket · Chef</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; overflow: hidden; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="flex: none; height: 56px; box-sizing: border-box; padding: 0 12px 0 4px; display: flex; align-items: center; gap: 4px">
+  <a href="App-Chef.dc.html" aria-label="Back to queue" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></a>
+  <div style="flex: 1; min-width: 0"><div style="font-size: 16px; font-weight: 700">Table 7 · #1049</div><div style="color: #a1a1a8; font-size: 12px">Main hall · 4 guests · Waiter Amit</div></div>
+</header>
+<div style="flex: 1; min-height: 0; overflow: hidden; padding: 4px 16px 0; display: flex; flex-direction: column; gap: 20px">
+  <div style="display: flex; align-items: flex-end; justify-content: space-between">
+    <div><div style="color: #a1a1a8; font-size: 13px">Time since order</div><div style="font-size: 40px; font-weight: 700; letter-spacing: -0.5px; color: #f5c27a">22:14</div></div>
+    <div style="text-align: right"><div style="color: #f5c27a; font-size: 13px; font-weight: 600">Late by 4 min</div><div style="color: #8b8b93; font-size: 12.5px">Target 18 min · placed 9:18 PM</div></div>
+  </div>
+  <div style="height: 4px; border-radius: 2px; background: #232327"><div style="height: 4px; border-radius: 2px; background: #f5b454; width: 100%"></div></div>
+
+  <section>
+    <h2 style="margin: 0 0 4px; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">Dishes for your station</h2>
+    <sc-for list="{{items}}" as="i" hint-placeholder-count="3">
+      <div style="display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid #1c1c20">
+        <span style="flex: none; min-width: 30px; font-size: 18px; font-weight: 700; color: #7db0f9">{{i.qty}}×</span>
+        <span style="flex: 1; min-width: 0">
+          <span style="display: block; font-size: 16px; font-weight: 600; text-decoration: {{i.strike}}; color: {{i.nameFg}}">{{i.name}}</span>
+          <sc-if value="{{i.hasNote}}" hint-placeholder-val="{{false}}"><span style="display: block; color: #f5c27a; font-size: 13px">{{i.note}}</span></sc-if>
+          <span style="display: block; color: #8b8b93; font-size: 12px">{{i.who}}</span>
+        </span>
+        <button type="button" onClick="{{i.act}}" style="flex: none; height: 38px; padding: 0 14px; border: 0; border-radius: 19px; background: {{i.btnBg}}; color: {{i.btnFg}}; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">{{i.btn}}</button>
+      </div>
+    </sc-for>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 6px; color: #a1a1a8; font-size: 13px">
+    <div style="display: flex; justify-content: space-between"><span>Other stations on this order</span><span style="color: #f2f2f3">Curry · 2 dishes cooking</span></div>
+    <div style="display: flex; justify-content: space-between"><span>Note from waiter</span><span style="color: #f2f2f3">Bring starters first</span></div>
+  </section>
+</div>
+<div style="flex: none; padding: 12px 16px 16px; display: flex; flex-direction: column; gap: 10px">
+  <button type="button" onClick="{{allReady}}" style="height: 54px; border: 0; border-radius: 27px; background: #3b82f6; color: #ffffff; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">{{allLabel}}</button>
+  <div style="display: flex; gap: 10px">
+    <a href="App-Notifications.dc.html" style="flex: 1; height: 44px; border-radius: 22px; background: #17171a; display: flex; align-items: center; justify-content: center; font-size: 13.5px; font-weight: 600">Message Amit</a>
+    <a href="App-Chef-Stock.dc.html" style="flex: 1; height: 44px; border-radius: 22px; background: #17171a; color: #f09a88; display: flex; align-items: center; justify-content: center; font-size: 13.5px; font-weight: 600">Can't make a dish</a>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { s: { a: 'cooking', b: 'cooking', c: 'queue' } }; }
+  renderVals() {
+    var self = this, s = this.state.s;
+    var raw = [['a', 2, 'Tandoori Chicken', 'Extra crispy', 'Guest 1'], ['b', 4, 'Garlic Naan', '', 'Shared'], ['c', 1, 'Malai Tikka', 'Less spicy', 'Guest 3']];
+    var nx = { queue: 'cooking', cooking: 'ready', ready: 'ready' };
+    var look = { queue: ['Start', '#f2f2f3', '#0b0b0c'], cooking: ['Mark ready', '#3b82f6', '#ffffff'], ready: ['✓ Ready', 'rgba(94,184,138,0.14)', '#7fcfa3'] };
+    var left = 0;
+    var items = raw.map(function (r) { var st = s[r[0]]; if (st !== 'ready') left += 1; var l = look[st];
+      return { qty: r[1], name: r[2], note: r[3], hasNote: r[3] !== '', who: r[4], btn: l[0], btnBg: l[1], btnFg: l[2], strike: st === 'ready' ? 'line-through' : 'none', nameFg: st === 'ready' ? '#8b8b93' : '#f2f2f3',
+        act: function () { var n = Object.assign({}, self.state.s); n[r[0]] = nx[st]; self.setState({ s: n }); } }; });
+    return { items: items, allLabel: left ? 'Mark all ready (' + left + ' left)' : 'All ready · Amit notified',
+      allReady: function () { self.setState({ s: { a: 'ready', b: 'ready', c: 'ready' } }); } };
+  }
+}
+</script>
+</body>
+</html>

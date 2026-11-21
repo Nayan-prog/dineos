@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Chef stock · App</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; overflow: hidden; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="position: relative; flex: none; height: 56px; box-sizing: border-box; padding: 0 8px 0 4px; display: flex; align-items: center">
+  <a href="App-Profile.dc.html" aria-label="Open menu" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></a>
+  <span style="flex: 1"></span>
+  <span style="position: absolute; left: 50%; transform: translateX(-50%); font-family: Comfortaa, sans-serif; font-weight: 700; font-size: 20px">DineOS</span>
+  <a href="App-Notifications.dc.html" aria-label="Notifications" style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg><span style="position: absolute; top: 11px; right: 12px; width: 8px; height: 8px; border-radius: 4px; background: #3b82f6"></span></a>
+</header>
+<div style="flex: 1; min-height: 0; overflow: hidden; padding: 4px 16px 0; display: flex; flex-direction: column; gap: 18px">
+  <div>
+    <h1 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.3px">Stock</h1>
+    <div style="color: #a1a1a8; font-size: 13px; margin-top: 2px">Tandoor station · turn off anything you can't make</div>
+  </div>
+  <div>
+    <sc-for list="{{dishes}}" as="d" hint-placeholder-count="7">
+      <div style="display: flex; align-items: center; gap: 12px; min-height: 60px; border-bottom: 1px solid #1c1c20">
+        <span style="flex: 1; min-width: 0"><span style="display: block; font-weight: 600; color: {{d.nameFg}}">{{d.name}}</span><span style="display: block; font-size: 12.5px; color: {{d.subFg}}">{{d.sub}}</span></span>
+        <button type="button" role="switch" aria-checked="{{d.on}}" aria-label="{{d.name}} available" onClick="{{d.toggle}}" style="width: 52px; height: 44px; padding: 0; border: 0; background: transparent; display: flex; align-items: center; justify-content: flex-end; cursor: pointer">
+          <span style="width: 44px; height: 26px; box-sizing: border-box; border-radius: 13px; padding: 3px; background: {{d.track}}; display: flex; justify-content: {{d.justify}}"><span style="width: 20px; height: 20px; border-radius: 10px; background: #f2f2f3"></span></span>
+        </button>
+      </div>
+    </sc-for>
+  </div>
+  <div style="color: #8b8b93; font-size: 12.5px">Turning a dish off hides it from waiters and the guest QR menu straight away.</div>
+</div>
+<nav aria-label="Main" style="flex: none; box-sizing: border-box; padding: 8px 16px 14px; background: #0b0b0c"><div style="height: 58px; box-sizing: border-box; border-radius: 29px; background: #17171a; padding: 5px; display: flex; gap: 4px">
+<a href="App-Chef.dc.html" aria-label="Queue" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"></path></svg></a>
+<a href="App-Chef-Done.dc.html" aria-label="Done" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"></path></svg></a>
+<a href="App-Chef-Stock.dc.html" aria-label="Stock" aria-current="page" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #f2f2f3; background: #2c2c31"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4zM3 7v10l9 4 9-4V7M12 11v10"></path></svg></a>
+<a href="App-Notifications.dc.html" aria-label="Alerts" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg></a>
+<a href="App-Profile.dc.html" aria-label="Profile" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center"><span style="width: 26px; height: 26px; border-radius: 13px; background: #232327; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">R</span></a>
+</div></nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { off: { hb: true } }; }
+  renderVals() {
+    var self = this, off = this.state.off;
+    var raw = [['pt', 'Paneer Tikka', '34 made today'], ['tc', 'Tandoori Chicken', '26 made today'], ['hb', 'Hara Bhara Kabab', 'Out since 9:20 PM'], ['bn', 'Butter Naan', '96 made today'], ['gn', 'Garlic Naan', '41 made today'], ['tr', 'Tandoori Roti', '58 made today'], ['mt', 'Malai Tikka', '12 made today']];
+    return { dishes: raw.map(function (r) { var on = !off[r[0]]; return { name: r[1], sub: on ? r[2] : 'Sold out · hidden from menu', on: on, nameFg: on ? '#f2f2f3' : '#8b8b93', subFg: on ? '#8b8b93' : '#e0705c', track: on ? '#3b82f6' : '#3a3a40', justify: on ? 'flex-end' : 'flex-start', toggle: function () { var n = Object.assign({}, self.state.off); n[r[0]] = on; self.setState({ off: n }); } }; }) };
+  }
+}
+</script>
+</body>
+</html>

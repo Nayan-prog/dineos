@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Thank you · Customer QR</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; overflow: hidden; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<div style="flex: 1; min-height: 0; box-sizing: border-box; padding: 12px 20px 24px; display: flex; flex-direction: column; color: #f5f5f5">
+  <div style="height: 48px; display: flex; align-items: center"><span style="font-family: Comfortaa, sans-serif; font-weight: 700; font-size: 18px">Spice Garden</span><span style="flex: 1"></span><span style="font-size: 14px; font-weight: 600; color: #b3b3b3">Table 8</span></div>
+  <div style="margin-top: 12px; display: flex; align-items: center; gap: 12px">
+    <span style="width: 44px; height: 44px; border-radius: 22px; background: rgba(94,184,138,0.16); color: #7fcfa3; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg></span>
+    <span style="color: #7fcfa3; font-weight: 600">Payment received</span>
+  </div>
+  <h1 style="margin: 14px 0 6px; font-size: 34px; line-height: 40px; font-weight: 700; letter-spacing: -0.5px">Thank you, Rahul!</h1>
+  <p style="margin: 0; font-size: 15px; line-height: 21px; color: #b3b3b3">You paid ₹788 by UPI · Bill #1052 · 9:58 PM</p>
+  <div style="display: flex; gap: 8px; margin-top: 18px">
+    <a href="#" style="flex: 1; height: 44px; border-radius: 22px; background: #17171a; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 600; font-size: 13.5px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>Download bill</a>
+    <a href="#" style="flex: 1; height: 44px; border-radius: 22px; background: #17171a; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 600; font-size: 13.5px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3L10 14M21 3l-7 18-4-8-8-4z"></path></svg>Send on WhatsApp</a>
+  </div>
+
+  <sc-if value="{{notSent}}" hint-placeholder-val="{{true}}">
+  <section aria-label="Feedback" style="margin-top: 28px; background: #111113; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; gap: 18px">
+    <div>
+      <div style="font-size: 17px; font-weight: 700">Rate your experience</div>
+      <div style="color: #8b8b93; font-size: 13px; margin-top: 2px">Your feedback goes straight to the manager.</div>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+      <div role="radiogroup" aria-label="Rating out of 5" style="display: flex; justify-content: space-between; width: 100%; max-width: 280px">
+        <sc-for list="{{stars}}" as="s" hint-placeholder-count="5">
+          <button type="button" role="radio" aria-checked="{{s.on}}" aria-label="{{s.n}} out of 5" onClick="{{s.pick}}" style="width: 48px; height: 48px; padding: 0; border: 0; background: transparent; color: {{s.color}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="34" height="34" viewBox="0 0 24 24" fill="{{s.fill}}" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.6l-5.2 2.8 1-5.9L3.5 9.4l5.9-.8z"></path></svg></button>
+        </sc-for>
+      </div>
+      <div style="font-size: 14px; font-weight: 600; color: {{ratingColor}}">{{ratingLabel}}</div>
+    </div>
+    <div style="height: 1px; background: #1c1c20"></div>
+    <div>
+      <div style="font-size: 13.5px; font-weight: 600; margin-bottom: 10px">{{tagTitle}}</div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+        <sc-for list="{{tags}}" as="t" hint-placeholder-count="4">
+          <button type="button" onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="height: 40px; padding: 0 12px; border: 0; border-radius: 12px; background: {{t.bg}}; box-shadow: inset 0 0 0 1px {{t.ring}}; color: {{t.fg}}; font: inherit; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; gap: 6px; cursor: pointer">
+            <span>{{t.label}}</span>
+            <sc-if value="{{t.on}}" hint-placeholder-val="{{false}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg></sc-if>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+    <label style="display: flex; flex-direction: column; gap: 6px">
+      <span style="font-size: 13.5px; font-weight: 600">Anything else? <span style="color: #8b8b93; font-weight: 500">Optional</span></span>
+      <textarea rows="2" placeholder="Tell us what we can do better" style="box-sizing: border-box; padding: 12px 14px; border: 0; border-radius: 12px; background: #17171a; color: #f2f2f3; font: inherit; font-size: 13.5px; line-height: 1.4; resize: none; outline: none"></textarea>
+    </label>
+  </section>
+  </sc-if>
+  <sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
+    <div style="margin-top: 28px; background: #111113; border-radius: 20px; padding: 20px"><div style="font-weight: 700">Thanks for the feedback</div><div style="color: #a1a1a8; font-size: 13px; margin-top: 2px">The team at Spice Garden will see it tonight.</div></div>
+  </sc-if>
+
+  <div style="flex: 1"></div>
+  <sc-if value="{{notSent}}" hint-placeholder-val="{{true}}">
+    <button type="button" onClick="{{send}}" style="width: 100%; height: 56px; border: 0; border-radius: 999px; background: #f5f5f5; color: #0b0b0c; font: inherit; font-size: 16px; font-weight: 600; cursor: pointer">Send feedback</button>
+  </sc-if>
+  <div style="margin-top: 16px; text-align: center; color: #b3b3b3; font-size: 13px">Hope to see you again · Powered by <span style="font-family: Comfortaa, sans-serif; font-weight: 700; color: #f5f5f5">DineOS</span></div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { rating: 4, tags: { 'Tasty food': true }, sent: false }; }
+  renderVals() {
+    var self = this, st = this.state, good = st.rating >= 4;
+    var labels = ['', 'Poor', 'Not great', 'Okay', 'Good', 'Excellent'];
+    var stars = [1, 2, 3, 4, 5].map(function (n) { var on = n <= st.rating; return { n: n, on: n === st.rating, color: on ? '#f5b454' : '#3a3a40', fill: on ? '#f5b454' : 'none', pick: function () { self.setState({ rating: n, tags: {} }); } }; });
+    var opts = good ? ['Tasty food', 'Friendly staff', 'Quick service', 'Good portions', 'Nice ambience', 'Value for money']
+                    : ['Food was cold', 'Took too long', 'Wrong order', 'Staff not helpful', 'Too expensive', 'Not clean'];
+    var tags = opts.map(function (t) { var on = !!st.tags[t]; return { label: t, on: on, bg: on ? 'rgba(59,130,246,0.14)' : '#17171a', ring: on ? '#3b82f6' : 'transparent', fg: on ? '#9cc3fa' : '#a1a1a8', pick: function () { var n = Object.assign({}, self.state.tags); n[t] = !on; self.setState({ tags: n }); } }; });
+    return { stars: stars, tags: tags, ratingLabel: labels[st.rating], ratingColor: good ? '#f5c27a' : '#a1a1a8', tagTitle: good ? 'What did you like?' : 'What went wrong?', sent: st.sent, notSent: !st.sent, send: function () { self.setState({ sent: true }); } };
+  }
+}
+</script>
+</body>
+</html>

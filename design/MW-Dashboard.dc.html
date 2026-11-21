@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dashboard · Mobile web</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 1500px; overflow: hidden; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+
+<header style="position: relative; flex: none; height: 56px; box-sizing: border-box; padding: 0 8px 0 4px; display: flex; align-items: center">
+  <a href="MW-Menu.dc.html" aria-label="Open menu" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></a>
+  <span style="flex: 1"></span>
+  <a href="MW-Dashboard.dc.html" style="position: absolute; left: 50%; transform: translateX(-50%); font-family: Comfortaa, sans-serif; font-weight: 700; font-size: 20px">DineOS</a>
+  <a href="MW-Notifications.dc.html" aria-label="Notifications" style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg><span style="position: absolute; top: 11px; right: 12px; width: 8px; height: 8px; border-radius: 4px; background: #3b82f6"></span></a>
+</header>
+
+<div style="flex: 1; min-height: 0; overflow: hidden; padding: 4px 16px 16px; display: flex; flex-direction: column; gap: 24px">
+
+  <div>
+    <h1 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.3px">Dashboard</h1>
+    <div style="color: #a1a1a8; font-size: 13px; margin-top: 2px">Sat 21 Nov&nbsp;</div>
+    <div style="display: flex; gap: 16px; margin-top: 12px">
+      <span style="font-size: 14.5px; font-weight: 700; color: #7db0f9">Today</span>
+      <span style="font-size: 14.5px; font-weight: 500; color: #a1a1a8">7 days</span>
+      <span style="font-size: 14.5px; font-weight: 500; color: #a1a1a8">28 days</span>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 16px">
+    <sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+      <div style="min-width: 0">
+        <div style="color: #a1a1a8; font-size: 12.5px">{{k.label}}</div>
+        <div style="font-size: 22px; font-weight: 700; letter-spacing: -0.3px; margin-top: 4px">{{k.value}}</div>
+        <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px">
+          <span style="background: transparent; border-radius: 0; padding: 0; font-size: 11.5px; font-weight: 600; color: {{k.deltaColor}}">{{k.delta}}</span>
+          <span style="color: #8b8b93; font-size: 11.5px">{{k.note}}</span>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <section>
+    <h2 style="margin: 0 0 10px; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">Order pipeline</h2>
+    <div style="display: flex; flex-direction: column; gap: 12px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between">
+        <span style="font-size: 14px; font-weight: 600">82 of 126 completed</span>
+        <span style="font-size: 20px; font-weight: 700; color: #7db0f9">65%</span>
+      </div>
+      <div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; gap: 2px; background: #232327">
+        <sc-for list="{{stages}}" as="s" hint-placeholder-count="5">
+          <div style="background: {{s.color}}; width: {{s.pct}}%"></div>
+        </sc-for>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px">
+        <sc-for list="{{stages}}" as="s" hint-placeholder-count="5">
+          <div style="text-align: center">
+            <div style="font-size: 16px; font-weight: 700">{{s.count}}</div>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 4px; color: #8b8b93; font-size: 11px"><span style="width: 6px; height: 6px; border-radius: 3px; background: {{s.color}}"></span>{{s.label}}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px">
+      <h2 style="margin: 0; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">Kitchen</h2>
+      <a href="MW-Chef.dc.html" style="font-size: 13px; font-weight: 600; color: #7db0f9">Queue</a>
+    </div>
+    <div>
+      <sc-for list="{{chefs}}" as="c" hint-placeholder-count="4">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid {{c.rule}}">
+          <span style="flex: none; width: 34px; height: 34px; border-radius: 17px; background: #232327; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px">{{c.initial}}</span>
+          <div style="flex: 1; min-width: 0">
+            <div style="display: flex; align-items: baseline; gap: 6px"><span style="font-weight: 600; font-size: 13.5px">{{c.name}}</span><span style="color: #8b8b93; font-size: 12px">{{c.station}}</span></div>
+            <div style="height: 4px; border-radius: 2px; background: #232327; margin-top: 6px"><div style="height: 4px; border-radius: 2px; background: {{c.loadColor}}; width: {{c.load}}%"></div></div>
+          </div>
+          <div style="text-align: right; width: 56px">
+            <div style="font-size: 14px; font-weight: 700">{{c.done}}</div>
+            <div style="color: #8b8b93; font-size: 11px">{{c.queue}} in queue</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section>
+    <h2 style="margin: 0 0 10px; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">Dish Progress</h2>
+    <div style="display: flex; flex-direction: column; gap: 13px">
+      <sc-for list="{{dishes}}" as="d" hint-placeholder-count="5">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px">
+            <span style="width: 10px; height: 10px; box-sizing: border-box; border: 1.5px solid {{d.veg}}; border-radius: 2px"></span>
+            <span style="font-size: 13.5px; font-weight: 600">{{d.name}}</span>
+            <span style="margin-left: auto; font-size: 13px; font-weight: 600">{{d.done}}<span style="color: #8b8b93; font-weight: 500"> / {{d.total}}</span></span>
+          </div>
+          <div style="display: flex; height: 5px; border-radius: 3px; overflow: hidden; background: #232327; margin-top: 7px">
+            <div style="background: #3b82f6; width: {{d.donePct}}%"></div>
+            <div style="background: #f5b454; width: {{d.cookPct}}%"></div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section>
+    <h2 style="margin: 0 0 10px; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">Needs attention</h2>
+    <div style="background: #111113; border-radius: 18px; padding: 4px 16px">
+      <sc-for list="{{alerts}}" as="a" hint-placeholder-count="3">
+        <div style="display: flex; align-items: center; gap: 10px; min-height: 48px; border-bottom: 1px solid {{a.rule}}">
+          <span style="flex: none; background: transparent; border-radius: 0; padding: 0; font-size: 11.5px; font-weight: 600; color: {{a.color}}">{{a.kind}}</span>
+          <span style="flex: 1; min-width: 0; font-size: 13px">{{a.text}}</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b8b93" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+</div>
+
+<nav aria-label="Main" style="flex: none; box-sizing: border-box; padding: 8px 16px 14px; background: #0b0b0c"><div style="height: 58px; box-sizing: border-box; border-radius: 29px; background: #17171a; padding: 5px; display: flex; gap: 4px">
+<a href="MW-Dashboard.dc.html" aria-label="Dashboard" aria-current="page" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #f2f2f3; background: #2c2c31"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"></path></svg></a>
+<a href="MW-Tables.dc.html" aria-label="Tables" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18M5 9v11M19 9v11M8 9V6h8v3"></path></svg></a>
+<a href="MW-Mgr-Staff.dc.html" aria-label="Team" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2 20c0-3.3 3-5 7-5s7 1.7 7 5M17 11a2.5 2.5 0 1 0 0-5M18 15c2.5.3 4 1.6 4 4"></path></svg></a>
+<a href="MW-Notifications.dc.html" aria-label="Alerts" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg></a>
+<a href="MW-Profile.dc.html" aria-label="Profile" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center"><span style="width: 26px; height: 26px; border-radius: 13px; background: #232327; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">V</span></a>
+</div></nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1500}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var up = '#5eb88a', down = '#f5b454';
+    var kpis = [
+      { label: 'Revenue', value: '₹48,260', delta: '+12%', deltaColor: up, note: 'vs last Sat' },
+      { label: 'Orders', value: '126', delta: '+9', deltaColor: up, note: '25 open' },
+      { label: 'Avg prep', value: '13m 40s', delta: '+1m', deltaColor: down, note: 'Target 12m' },
+      { label: 'Occupancy', value: '70%', delta: '14/20', deltaColor: '#7db0f9', note: 'tables' }
+    ];
+    var stages = [
+      { label: 'Placed', count: 6, color: '#8b8b93' },
+      { label: 'Cooking', count: 14, color: '#f5b454' },
+      { label: 'Ready', count: 5, color: '#7db0f9' },
+      { label: 'Served', count: 19, color: '#5eb88a' },
+      { label: 'Billed', count: 82, color: '#3b82f6' }
+    ].map(function (s) { s.pct = (s.count / 126 * 100).toFixed(1); return s; });
+    var chefs = [
+      ['R', 'Ravi Kumar', 'Tandoor', 48, 4, 64],
+      ['A', 'Anita Shah', 'Curry', 41, 6, 78],
+      ['I', 'Imran Shaikh', 'Chinese', 33, 3, 91],
+      ['S', 'Sunil Pawar', 'South Indian', 27, 2, 38]
+    ].map(function (r, i, arr) {
+      return { initial: r[0], name: r[1], station: r[2], done: r[3], queue: r[4], load: r[5], loadColor: r[5] >= 85 ? '#f5b454' : '#3b82f6', rule: i === arr.length - 1 ? 'transparent' : '#1c1c20' };
+    });
+    var veg = '#5eb88a', non = '#e0705c';
+    var dishes = [
+      ['Paneer Tikka', 42, 34, 5, veg],
+      ['Butter Chicken', 38, 30, 6, non],
+      ['Veg Biryani', 31, 27, 3, veg],
+      ['Dal Makhani', 29, 26, 2, veg],
+      ['Hakka Noodles', 24, 18, 4, veg]
+    ].map(function (r) { return { name: r[0], total: r[1], done: r[2], donePct: (r[2] / r[1] * 100).toFixed(1), cookPct: (r[3] / r[1] * 100).toFixed(1), veg: r[4] }; });
+    var ar = [
+      ['Delay', '#f5b454', 'Table 7 waiting 22 min'],
+      ['Stock', '#e0705c', 'Gulab Jamun out of stock'],
+      ['Load', '#7db0f9', 'Chinese station at 91%']
+    ];
+    var alerts = ar.map(function (a, i) { return { kind: a[0], color: a[1], text: a[2], rule: i === ar.length - 1 ? 'transparent' : '#1c1c20' }; });
+    return { kpis: kpis, stages: stages, chefs: chefs, dishes: dishes, alerts: alerts };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sign in · Web</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-wrap: wrap; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<section aria-label="About DineOS" style="flex: 1 1 520px; min-width: 0; box-sizing: border-box; padding: 40px 56px; background: #111113; display: flex; flex-direction: column">
+  <div style="font-family: Comfortaa, sans-serif; font-weight: 700; font-size: 24px">DineOS</div>
+  <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 40px; padding: 40px 0">
+    <h2 style="margin: 0; max-width: 520px">
+      <span style="display: block; font-size: 52px; line-height: 56px; font-weight: 700; letter-spacing: -1px">Run your restaurant</span>
+      <span style="display: block; font-size: 34px; line-height: 44px; font-weight: 700; letter-spacing: -0.5px; color: #7db0f9; margin-top: 6px">from one screen.</span>
+    </h2>
+    <div style="max-width: 460px; border-top: 1px solid #232327">
+      <div style="display: flex; gap: 20px; align-items: baseline; padding: 18px 0; border-bottom: 1px solid #232327"><span style="flex: none; width: 28px; color: #7db0f9; font-size: 13px; font-weight: 700">01</span><span><span style="display: block; font-size: 17px; font-weight: 600">Tables</span><span style="display: block; color: #a1a1a8; font-size: 14px; margin-top: 2px">Seats, guests and a QR code for every table</span></span></div>
+      <div style="display: flex; gap: 20px; align-items: baseline; padding: 18px 0; border-bottom: 1px solid #232327"><span style="flex: none; width: 28px; color: #7db0f9; font-size: 13px; font-weight: 700">02</span><span><span style="display: block; font-size: 17px; font-weight: 600">Kitchen</span><span style="display: block; color: #a1a1a8; font-size: 14px; margin-top: 2px">Each chef sees only their own station</span></span></div>
+      <div style="display: flex; gap: 20px; align-items: baseline; padding: 18px 0; border-bottom: 1px solid #232327"><span style="flex: none; width: 28px; color: #7db0f9; font-size: 13px; font-weight: 700">03</span><span><span style="display: block; font-size: 17px; font-weight: 600">Team</span><span style="display: block; color: #a1a1a8; font-size: 14px; margin-top: 2px">Owner, manager, admin, waiter and chef each get their own view</span></span></div>
+    </div>
+  </div>
+  <div style="color: #8b8b93; font-size: 13px">Web · staff app · guest QR menu, always in sync</div>
+</section>
+<section style="flex: 1 1 520px; min-width: 0; box-sizing: border-box; padding: 32px 48px; display: flex; flex-direction: column">
+  <div style="display: flex; justify-content: space-between; align-items: center"><span></span></div>
+  <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px 0">
+    <div style="width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 22px">
+<div><h1 style="margin: 0; font-size: 32px; line-height: 38px; font-weight: 700; letter-spacing: -0.5px">Sign in</h1><p style="margin: 8px 0 0; color: #a1a1a8; font-size: 15px">Spice Garden · FC Road, Pune · choose how you work here</p></div>
+<div role="radiogroup" aria-label="Your role" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+  <sc-for list="{{roles}}" as="r" hint-placeholder-count="4">
+    <button type="button" role="radio" aria-checked="{{r.on}}" onClick="{{r.pick}}" style="text-align: left; padding: 16px; border: 0; border-radius: 16px; background: {{r.bg}}; box-shadow: inset 0 0 0 1.5px {{r.ring}}; color: #f2f2f3; font: inherit; display: flex; flex-direction: column; gap: 10px; cursor: pointer">
+      <span style="display: flex; justify-content: space-between; align-items: center; width: 100%"><span style="width: 40px; height: 40px; border-radius: 20px; background: #232327; display: flex; align-items: center; justify-content: center; color: {{r.iconFg}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{r.path}}"></path></svg></span><span style="width: 18px; height: 18px; box-sizing: border-box; border-radius: 9px; box-shadow: inset 0 0 0 {{r.dotW}} {{r.dotC}}"></span></span>
+      <span style="font-size: 16px; font-weight: 700">{{r.label}}</span>
+      <span style="color: #a1a1a8; font-size: 13px; line-height: 1.4">{{r.sub}}</span>
+    </button>
+  </sc-for>
+</div>
+<a href="{{href}}" style="display: flex; align-items: center; justify-content: center; height: 50px; border-radius: 25px; background: #f2f2f3; color: #0b0b0c; font-size: 15px; font-weight: 600">{{cta}}</a>
+<div style="text-align: center; color: #a1a1a8; font-size: 14px">New restaurant? <a href="Web-Signup-1.dc.html" style="color: #f2f2f3; font-weight: 700">Create account</a></div>
+    </div>
+  </div>
+  <div style="color: #8b8b93; font-size: 12.5px; text-align: center">By continuing you agree to the <a href="#" style="color: #a1a1a8; text-decoration: underline">Terms</a> and <a href="#" style="color: #a1a1a8; text-decoration: underline">Privacy Policy</a></div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { role: 'Manager' }; }
+  renderVals() {
+    var self = this, cur = this.state.role;
+    var R = [['Owner', 'Everything, including money and settings', 'M4 18h16M5 18l-1-10 5 4 3-6 3 6 5-4-1 10'], ['Manager', 'Runs the restaurant, sees money and reports', 'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z'], ['Admin', 'Runs operations, no money', 'M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z'], ['Staff', 'Waiter, chef or cashier with PIN', 'M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2 20c0-3.3 3-5 7-5s7 1.7 7 5M17 11a2.5 2.5 0 1 0 0-5M18 15c2.5.3 4 1.6 4 4']];
+    var roles = R.map(function (r) { var on = r[0] === cur; return { label: r[0], sub: r[1], path: r[2], on: on, bg: on ? 'rgba(59,130,246,0.10)' : '#111113', ring: on ? '#3b82f6' : 'transparent', iconFg: on ? '#7db0f9' : '#f2f2f3', dotW: on ? '5px' : '1.5px', dotC: on ? '#3b82f6' : '#3a3a40', pick: function () { self.setState({ role: r[0] }); } }; });
+    var staff = cur === 'Staff';
+    return { roles: roles, href: staff ? 'Web-Login-Staff.dc.html' : 'Web-Login-Email.dc.html', cta: staff ? 'Continue with staff PIN' : 'Continue as ' + cur };
+  }
+}
+</script>
+</body>
+</html>

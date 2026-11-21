@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shifts & Sections · Mobile web</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 1000px; overflow: hidden; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="flex: none; height: 56px; box-sizing: border-box; padding: 0 8px 0 4px; display: flex; align-items: center; gap: 4px">
+  <a href="MW-Mgr-Staff.dc.html" aria-label="Back" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></a>
+  <div style="flex: 1; min-width: 0">
+    <div style="font-size: 16px; font-weight: 700">Shifts &amp; Sections</div>
+    <div style="color: #a1a1a8; font-size: 12px">Tonight · 6:00 PM to 11:30 PM</div>
+  </div>
+  
+</header>
+<div style="flex: 1; min-height: 0; overflow: hidden; padding: 0 20px 16px; display: flex; flex-direction: column; gap: 8px"><div style="display: flex; gap: 22px; border-bottom: 1px solid #1c1c20">
+  <sc-for list="{{tabs}}" as="t" hint-placeholder-count="2"><button type="button" onClick="{{t.pick}}" style="height: 44px; padding: 0; border: 0; background: transparent; font: inherit; font-size: 14.5px; font-weight: {{t.weight}}; color: {{t.fg}}; box-shadow: inset 0 -2px 0 {{t.line}}; cursor: pointer">{{t.label}} <span style="color: #8b8b93; font-weight: 500">{{t.count}}</span></button></sc-for>
+</div>
+<sc-if value="{{isK}}" hint-placeholder-val="{{true}}">
+  <sc-for list="{{stations}}" as="s" hint-placeholder-count="3">
+    <section style="padding-bottom: 6px">
+      <div style="display: flex; align-items: baseline; gap: 10px; padding: 10px 0 2px"><span style="font-weight: 700">{{s.name}}</span><span style="color: #8b8b93; font-size: 12.5px">{{s.queue}}</span></div>
+      <sc-for list="{{s.chefs}}" as="c" hint-placeholder-count="2">
+        <div style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #1c1c20">
+          <div style="flex: 1; min-width: 0"><div style="font-weight: 600">{{c.name}}</div><div style="display: flex; gap: 10px; font-size: 12px"><span style="color: {{c.cookFg}}">{{c.cooking}}</span><button type="button" onClick="{{c.brk}}" style="padding: 0; border: 0; background: transparent; color: #7db0f9; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer">{{c.brkLabel}}</button></div></div>
+          <span style="display: flex; align-items: center; gap: 2px"><button type="button" onClick="{{c.minus}}" aria-label="Less" style="width: 32px; height: 32px; border: 1px solid #2c2c31; border-radius: 16px; background: transparent; color: #f2f2f3; font: inherit; font-size: 16px; cursor: pointer">−</button><span style="min-width: 44px; text-align: center; font-weight: 700">{{c.lim}}</span><button type="button" onClick="{{c.plus}}" aria-label="More" style="width: 32px; height: 32px; border: 1px solid #2c2c31; border-radius: 16px; background: transparent; color: #f2f2f3; font: inherit; font-size: 16px; cursor: pointer">+</button></span>
+        </div>
+      </sc-for>
+    </section>
+  </sc-for>
+</sc-if>
+<sc-if value="{{isF}}" hint-placeholder-val="{{false}}">
+  <section>
+    <sc-for list="{{waiters}}" as="w" hint-placeholder-count="5">
+      <div style="display: flex; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid #1c1c20">
+        <div style="flex: 1; min-width: 0"><div style="font-weight: 600">{{w.name}} <span style="color: #8b8b93; font-weight: 500">· {{w.area}}</span></div><div style="font-size: 12px; color: {{w.statusFg}}">{{w.status}}</div></div>
+        <div style="text-align: right"><div style="font-weight: 600">{{w.tables}}</div><button type="button" onClick="{{w.brk}}" style="padding: 0; border: 0; background: transparent; color: #7db0f9; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer">{{w.brkLabel}}</button></div>
+      </div>
+    </sc-for>
+  </section>
+  <section>
+    <h2 style="margin: 0; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8; margin: 14px 0 4px">Alert rules</h2>
+    <sc-for list="{{rules}}" as="r" hint-placeholder-count="2">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 0; border-bottom: 1px solid #1c1c20"><span style="color: #a1a1a8; font-size: 13px">{{r.label}}</span><span style="display: flex; align-items: center; gap: 2px"><button type="button" onClick="{{r.minus}}" aria-label="Less" style="width: 32px; height: 32px; border: 1px solid #2c2c31; border-radius: 16px; background: transparent; color: #f2f2f3; font: inherit; font-size: 16px; cursor: pointer">−</button><span style="min-width: 44px; text-align: center; font-weight: 700">{{r.val}}</span><button type="button" onClick="{{r.plus}}" aria-label="More" style="width: 32px; height: 32px; border: 1px solid #2c2c31; border-radius: 16px; background: transparent; color: #f2f2f3; font: inherit; font-size: 16px; cursor: pointer">+</button></span></div>
+    </sc-for>
+  </section>
+</sc-if></div>
+<nav aria-label="Main" style="flex: none; box-sizing: border-box; padding: 8px 16px 14px; background: #0b0b0c"><div style="height: 58px; box-sizing: border-box; border-radius: 29px; background: #17171a; padding: 5px; display: flex; gap: 4px">
+<a href="MW-Dashboard.dc.html" aria-label="Dashboard" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"></path></svg></a>
+<a href="MW-Tables.dc.html" aria-label="Tables" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18M5 9v11M19 9v11M8 9V6h8v3"></path></svg></a>
+<a href="MW-Mgr-Staff.dc.html" aria-label="Team" aria-current="page" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #f2f2f3; background: #2c2c31"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2 20c0-3.3 3-5 7-5s7 1.7 7 5M17 11a2.5 2.5 0 1 0 0-5M18 15c2.5.3 4 1.6 4 4"></path></svg></a>
+<a href="MW-Notifications.dc.html" aria-label="Alerts" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg></a>
+<a href="MW-Profile.dc.html" aria-label="Profile" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center"><span style="width: 26px; height: 26px; border-radius: 13px; background: #232327; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">V</span></a>
+</div></nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { tab: 'kitchen', lim: {}, brk: {}, rules: { area: 60, mgr: 120 } }; }
+  renderVals() {
+    var self = this, S = this.state;
+    var tab = S.tab;
+    var tabs = [['kitchen', 'Kitchen', '9 chefs'], ['floor', 'Floor', '5 waiters']].map(function (d) { var on = d[0] === tab;
+      return { label: d[1], count: d[2], weight: on ? 700 : 500, fg: on ? '#f2f2f3' : '#a1a1a8', line: on ? '#7db0f9' : 'transparent', pick: function () { self.setState({ tab: d[0] }); } }; });
+    var K = [
+      ['Tandoor', '7 waiting', [['ravi', 'Ravi Kumar', 2, 4], ['imran', 'Imran Shaikh', 3, 4], ['suresh', 'Suresh Pawar', 0, 4, true]]],
+      ['Curry', '6 waiting', [['anita', 'Anita Shah', 4, 5], ['meera', 'Meera Joshi', 3, 5]]],
+      ['Chinese', '3 waiting', [['ken', 'Kenji Rao', 3, 4], ['sam', 'Samir Khan', 1, 4]]],
+      ['South Indian', '2 waiting', [['sunil', 'Sunil Pawar', 2, 3], ['lata', 'Lata Iyer', 0, 3, true]]]
+    ];
+    var setL = function (id, v) { var n = Object.assign({}, S.lim); n[id] = Math.max(1, Math.min(8, v)); self.setState({ lim: n }); };
+    var togB = function (id, cur) { var n = Object.assign({}, S.brk); n[id] = !cur; self.setState({ brk: n }); };
+    var stations = K.map(function (k, si) { return { name: k[0], queue: k[1], rule: si ? '#232327' : 'transparent', pt: si ? '22px' : '0',
+      chefs: k[2].map(function (c) { var lim = S.lim[c[0]] || c[3], brk = c[0] in S.brk ? S.brk[c[0]] : !!c[4];
+        return { name: c[1], cooking: brk ? 'On break' : c[2] + ' of ' + lim + ' cooking', cookFg: brk ? '#f5b454' : (c[2] >= lim ? '#f5b454' : '#a1a1a8'), lim: lim,
+          minus: function () { setL(c[0], lim - 1); }, plus: function () { setL(c[0], lim + 1); },
+          brkLabel: brk ? 'Back on duty' : 'Send on break', brk: function () { togB(c[0], brk); } }; }) }; });
+    var W = [
+      ['priya', 'Priya Sharma', 'Main hall', 'T1 to T7', 5, false, ''],
+      ['rahul', 'Rahul Desai', 'Main hall', 'T8 to T14', 4, false, ''],
+      ['amit', 'Amit Verma', 'Terrace', 'T15 to T20', 3, false, ''],
+      ['neha', 'Neha Kulkarni', 'Terrace', 'T21 to T24', 0, true, 'Amit'],
+      ['john', 'John D\'Souza', 'Private room', 'P1 to P2', 1, false, '']
+    ];
+    var waiters = W.map(function (w, i) { var brk = w[0] in S.brk ? S.brk[w[0]] : w[5];
+      return { name: w[1], area: w[2], tables: w[3], busy: w[4] + ' busy', status: brk ? 'On break · tables covered by ' + (w[6] || 'Priya') : 'On duty', statusFg: brk ? '#f5b454' : '#5eb88a',
+        brkLabel: brk ? 'Back on duty' : 'Send on break', brk: function () { togB(w[0], brk); }, rule: i ? '#1c1c20' : 'transparent' }; });
+    var R = S.rules;
+    var setR = function (k, d) { var n = Object.assign({}, R); n[k] = Math.max(30, Math.min(300, n[k] + d)); self.setState({ rules: n }); };
+    var rules = [
+      { label: 'Pass to free waiters in the area after', val: R.area + ' s', minus: function () { setR('area', -15); }, plus: function () { setR('area', 15); } },
+      { label: 'Pass to the manager after', val: R.mgr + ' s', minus: function () { setR('mgr', -15); }, plus: function () { setR('mgr', 15); } }
+    ];
+    return { tabs: tabs, isK: tab === 'kitchen', isF: tab === 'floor', stations: stations, waiters: waiters, rules: rules };
+  }
+}
+</script>
+</body>
+</html>

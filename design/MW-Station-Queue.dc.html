@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Station queue · Chef · Mobile web</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; overflow: hidden; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="flex: none; height: 56px; box-sizing: border-box; padding: 0 8px 0 4px; display: flex; align-items: center; gap: 4px">
+  <a href="MW-Chef.dc.html" aria-label="Back" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></a>
+  <div style="flex: 1; min-width: 0">
+    <div style="font-size: 16px; font-weight: 700">Tandoor station</div>
+    <div style="color: #a1a1a8; font-size: 12px">Shared queue · 3 chefs</div>
+  </div>
+  
+</header>
+<div style="flex: 1; overflow: hidden; padding: 4px 20px 16px; display: flex; flex-direction: column; gap: 18px"><div style="display: flex; gap: 0">
+  <sc-for list="{{chefs}}" as="c" hint-placeholder-count="3"><div style="flex: 1; min-width: 0; padding-left: {{c.pl}}; border-left: 1px solid {{c.rule}}"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{c.name}}</div><div style="display: flex; gap: 3px; margin-top: 6px"><sc-for list="{{c.dots}}" as="d" hint-placeholder-count="4"><span style="width: 14px; height: 4px; border-radius: 2px; background: {{d.bg}}"></span></sc-for></div></div></sc-for>
+</div>
+<sc-if value="{{full}}" hint-placeholder-val="{{false}}"><div style="color: #f5c27a; font-size: 12.5px">{{limitMsg}}</div></sc-if>
+<section>
+  <div style="display: flex; align-items: center; gap: 8px"><h2 style="margin: 0; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">Cooking</h2><span style="margin-left: auto; font-weight: 600; color: #a1a1a8">{{cN}}</span></div>
+  <sc-for list="{{cRows}}" as="c" hint-placeholder-count="3">
+    <div style="display: flex; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid #1c1c20">
+      <div style="flex: 1; min-width: 0"><div style="font-weight: 600"><span style="font-weight: 700">{{c.table}}</span> · {{c.qty}} × {{c.dish}}</div><div style="display: flex; gap: 8px; font-size: 12px"><span style="font-weight: 600; color: {{c.whoFg}}">{{c.who}}</span><span style="color: {{c.timeFg}}">{{c.time}}</span></div></div>
+      <sc-if value="{{c.isMine}}" hint-placeholder-val="{{true}}"><button type="button" onClick="{{c.ready}}" style="height: 34px; padding: 0 14px; border: 0; border-radius: 17px; background: #3b82f6; color: #fff; font: inherit; font-size: 13px; font-weight: 600">Ready</button></sc-if>
+    </div>
+  </sc-for>
+</section>
+<section>
+  <div style="display: flex; align-items: center; gap: 8px"><h2 style="margin: 0; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">Waiting</h2><span style="margin-left: auto; font-weight: 600; color: #a1a1a8">{{wN}}</span></div>
+  <sc-for list="{{wRows}}" as="w" hint-placeholder-count="4">
+    <div style="display: flex; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid #1c1c20">
+      <div style="flex: 1; min-width: 0"><div style="font-weight: 600"><span style="font-weight: 700">{{w.table}}</span> · {{w.qty}} × {{w.dish}}</div><div style="display: flex; gap: 8px; font-size: 12px"><span style="color: {{w.ageFg}}">{{w.age}}</span><sc-if value="{{w.hasFlag}}" hint-placeholder-val="{{false}}"><span style="font-weight: 700; color: {{w.flagFg}}">{{w.flag}}</span></sc-if><sc-if value="{{w.hasNote}}" hint-placeholder-val="{{false}}"><span style="color: #c9b29b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{w.note}}</span></sc-if></div></div>
+      <sc-if value="{{w.canStart}}" hint-placeholder-val="{{true}}"><button type="button" onClick="{{w.start}}" style="height: 34px; padding: 0 14px; border: 0; border-radius: 17px; background: #f2f2f3; color: #0b0b0c; font: inherit; font-size: 13px; font-weight: 600">Start</button></sc-if>
+      <sc-if value="{{w.cantStart}}" hint-placeholder-val="{{false}}"><span style="color: #8b8b93; font-size: 12px">At limit</span></sc-if>
+    </div>
+  </sc-for>
+</section></div>
+<nav aria-label="Main" style="flex: none; box-sizing: border-box; padding: 8px 16px 14px; background: #0b0b0c"><div style="height: 58px; box-sizing: border-box; border-radius: 29px; background: #17171a; padding: 5px; display: flex; gap: 4px">
+<a href="MW-Chef.dc.html" aria-label="Queue" aria-current="page" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #f2f2f3; background: #2c2c31"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"></path></svg></a>
+<a href="MW-Chef-Done.dc.html" aria-label="Done" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"></path></svg></a>
+<a href="MW-Chef-Stock.dc.html" aria-label="Stock" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4zM3 7v10l9 4 9-4V7M12 11v10"></path></svg></a>
+<a href="MW-Notifications.dc.html" aria-label="Alerts" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg></a>
+<a href="MW-Profile.dc.html" aria-label="Profile" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center"><span style="width: 26px; height: 26px; border-radius: 13px; background: #232327; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">R</span></a>
+</div></nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { st: {}, own: {} }; }
+  renderVals() {
+    var self = this, S = this.state;
+
+    var _onBreak = !!this.state.onBreak, _me = this;
+    var duty = { dutyLabel: _onBreak ? 'On break · tap to resume' : 'On duty', dutyBg: 'transparent', dutyFg: _onBreak ? '#f5c27a' : '#7fcfa3', dutyDot: _onBreak ? '#f5b454' : '#5eb88a', toggleBreak: function () { _me.setState({ onBreak: !_onBreak }); } };
+
+    // id, table, qty, dish, note, guest, minutes, target, flag, status, owner, waiter
+    var I = [
+      ['w1', 'T7', 2, 'Tandoori Chicken', 'Extra crispy', 'G1', 14, 18, 'late', 'waiting', '', 'Amit'],
+      ['w2', 'T12', 1, 'Malai Tikka', 'Sent back · too salty', 'G2', 6, 15, 'remake', 'waiting', '', 'Rahul'],
+      ['w3', 'T4', 1, 'Paneer Tikka', 'No onion', 'G2', 9, 15, '', 'waiting', '', 'Priya'],
+      ['w4', 'T8', 2, 'Butter Naan', '', 'Shared', 4, 6, '', 'waiting', '', 'Rahul'],
+      ['w5', 'T11', 3, 'Butter Naan', 'Extra butter', 'Shared', 3, 6, '', 'waiting', '', 'Rahul'],
+      ['w6', 'T14', 1, 'Butter Naan', '', 'G1', 1, 6, '', 'waiting', '', 'Amit'],
+      ['w7', 'T2', 1, 'Hara Bhara Kabab', 'Less spicy', 'G1', 1, 12, '', 'waiting', '', 'Priya'],
+      ['c1', 'T9', 1, 'Tandoori Chicken', '', 'G1', 8, 18, '', 'cooking', 'me', 'Rahul'],
+      ['c2', 'T3', 4, 'Garlic Naan', '', 'Shared', 3, 6, '', 'cooking', 'me', 'Priya'],
+      ['c3', 'T5', 2, 'Paneer Tikka', 'Medium spicy', 'G1', 11, 15, '', 'cooking', 'Imran', 'Priya'],
+      ['c4', 'T6', 1, 'Seekh Kabab', '', 'G2', 16, 15, '', 'cooking', 'Imran', 'Priya'],
+      ['c5', 'T10', 2, 'Tandoori Roti', '', 'Shared', 2, 5, '', 'cooking', 'Imran', 'Amit'],
+      ['r1', 'T1', 2, 'Malai Tikka', '', 'G1', 1, 0, '', 'ready', 'Imran', 'Priya'],
+      ['r2', 'T15', 3, 'Butter Naan', '', 'Shared', 3, 0, 'unpicked', 'ready', 'me', 'Amit']
+    ];
+    var LIMIT = 4;
+    var status = function (it) { return S.st[it[0]] || it[9]; };
+    var owner = function (it) { return S.own[it[0]] || it[10]; };
+    var mine = I.filter(function (it) { return status(it) === 'cooking' && owner(it) === 'me'; }).length;
+    var full = mine >= LIMIT;
+    var move = function (ids, to) { var st = Object.assign({}, S.st), own = Object.assign({}, S.own); ids.forEach(function (id) { st[id] = to; if (to === 'cooking') own[id] = 'me'; }); self.setState({ st: st, own: own }); };
+    var waiting = I.filter(function (it) { return status(it) === 'waiting'; });
+    // priority: remake first, then late, then oldest
+    var rank = function (it) { return (it[8] === 'remake' ? 1000 : 0) + (it[6] > it[7] * 0.7 ? 500 : 0) + it[6]; };
+    waiting.sort(function (a, b) { return rank(b) - rank(a); });
+    var flagOf = function (it) { if (it[8] === 'remake') return ['Remake', '#e0705c']; if (it[6] > it[7] * 0.7) return ['Late soon', '#f5b454']; return ['', '#8b8b93']; };
+    var wRows = waiting.map(function (it) { var f = flagOf(it); return {
+      table: it[1], qty: it[2], dish: it[3], note: it[4], hasNote: !!it[4], guest: it[5], age: it[6] + ' min', ageFg: f[0] ? f[1] : '#8b8b93',
+      flag: f[0], flagFg: f[1], hasFlag: !!f[0], canStart: !full, cantStart: full,
+      start: function () { move([it[0]], 'cooking'); } }; });
+    // batch suggestion: same dish waiting at 2+ tables
+    var by = {}; waiting.forEach(function (it) { (by[it[3]] = by[it[3]] || []).push(it); });
+    var batch = Object.keys(by).filter(function (k) { return by[k].length > 1; }).map(function (k) { var L = by[k];
+      return { dish: k, qty: L.reduce(function (a, it) { return a + it[2]; }, 0), tables: L.map(function (it) { return it[1]; }).join(', '), n: L.length, canStart: mine + L.length <= LIMIT,
+        start: function () { if (mine + L.length <= LIMIT) move(L.map(function (it) { return it[0]; }), 'cooking'); } }; });
+    var cRows = I.filter(function (it) { return status(it) === 'cooking'; }).map(function (it) { var me = owner(it) === 'me', late = it[6] > it[7];
+      return { table: it[1], qty: it[2], dish: it[3], note: it[4], hasNote: !!it[4], who: me ? 'You' : owner(it), whoFg: me ? '#7db0f9' : '#a1a1a8', time: it[6] + ' / ' + it[7] + ' min', timeFg: late ? '#f5b454' : '#8b8b93',
+        isMine: me, notMine: !me, ready: function () { move([it[0]], 'ready'); } }; });
+    var rRows = I.filter(function (it) { return status(it) === 'ready'; }).map(function (it) { var stale = it[8] === 'unpicked';
+      return { table: it[1], qty: it[2], dish: it[3], who: it[11], line: stale ? 'Not picked in ' + it[6] + ' min · sent to all waiters' : (S.st[it[0]] ? 'Ready now · ' + it[11] + ' alerted' : it[11] + ' alerted · ' + it[6] + ' min ago'), lineFg: stale ? '#f5b454' : '#8b8b93' }; });
+    var dots = function (n) { var o = []; for (var i = 0; i < LIMIT; i++) o.push({ bg: i < n ? '#f5b454' : '#2c2c31' }); return o; };
+    var imran = I.filter(function (it) { return status(it) === 'cooking' && owner(it) === 'Imran'; }).length;
+    var chefs = [
+      { name: 'Ravi Kumar', tag: 'You', tagFg: '#7db0f9', state: mine + ' of ' + LIMIT + ' cooking', stateFg: full ? '#f5b454' : '#a1a1a8', dots: dots(mine), rule: 'transparent', pl: '0' },
+      { name: 'Imran Shaikh', tag: '', tagFg: '#8b8b93', state: imran + ' of ' + LIMIT + ' cooking', stateFg: '#a1a1a8', dots: dots(imran), rule: '#232327', pl: '28px' },
+      { name: 'Suresh Pawar', tag: '', tagFg: '#8b8b93', state: 'On break · back 9:40', stateFg: '#f5b454', dots: dots(0), rule: '#232327', pl: '28px' }
+    ];
+    return Object.assign({ wRows: wRows, cRows: cRows, rRows: rRows, batch: batch, hasBatch: batch.length > 0, chefs: chefs,
+      wN: wRows.length, cN: cRows.length, rN: rRows.length, full: full, limitMsg: 'You are cooking ' + LIMIT + ' dishes. Finish one to take the next.' }, duty);
+  }
+}
+</script>
+</body>
+</html>

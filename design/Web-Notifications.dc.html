@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Alerts · Web</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+summary::-webkit-details-marker{display:none}
+summary::marker{content:""}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="height: 64px; box-sizing: border-box; padding: 0 24px; display: flex; align-items: center; gap: 14px"><a href="Web-Login.dc.html" style="font-family: Comfortaa, sans-serif; font-weight: 700; font-size: 22px">DineOS</a><span style="color: #a1a1a8; font-size: 15px; font-weight: 600">Waiter</span><span style="flex: 1"></span><a href="Web-Notifications.dc.html" aria-label="Notifications" style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg><span style="position: absolute; top: 11px; right: 12px; width: 8px; height: 8px; border-radius: 4px; background: #3b82f6"></span></a><details style="position: relative"><summary aria-label="Account menu" style="width: 36px; height: 36px; border-radius: 18px; background: #232327; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; cursor: pointer; list-style: none">P</summary><div role="menu" style="position: absolute; right: 0; top: 46px; z-index: 30; width: 240px; box-sizing: border-box; padding: 6px; border-radius: 14px; background: #111113; border: 1px solid #232327; box-shadow: 0 12px 32px rgba(0,0,0,0.5)"><div style="padding: 10px 12px 12px; border-bottom: 1px solid #232327; margin-bottom: 6px"><div style="font-weight: 600; font-size: 14px">Priya Sharma</div><div style="color: #8b8b93; font-size: 12.5px; margin-top: 2px">Waiter · Tables T1 to T7</div></div><a href="Web-Profile.dc.html" style="display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 12px; border-radius: 8px; font-size: 14px; font-weight: 500; color: #f2f2f3"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"></path></svg>Profile</a><div style="height: 1px; background: #232327; margin: 6px 0"></div><a href="Web-Login-Staff.dc.html" style="display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 12px; border-radius: 8px; font-size: 14px; font-weight: 500; color: #e0705c"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"></path><path d="M10 17l-5-5 5-5M5 12h11"></path></svg>Log out</a></div></details></header>
+<div style="display: flex; flex-wrap: wrap">
+<aside style="flex: 1 1 224px; max-width: 100%; box-sizing: border-box; padding: 8px 12px 24px">
+<div style="font-family: Comfortaa, sans-serif; font-size: 12px; font-weight: 700; color: #8b8b93; padding: 14px 14px 6px">Overview</div>
+<a href="Web-Waiter-Home.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5L12 4l9 7.5M5.5 10v9.5a1 1 0 0 0 1 1H10v-6h4v6h3.5a1 1 0 0 0 1-1V10"></path></svg>Home</a>
+<div style="font-family: Comfortaa, sans-serif; font-size: 12px; font-weight: 700; color: #8b8b93; padding: 14px 14px 6px">Service</div>
+<a href="Web-Waiter-Tables.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18M5 9v11M19 9v11M8 9V6h8v3"></path></svg>My tables</a>
+<a href="Web-Waiter-Orders.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg>Orders</a>
+<a href="Web-TakeOrder.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path></svg>Take order</a>
+<div style="font-family: Comfortaa, sans-serif; font-size: 12px; font-weight: 700; color: #8b8b93; padding: 14px 14px 6px">Account</div>
+<a href="Web-Waiter-Alerts.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 600; color: #7db0f9; background: #17171a"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg>Alerts</a>
+<a href="Web-Profile.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 20c0-3.5 3.5-6 8-6s8 2.5 8 6"></path></svg>Profile</a>
+</aside>
+<main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 24px 40px 64px; max-width: 1000px; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px">
+  <div>
+    <h1 style="margin: 0; font-size: 30px; font-weight: 700; letter-spacing: -0.4px">Alerts</h1>
+    <div style="color: #a1a1a8; font-size: 13.5px; margin-top: 2px">5 new · from your tables, the kitchen and guests</div>
+  </div>
+  <button type="button" style="height: 40px; padding: 0 16px; border: 0; border-radius: 20px; background: #17171a; color: #f2f2f3; font: inherit; font-weight: 600">Mark all read</button>
+</div><div style="display: flex; gap: 22px; border-bottom: 1px solid #1c1c20">
+  <sc-for list="{{tabs}}" as="t" hint-placeholder-count="4"><button type="button" onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="height: 44px; padding: 0; border: 0; background: transparent; font: inherit; font-size: 14.5px; font-weight: {{t.weight}}; color: {{t.fg}}; box-shadow: inset 0 -2px 0 {{t.line}}; cursor: pointer">{{t.label}} <span style="color: #8b8b93; font-weight: 500">{{t.count}}</span></button></sc-for>
+</div>
+<div style="background: #111113; border-radius: 18px; padding: 4px 18px">
+  <sc-for list="{{items}}" as="n" hint-placeholder-count="8">
+    <div style="display: flex; align-items: center; gap: 14px; min-height: 64px; border-bottom: 1px solid {{n.rule}}">
+      <span style="flex: none; width: 8px; height: 8px; border-radius: 4px; background: {{n.dot}}"></span>
+      <span style="flex: none; width: 44px; height: 44px; border-radius: 22px; background: #17171a; color: {{n.color}}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px">{{n.tag}}</span>
+      <span style="flex: 1; min-width: 0"><span style="display: block; font-weight: {{n.weight}}">{{n.title}}</span><span style="display: block; color: #8b8b93; font-size: 13px">{{n.sub}}</span></span>
+      <span style="color: #8b8b93; font-size: 12.5px; width: 70px; text-align: right">{{n.time}}</span>
+      <a href="{{n.href}}" style="flex: none; height: 36px; padding: 0 14px; border-radius: 18px; background: #232327; display: flex; align-items: center; font-size: 13px; font-weight: 600">{{n.action}}</a>
+    </div>
+  </sc-for>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { f: 'All' }; }
+  renderVals() {
+    var self = this;
+    var raw = [
+      ['Orders', 'T4', '#5eb88a', 'Butter Chicken is ready', 'Table 4 · pick up from Curry station', 'Now', true, 'Web-Waiter-Table.dc.html', 'Open table'],
+      ['Orders', 'T11', '#c9b29b', 'Table 11 asked for the bill', '4 guests', '2 min', true, 'Web-Billing.dc.html', 'Open bill'],
+      ['Kitchen', 'T7', '#f5b454', 'Table 7 order is running late', 'Butter Chicken × 2 · 22 min', '3 min', true, 'Web-Waiter-Table.dc.html', 'View'],
+      ['Alerts', '!', '#e0705c', 'Gulab Jamun is sold out', 'Hidden from the menu', '12 min', true, 'Web-TakeOrder.dc.html', 'See menu'],
+      ['Orders', 'T15', '#7db0f9', 'Guest at Table 15 called a waiter', 'From the table QR menu', '18 min', false, 'Web-Waiter-Home.dc.html', 'Open'],
+      ['Kitchen', 'T3', '#a1a1a8', 'Kitchen started Table 3 order', 'Veg Biryani, Raita', '24 min', false, 'Web-Waiter-Table.dc.html', 'View'],
+      ['Alerts', 'S', '#7db0f9', 'Shift starts at 6 PM', 'You are on Tables 1 to 7 tonight', '1 h', false, 'Web-Profile.dc.html', 'Profile']
+    ];
+    var f = this.state.f;
+    var list = raw.filter(function (n) { return f === 'All' || n[0] === f; });
+    var items = list.map(function (n, i) { return { tag: n[1], color: n[2], title: n[3], sub: n[4], time: n[5], weight: n[6] ? 700 : 500, dot: n[6] ? '#3b82f6' : 'transparent', href: n[7], action: n[8], rule: i === list.length - 1 ? 'transparent' : '#1c1c20' }; });
+    var mk = function (defs, cur, key) { return defs.map(function (d) { var on = d[0] === cur; return { label: d[1], count: d[2], on: on, weight: on ? 700 : 500, fg: on ? '#f2f2f3' : '#a1a1a8', line: on ? '#7db0f9' : 'transparent', pick: function () { var o = {}; o[key] = d[0]; self.setState(o); } }; }); };
+    return { items: items, tabs: mk([['All', 'All', 7], ['Orders', 'Orders', 3], ['Kitchen', 'Kitchen', 2], ['Alerts', 'Alerts', 2]], f, 'f') };
+  }
+}
+</script>
+</body>
+</html>

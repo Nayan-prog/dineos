@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shifts & Sections · Web</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+summary::-webkit-details-marker{display:none}
+summary::marker{content:""}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="height: 64px; box-sizing: border-box; padding: 0 24px; display: flex; align-items: center; gap: 14px">
+  <a href="Main.dc.html" style="font-family: Comfortaa, sans-serif; font-weight: 700; font-size: 22px">DineOS</a>
+  <span style="color: #a1a1a8; font-size: 15px; font-weight: 600">Manager</span>
+  <span style="flex: 1"></span>
+  <label style="display: flex; align-items: center; gap: 8px; height: 40px; width: 320px; max-width: 40vw; box-sizing: border-box; padding: 0 14px; border-radius: 20px; background: #17171a; color: #a1a1a8">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+    <input type="search" aria-label="Search" placeholder="Search orders, dishes, tables" style="flex: 1; min-width: 0; border: 0; outline: none; background: transparent; color: #f2f2f3; font: inherit; font-size: 14px">
+  </label>
+  <span style="flex: 1"></span>
+  <span style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #a1a1a8"><span style="width: 8px; height: 8px; border-radius: 4px; background: #5eb88a"></span>Live</span>
+  <a href="#" aria-label="Notifications" style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg><span style="position: absolute; top: 11px; right: 12px; width: 8px; height: 8px; border-radius: 4px; background: #3b82f6"></span></a>
+  <details style="position: relative"><summary aria-label="Account menu" style="width: 36px; height: 36px; border-radius: 18px; background: #232327; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; cursor: pointer; list-style: none">N</summary><div role="menu" style="position: absolute; right: 0; top: 46px; z-index: 30; width: 240px; box-sizing: border-box; padding: 6px; border-radius: 14px; background: #111113; border: 1px solid #232327; box-shadow: 0 12px 32px rgba(0,0,0,0.5)"><div style="padding: 10px 12px 12px; border-bottom: 1px solid #232327; margin-bottom: 6px"><div style="font-weight: 600; font-size: 14px">Nayan Patil</div><div style="color: #8b8b93; font-size: 12.5px; margin-top: 2px">Manager · Spice Garden</div></div><a href="Web-Profile.dc.html" style="display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 12px; border-radius: 8px; font-size: 14px; font-weight: 500; color: #f2f2f3"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"></path></svg>Profile</a><a href="Web-Settings.dc.html" style="display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 12px; border-radius: 8px; font-size: 14px; font-weight: 500; color: #f2f2f3"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>Settings</a><div style="height: 1px; background: #232327; margin: 6px 0"></div><a href="Web-Login.dc.html" style="display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 12px; border-radius: 8px; font-size: 14px; font-weight: 500; color: #e0705c"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"></path><path d="M10 17l-5-5 5-5M5 12h11"></path></svg>Log out</a></div></details>
+</header>
+<div style="display: flex; flex-wrap: wrap">
+<aside style="flex: 1 1 224px; max-width: 100%; box-sizing: border-box; padding: 8px 12px 24px">
+<div style="font-family: Comfortaa, sans-serif; font-size: 12px; font-weight: 700; color: #8b8b93; padding: 14px 14px 6px">Overview</div>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"></path></svg>Dashboard</a>
+<div style="font-family: Comfortaa, sans-serif; font-size: 12px; font-weight: 700; color: #8b8b93; padding: 14px 14px 6px">Service</div>
+<a href="Web-Orders.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg>Orders<span style="margin-left: auto; font-size: 12.5px; color: #7db0f9; font-weight: 600">25</span></a>
+<a href="Web-Kitchen.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"></path></svg>Kitchen Display</a>
+<a href="Web-Tables.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18M5 9v11M19 9v11M8 9V6h8v3"></path></svg>Tables</a>
+<a href="Web-Billing.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 10h18M7 15h4"></path></svg>Billing</a>
+<div style="font-family: Comfortaa, sans-serif; font-size: 12px; font-weight: 700; color: #8b8b93; padding: 14px 14px 6px">Manage</div>
+<a href="Web-Menu.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5M9 8h6"></path></svg>Menu &amp; Dishes</a>
+<a href="Web-Staff.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2 20c0-3.3 3-5 7-5s7 1.7 7 5M17 11a2.5 2.5 0 1 0 0-5M18 15c2.5.3 4 1.6 4 4"></path></svg>Staff &amp; Chefs</a>
+<a href="Web-Shifts.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 600; color: #7db0f9; background: #17171a"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></svg>Shifts &amp; Sections</a>
+<a href="Web-Analytics.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"></path></svg>Analytics</a>
+<a href="Web-Settings.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border-radius: 12px; font-size: 14.5px; font-weight: 500; color: #a1a1a8; background: transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"></path><circle cx="16" cy="6" r="2"></circle><circle cx="10" cy="12" r="2"></circle><circle cx="18" cy="18" r="2"></circle></svg>Settings</a>
+</aside>
+<main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 24px 40px 64px; max-width: 1180px; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px">
+  <div>
+    <h1 style="margin: 0; font-size: 30px; font-weight: 700; letter-spacing: -0.4px">Shifts &amp; Sections</h1>
+    <div style="color: #a1a1a8; font-size: 13.5px; margin-top: 2px">Tonight · 6:00 PM to 11:30 PM · who cooks where and who serves which tables</div>
+  </div>
+  
+</div>
+<div style="display: flex; gap: 22px; border-bottom: 1px solid #1c1c20">
+  <sc-for list="{{tabs}}" as="t" hint-placeholder-count="2"><button type="button" onClick="{{t.pick}}" style="height: 44px; padding: 0; border: 0; background: transparent; font: inherit; font-size: 14.5px; font-weight: {{t.weight}}; color: {{t.fg}}; box-shadow: inset 0 -2px 0 {{t.line}}; cursor: pointer">{{t.label}} <span style="color: #8b8b93; font-weight: 500">{{t.count}}</span></button></sc-for>
+</div>
+<div style="display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 0">
+  <div style="padding-right: 36px">
+    <sc-if value="{{isK}}" hint-placeholder-val="{{true}}">
+      <div style="display: grid; grid-template-columns: minmax(0, 1fr) 150px 120px 120px; gap: 12px; color: #8b8b93; font-size: 12.5px; padding-bottom: 8px"><span>Chef</span><span>Now</span><span>Max at once</span><span></span></div>
+      <sc-for list="{{stations}}" as="s" hint-placeholder-count="4">
+        <div style="padding-top: {{s.pt}}; border-top: 1px solid {{s.rule}}; margin-top: {{s.pt}}">
+          <div style="display: flex; align-items: baseline; gap: 10px; padding-bottom: 4px"><span style="font-weight: 700">{{s.name}}</span><span style="color: #8b8b93; font-size: 12.5px">{{s.queue}}</span></div>
+          <sc-for list="{{s.chefs}}" as="c" hint-placeholder-count="2">
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) 150px 120px 120px; gap: 12px; align-items: center; min-height: 48px">
+              <span style="font-weight: 600">{{c.name}}</span>
+              <span style="font-size: 13px; color: {{c.cookFg}}">{{c.cooking}}</span>
+              <span style="display: flex; align-items: center; gap: 2px"><button type="button" onClick="{{c.minus}}" aria-label="Less" style="width: 32px; height: 32px; border: 1px solid #2c2c31; border-radius: 16px; background: transparent; color: #f2f2f3; font: inherit; font-size: 16px; cursor: pointer">−</button><span style="min-width: 44px; text-align: center; font-weight: 700">{{c.lim}}</span><button type="button" onClick="{{c.plus}}" aria-label="More" style="width: 32px; height: 32px; border: 1px solid #2c2c31; border-radius: 16px; background: transparent; color: #f2f2f3; font: inherit; font-size: 16px; cursor: pointer">+</button></span>
+              <button type="button" onClick="{{c.brk}}" style="height: 32px; padding: 0; border: 0; background: transparent; color: #7db0f9; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; text-align: right">{{c.brkLabel}}</button>
+            </div>
+          </sc-for>
+        </div>
+      </sc-for>
+    </sc-if>
+    <sc-if value="{{isF}}" hint-placeholder-val="{{false}}">
+      <div style="display: grid; grid-template-columns: minmax(0, 1fr) 120px 110px 80px 130px; gap: 12px; color: #8b8b93; font-size: 12.5px; padding-bottom: 8px"><span>Waiter</span><span>Area</span><span>Tables</span><span>Busy</span><span></span></div>
+      <sc-for list="{{waiters}}" as="w" hint-placeholder-count="5">
+        <div style="display: grid; grid-template-columns: minmax(0, 1fr) 120px 110px 80px 130px; gap: 12px; align-items: center; padding: 12px 0; border-top: 1px solid {{w.rule}}">
+          <div><div style="font-weight: 600">{{w.name}}</div><div style="font-size: 12.5px; color: {{w.statusFg}}">{{w.status}}</div></div>
+          <span style="color: #a1a1a8">{{w.area}}</span><span style="font-weight: 600">{{w.tables}}</span><span style="color: #a1a1a8">{{w.busy}}</span>
+          <button type="button" onClick="{{w.brk}}" style="height: 32px; padding: 0; border: 0; background: transparent; color: #7db0f9; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; text-align: right">{{w.brkLabel}}</button>
+        </div>
+      </sc-for>
+    </sc-if>
+  </div>
+  <aside style="padding-left: 36px; border-left: 1px solid #232327; display: flex; flex-direction: column; gap: 28px">
+    <section>
+      <h2 style="margin: 0; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8; margin-bottom: 6px">How the kitchen queue works</h2>
+      <div style="color: #a1a1a8; font-size: 13.5px; line-height: 1.6">Each dish goes to its station. All chefs at a station share one queue, and a chef taps Start to take a dish. A chef can't take more than their max at once. When a chef goes on break, dishes they haven't started go back to the queue.</div>
+    </section>
+    <section>
+      <h2 style="margin: 0; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8; margin-bottom: 6px">Alert rules</h2>
+      <sc-for list="{{rules}}" as="r" hint-placeholder-count="2">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid #1c1c20"><span style="color: #a1a1a8; font-size: 13.5px">{{r.label}}</span><span style="display: flex; align-items: center; gap: 2px"><button type="button" onClick="{{r.minus}}" aria-label="Less" style="width: 32px; height: 32px; border: 1px solid #2c2c31; border-radius: 16px; background: transparent; color: #f2f2f3; font: inherit; font-size: 16px; cursor: pointer">−</button><span style="min-width: 44px; text-align: center; font-weight: 700">{{r.val}}</span><button type="button" onClick="{{r.plus}}" aria-label="More" style="width: 32px; height: 32px; border: 1px solid #2c2c31; border-radius: 16px; background: transparent; color: #f2f2f3; font: inherit; font-size: 16px; cursor: pointer">+</button></span></div>
+      </sc-for>
+      <div style="color: #8b8b93; font-size: 12.5px; margin-top: 10px">Food ready, guest calls and bill requests go to the table's waiter first.</div>
+    </section>
+  </aside>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { tab: 'kitchen', lim: {}, brk: {}, rules: { area: 60, mgr: 120 } }; }
+  renderVals() {
+    var self = this, S = this.state;
+    var tab = S.tab;
+    var tabs = [['kitchen', 'Kitchen', '9 chefs'], ['floor', 'Floor', '5 waiters']].map(function (d) { var on = d[0] === tab;
+      return { label: d[1], count: d[2], weight: on ? 700 : 500, fg: on ? '#f2f2f3' : '#a1a1a8', line: on ? '#7db0f9' : 'transparent', pick: function () { self.setState({ tab: d[0] }); } }; });
+    var K = [
+      ['Tandoor', '7 waiting', [['ravi', 'Ravi Kumar', 2, 4], ['imran', 'Imran Shaikh', 3, 4], ['suresh', 'Suresh Pawar', 0, 4, true]]],
+      ['Curry', '6 waiting', [['anita', 'Anita Shah', 4, 5], ['meera', 'Meera Joshi', 3, 5]]],
+      ['Chinese', '3 waiting', [['ken', 'Kenji Rao', 3, 4], ['sam', 'Samir Khan', 1, 4]]],
+      ['South Indian', '2 waiting', [['sunil', 'Sunil Pawar', 2, 3], ['lata', 'Lata Iyer', 0, 3, true]]]
+    ];
+    var setL = function (id, v) { var n = Object.assign({}, S.lim); n[id] = Math.max(1, Math.min(8, v)); self.setState({ lim: n }); };
+    var togB = function (id, cur) { var n = Object.assign({}, S.brk); n[id] = !cur; self.setState({ brk: n }); };
+    var stations = K.map(function (k, si) { return { name: k[0], queue: k[1], rule: si ? '#232327' : 'transparent', pt: si ? '22px' : '0',
+      chefs: k[2].map(function (c) { var lim = S.lim[c[0]] || c[3], brk = c[0] in S.brk ? S.brk[c[0]] : !!c[4];
+        return { name: c[1], cooking: brk ? 'On break' : c[2] + ' of ' + lim + ' cooking', cookFg: brk ? '#f5b454' : (c[2] >= lim ? '#f5b454' : '#a1a1a8'), lim: lim,
+          minus: function () { setL(c[0], lim - 1); }, plus: function () { setL(c[0], lim + 1); },
+          brkLabel: brk ? 'Back on duty' : 'Send on break', brk: function () { togB(c[0], brk); } }; }) }; });
+    var W = [
+      ['priya', 'Priya Sharma', 'Main hall', 'T1 to T7', 5, false, ''],
+      ['rahul', 'Rahul Desai', 'Main hall', 'T8 to T14', 4, false, ''],
+      ['amit', 'Amit Verma', 'Terrace', 'T15 to T20', 3, false, ''],
+      ['neha', 'Neha Kulkarni', 'Terrace', 'T21 to T24', 0, true, 'Amit'],
+      ['john', 'John D\'Souza', 'Private room', 'P1 to P2', 1, false, '']
+    ];
+    var waiters = W.map(function (w, i) { var brk = w[0] in S.brk ? S.brk[w[0]] : w[5];
+      return { name: w[1], area: w[2], tables: w[3], busy: w[4] + ' busy', status: brk ? 'On break · tables covered by ' + (w[6] || 'Priya') : 'On duty', statusFg: brk ? '#f5b454' : '#5eb88a',
+        brkLabel: brk ? 'Back on duty' : 'Send on break', brk: function () { togB(w[0], brk); }, rule: i ? '#1c1c20' : 'transparent' }; });
+    var R = S.rules;
+    var setR = function (k, d) { var n = Object.assign({}, R); n[k] = Math.max(30, Math.min(300, n[k] + d)); self.setState({ rules: n }); };
+    var rules = [
+      { label: 'Pass to free waiters in the area after', val: R.area + ' s', minus: function () { setR('area', -15); }, plus: function () { setR('area', 15); } },
+      { label: 'Pass to the manager after', val: R.mgr + ' s', minus: function () { setR('mgr', -15); }, plus: function () { setR('mgr', 15); } }
+    ];
+    return { tabs: tabs, isK: tab === 'kitchen', isF: tab === 'floor', stations: stations, waiters: waiters, rules: rules };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Table · Waiter</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; overflow: hidden; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="flex: none; height: 56px; box-sizing: border-box; padding: 0 12px 0 4px; display: flex; align-items: center; gap: 4px">
+  <a href="App-Waiter-Tables.dc.html" aria-label="Back to my tables" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></a>
+  <div style="flex: 1; min-width: 0"><div style="font-size: 16px; font-weight: 700">Table 4 · #1048</div><div style="color: #a1a1a8; font-size: 12px">5 guests · 6 seats · seated 28 min</div></div>
+  <span style="background: transparent; border-radius: 0; padding: 0; font-size: 12px; font-weight: 600; color: #7fcfa3">Food ready</span>
+</header>
+<div style="flex: 1; min-height: 0; overflow: hidden; padding: 4px 16px 0; display: flex; flex-direction: column; gap: 16px">
+  <div>
+    <div style="display: flex; align-items: baseline; justify-content: space-between"><span style="font-size: 15px; font-weight: 600">{{served}} of {{total}} dishes served</span><span style="font-size: 18px; font-weight: 700; color: #7db0f9">{{pct}}%</span></div>
+    <div style="height: 5px; border-radius: 3px; background: #232327; margin-top: 8px"><div style="height: 5px; border-radius: 3px; background: #3b82f6; width: {{pct}}%"></div></div>
+  </div>
+  <div>
+    <sc-for list="{{items}}" as="i" hint-placeholder-count="6">
+      <div style="display: flex; align-items: center; gap: 10px; min-height: 58px; border-bottom: 1px solid #1c1c20">
+        <span style="flex: none; min-width: 48px; text-align: center; background: transparent; border-radius: 0; padding: 0; font-size: 11px; font-weight: 600; color: #a1a1a8">{{i.who}}</span>
+        <span style="flex: 1; min-width: 0"><span style="display: block; font-weight: 600; font-size: 14px; text-decoration: {{i.strike}}; color: {{i.nameFg}}">{{i.qty}} × {{i.name}}</span><span style="display: block; font-size: 12px; color: {{i.color}}">{{i.status}}</span></span>
+        <sc-if value="{{i.isReady}}" hint-placeholder-val="{{false}}"><button type="button" onClick="{{i.serve}}" style="height: 34px; padding: 0 12px; border: 0; border-radius: 17px; background: #3b82f6; color: #ffffff; font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer">Mark served</button></sc-if>
+        <sc-if value="{{i.isWaiting}}" hint-placeholder-val="{{false}}"><button type="button" onClick="{{i.cancel}}" style="height: 34px; padding: 0 10px; border: 0; border-radius: 17px; background: transparent; color: #e0705c; font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer">Cancel</button></sc-if>
+        <sc-if value="{{i.isCancelled}}" hint-placeholder-val="{{false}}"><button type="button" onClick="{{i.undo}}" style="height: 34px; padding: 0 10px; border: 0; border-radius: 17px; background: transparent; color: #7db0f9; font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer">Undo</button></sc-if>
+      </div>
+    </sc-for>
+  </div>
+  <div style="display: flex; justify-content: space-between; color: #a1a1a8; font-size: 13.5px"><span>Running total incl. GST</span><span style="color: #f2f2f3; font-weight: 700">₹{{bill}}</span></div>
+</div>
+<div style="flex: none; padding: 12px 16px 16px; display: flex; gap: 10px">
+  <a href="App-TakeOrder.dc.html" style="flex: 1; height: 50px; border-radius: 25px; background: #17171a; display: flex; align-items: center; justify-content: center; font-weight: 600">Add items</a>
+  <a href="App-Bill.dc.html" style="flex: 1; height: 50px; border-radius: 25px; background: #f2f2f3; color: #0b0b0c; display: flex; align-items: center; justify-content: center; font-weight: 600">Bill</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { s: {} }; }
+  renderVals() {
+    var self = this, S = this.state.s;
+    var raw = [['a', 'G1', 2, 'Paneer Tikka', 280, 'served'], ['b', 'Shared', 4, 'Butter Naan', 60, 'served'], ['c', 'G2', 1, 'Sweet Lassi', 110, 'served'], ['d', 'G3', 1, 'Butter Chicken', 380, 'ready'], ['e', 'G4', 1, 'Dal Makhani', 240, 'cooking'], ['f', 'G5', 1, 'Veg Biryani', 260, 'waiting']];
+    var L = { served: ['Served', '#7fcfa3'], ready: ['Ready at the pass', '#9cc3fa'], cooking: ['Cooking · Anita · 6 min left', '#f5c27a'], waiting: ['Waiting · kitchen has not started', '#a1a1a8'], cancelled: ['Cancelled', '#8b8b93'] };
+    var served = 0, total = 0, bill = 0;
+    var set = function (id, v) { var n = Object.assign({}, self.state.s); n[id] = v; self.setState({ s: n }); };
+    var items = raw.map(function (r) { var st = S[r[0]] || r[5]; if (st !== 'cancelled') { total += 1; bill += r[2] * r[4]; } if (st === 'served') served += 1;
+      return { who: r[1], qty: r[2], name: r[3], status: L[st][0], color: L[st][1], strike: st === 'cancelled' ? 'line-through' : 'none', nameFg: st === 'cancelled' ? '#8b8b93' : '#f2f2f3',
+        isReady: st === 'ready', isWaiting: st === 'waiting', isCancelled: st === 'cancelled',
+        serve: function () { set(r[0], 'served'); }, cancel: function () { set(r[0], 'cancelled'); }, undo: function () { set(r[0], r[5]); } }; });
+    return { items: items, served: served, total: total, pct: Math.round(served / total * 100), bill: Math.round(bill * 1.05).toLocaleString('en-IN') };
+  }
+}
+</script>
+</body>
+</html>

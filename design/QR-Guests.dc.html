@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Guests · Customer QR</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; overflow: hidden; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="flex: none; padding: 16px 16px 8px; display: flex; align-items: center; gap: 12px">
+  <span style="width: 44px; height: 44px; border-radius: 22px; background: #232327; display: flex; align-items: center; justify-content: center; font-weight: 700">SG</span>
+  <div style="flex: 1; min-width: 0"><div style="font-size: 17px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Spice Garden</div><div style="color: #a1a1a8; font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Table 8 · 6 seats</div></div>
+  <button type="button" onClick="{{cw.toggle}}" aria-expanded="{{cw.open}}" style="flex: none; display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border: 0; border-radius: 18px; background: {{cw.btnBg}}; color: {{cw.btnFg}}; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"></path></svg>{{cw.btnLabel}}</button>
+</header>
+<sc-if value="{{cw.open}}" hint-placeholder-val="{{false}}">
+<div style="flex: none; margin: 4px 16px 8px; background: #111113; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px; box-shadow: inset 0 0 0 1px #2c2c31">
+  <div style="font-size: 16px; font-weight: 700">What do you need?</div>
+  <div style="display: flex; flex-wrap: wrap; gap: 8px">
+    <sc-for list="{{cw.reasons}}" as="r" hint-placeholder-count="5">
+      <button type="button" onClick="{{r.pick}}" aria-pressed="{{r.on}}" style="height: 38px; padding: 0 14px; border: 0; border-radius: 19px; background: {{r.bg}}; color: {{r.fg}}; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">{{r.label}}</button>
+    </sc-for>
+  </div>
+  <div style="display: flex; gap: 8px">
+    <button type="button" onClick="{{cw.close}}" style="flex: 1; height: 44px; border: 0; border-radius: 22px; background: #232327; color: #f2f2f3; font: inherit; font-weight: 600; cursor: pointer">Not now</button>
+    <button type="button" onClick="{{cw.send}}" style="flex: 1.4; height: 44px; border: 0; border-radius: 22px; background: #3b82f6; color: #ffffff; font: inherit; font-weight: 600; cursor: pointer">Call waiter</button>
+  </div>
+</div>
+</sc-if>
+<sc-if value="{{cw.called}}" hint-placeholder-val="{{false}}">
+<div role="status" style="flex: none; margin: 4px 16px 8px; background: rgba(94,184,138,0.12); border-radius: 14px; padding: 10px 12px 10px 14px; display: flex; align-items: center; gap: 10px">
+  <span style="flex: none; width: 8px; height: 8px; border-radius: 4px; background: #5eb88a"></span>
+  <span style="flex: 1; min-width: 0"><span style="display: block; font-weight: 600; color: #7fcfa3">Priya is coming to Table 8</span><span style="display: block; color: #a1a1a8; font-size: 12px">{{cw.reason}} · usually within 2 min</span></span>
+  <button type="button" onClick="{{cw.cancel}}" style="height: 36px; padding: 0 6px; border: 0; background: transparent; color: #a1a1a8; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Cancel</button>
+</div>
+</sc-if>
+
+<div style="flex: 1; padding: 24px 16px; display: flex; flex-direction: column; gap: 18px">
+  <div style="background: #111113; border-radius: 18px; padding: 22px; display: flex; flex-direction: column; gap: 16px">
+    <div style="font-size: 22px; font-weight: 700">Hi Rahul! How many of you are at the table?</div>
+    <div style="color: #a1a1a8; font-size: 13.5px">This helps us serve the right number of plates. Table 8 has 6 seats.</div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
+      <sc-for list="{{counts}}" as="c" hint-placeholder-count="6">
+        <button type="button" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="height: 56px; border: 0; border-radius: 14px; background: {{c.bg}}; color: {{c.fg}}; font: inherit; font-size: 20px; font-weight: 700; cursor: pointer">{{c.n}}</button>
+      </sc-for>
+    </div>
+    <a href="QR-Menu.dc.html" style="height: 50px; border-radius: 25px; background: #3b82f6; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600">See the menu</a>
+  </div>
+  <div style="color: #8b8b93; font-size: 12.5px; text-align: center">More than 6? Ask a waiter to join tables.</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { guests: 4 }; }
+  renderVals() {
+    var _cs = this.state, _me = this;
+    var cw = {
+      open: !!_cs.cwOpen, called: !!_cs.cwCalled, reason: _cs.cwReason || 'Help with order',
+      btnLabel: _cs.cwCalled ? 'Coming' : 'Call waiter', btnBg: _cs.cwCalled ? 'rgba(94,184,138,0.16)' : '#17171a', btnFg: _cs.cwCalled ? '#7fcfa3' : '#f2f2f3',
+      reasons: ['Help with order', 'Water', 'Cutlery', 'Clean the table', 'Something else'].map(function (r) { var on = r === (_cs.cwReason || 'Help with order'); return { label: r, on: on, bg: on ? '#f2f2f3' : '#17171a', fg: on ? '#0b0b0c' : '#a1a1a8', pick: function () { _me.setState({ cwReason: r }); } }; }),
+      toggle: function () { _me.setState({ cwOpen: !_cs.cwOpen }); },
+      close: function () { _me.setState({ cwOpen: false }); },
+      send: function () { _me.setState({ cwOpen: false, cwCalled: true }); },
+      cancel: function () { _me.setState({ cwCalled: false }); }
+    };
+    var self = this;
+    return { cw: cw, counts: [1, 2, 3, 4, 5, 6].map(function (n) { var on = n === self.state.guests; return { n: n, on: on, bg: on ? '#3b82f6' : '#17171a', fg: on ? '#ffffff' : '#f2f2f3', pick: function () { self.setState({ guests: n }); } }; }) };
+  }
+}
+</script>
+</body>
+</html>

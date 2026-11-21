@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>My queue · Chef</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; overflow: hidden; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="flex: none; height: 64px; box-sizing: border-box; padding: 0 16px; display: flex; align-items: center; gap: 12px">
+  <span style="flex: none; width: 40px; height: 40px; border-radius: 20px; background: #232327; display: flex; align-items: center; justify-content: center; font-weight: 700">R</span>
+  <div style="flex: 1; min-width: 0"><div style="font-size: 16px; font-weight: 700">Ravi Kumar</div><div style="color: #a1a1a8; font-size: 12.5px">Tandoor station</div></div>
+  <button type="button" onClick="{{toggleBreak}}" style="height: 34px; padding: 0 12px; border: 0; border-radius: 17px; background: {{dutyBg}}; color: #7fcfa3; font: inherit; font-size: 12.5px; font-weight: 700; display: flex; align-items: center; gap: 6px; cursor: pointer"><span style="width: 7px; height: 7px; border-radius: 4px; background: {{dutyDot}}"></span>{{dutyLabel}}</button>
+</header>
+<div style="flex: 1; min-height: 0; overflow: hidden; padding: 0 16px; display: flex; flex-direction: column; gap: 14px">
+  <a href="App-Station-Queue.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 44px; border-bottom: 1px solid #1c1c20"><span style="flex: 1; color: #a1a1a8; font-size: 13px">Shared with Imran and Suresh · 7 waiting</span><span style="display: flex; align-items: center; gap: 4px; color: #7db0f9; font-size: 13px; font-weight: 600">Station queue<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></span></a>
+  <div role="tablist" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid #1c1c20">
+    <sc-for list="{{tabs}}" as="t" hint-placeholder-count="4">
+      <button type="button" role="tab" aria-selected="{{t.on}}" onClick="{{t.pick}}" style="height: 64px; padding: 0; border: 0; background: transparent; color: #f2f2f3; font: inherit; text-align: left; box-shadow: inset 0 -2px 0 {{t.line}}; cursor: pointer">
+        <span style="display: block; font-size: 22px; font-weight: 700; color: {{t.numFg}}">{{t.n}}</span>
+        <span style="display: flex; align-items: center; gap: 5px; font-size: 12.5px; color: {{t.labelFg}}; font-weight: {{t.weight}}"><span style="width: 6px; height: 6px; border-radius: 3px; background: {{t.dot}}"></span>{{t.label}}</span>
+      </button>
+    </sc-for>
+  </div>
+
+  <sc-if value="{{showCancel}}" hint-placeholder-val="{{false}}">
+    <div role="alert" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: rgba(224,112,92,0.12)">
+      <span style="flex: 1; min-width: 0"><span style="display: block; font-weight: 600; color: #f09a88">Stop: Table 3 cancelled</span><span style="display: block; color: #a1a1a8; font-size: 12.5px">1 × Malai Tikka · guest changed mind</span></span>
+      <button type="button" onClick="{{ackCancel}}" style="height: 34px; padding: 0 14px; border: 0; border-radius: 17px; background: #f2f2f3; color: #0b0b0c; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Got it</button>
+    </div>
+  </sc-if>
+
+  <div style="display: flex; justify-content: space-between; color: #8b8b93; font-size: 12.5px"><span>{{listNote}}</span><span>Oldest first</span></div>
+
+  <sc-if value="{{showDone}}" hint-placeholder-val="{{false}}"><a href="App-Chef-Done.dc.html" style="display: flex; align-items: center; justify-content: space-between; padding: 16px; border-radius: 16px; background: #111113"><span><span style="display: block; font-weight: 600">48 dishes made today</span><span style="display: block; color: #8b8b93; font-size: 12.5px">Avg 12 min · 92% on time</span></span><span style="color: #7db0f9; font-weight: 600">See all</span></a></sc-if>
+  <sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}"><div style="color: #8b8b93; padding: 24px 0; text-align: center">Nothing here right now.</div></sc-if>
+
+  <div style="display: flex; flex-direction: column; gap: 10px">
+    <sc-for list="{{tickets}}" as="k" hint-placeholder-count="3">
+      <article style="background: #111113; border-radius: 16px; padding: 14px; box-shadow: inset 0 0 0 1px {{k.ring}}">
+        <a href="App-Chef-Ticket.dc.html" style="display: flex; align-items: center; gap: 10px">
+          <span style="font-size: 20px; font-weight: 700">{{k.table}}</span>
+          <span style="color: #8b8b93; font-size: 12.5px">#{{k.id}} · {{k.waiter}}</span>
+          <span style="margin-left: auto; display: flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 700; color: {{k.timeFg}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2 2M10 3h4"></path></svg>{{k.time}}</span>
+        </a>
+        <div style="display: flex; flex-direction: column; gap: 8px; margin: 12px 0">
+          <sc-for list="{{k.items}}" as="i" hint-placeholder-count="2">
+            <div style="display: flex; gap: 10px">
+              <span style="flex: none; min-width: 26px; font-size: 16px; font-weight: 700; color: #7db0f9">{{i.qty}}×</span>
+              <span style="flex: 1; min-width: 0"><span style="display: block; font-size: 15px; font-weight: 600">{{i.name}}</span><sc-if value="{{i.hasNote}}" hint-placeholder-val="{{false}}"><span style="display: block; color: #f5c27a; font-size: 12.5px">{{i.note}}</span></sc-if></span>
+              <sc-if value="{{i.hasWho}}" hint-placeholder-val="{{false}}"><span style="flex: none; align-self: flex-start; background: transparent; border-radius: 0; padding: 0; font-size: 11px; font-weight: 600; color: #a1a1a8">{{i.who}}</span></sc-if>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{k.canAct}}" hint-placeholder-val="{{true}}">
+          <button type="button" onClick="{{k.act}}" style="width: 100%; height: 46px; border: 0; border-radius: 23px; background: {{k.btnBg}}; color: {{k.btnFg}}; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">{{k.btn}}</button>
+        </sc-if>
+        <sc-if value="{{k.waiting}}" hint-placeholder-val="{{false}}">
+          <div style="height: 46px; border-radius: 23px; background: rgba(94,184,138,0.12); color: #7fcfa3; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600"><span style="width: 7px; height: 7px; border-radius: 4px; background: #5eb88a"></span>At the pass · {{k.waiter}} notified</div>
+        </sc-if>
+      </article>
+    </sc-for>
+  </div>
+</div>
+<nav aria-label="Main" style="flex: none; box-sizing: border-box; padding: 8px 16px 14px; background: #0b0b0c"><div style="height: 58px; box-sizing: border-box; border-radius: 29px; background: #17171a; padding: 5px; display: flex; gap: 4px">
+<a href="App-Chef.dc.html" aria-label="Queue" aria-current="page" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #f2f2f3; background: #2c2c31"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"></path></svg></a>
+<a href="App-Chef-Done.dc.html" aria-label="Done" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"></path></svg></a>
+<a href="App-Chef-Stock.dc.html" aria-label="Stock" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4zM3 7v10l9 4 9-4V7M12 11v10"></path></svg></a>
+<a href="App-Notifications.dc.html" aria-label="Alerts" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg></a>
+<a href="App-Profile.dc.html" aria-label="Profile" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center"><span style="width: 26px; height: 26px; border-radius: 13px; background: #232327; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">R</span></a>
+</div></nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { tab: 'queue', st: {}, cancelAck: false }; }
+  renderVals() {
+    var self = this, st = this.state;
+
+    var _onBreak = !!this.state.onBreak, _me = this;
+    var duty = { dutyLabel: _onBreak ? 'On break' : 'On duty', dutyBg: 'transparent', dutyFg: _onBreak ? '#f5c27a' : '#7fcfa3', dutyDot: _onBreak ? '#f5b454' : '#5eb88a', toggleBreak: function () { _me.setState({ onBreak: !_onBreak }); } };
+
+    var T = [
+      ['a', 'T7', 1049, 'Amit', 22, 18, 'cooking', [[2, 'Tandoori Chicken', 'Extra crispy', 'G1'], [4, 'Garlic Naan', '', 'Shared']]],
+      ['b', 'T4', 1048, 'Priya', 9, 15, 'cooking', [[2, 'Paneer Tikka', 'Medium spicy · No onion', 'G1'], [4, 'Butter Naan', 'Extra butter', 'Shared']]],
+      ['c', 'T14', 1051, 'Rohit', 4, 12, 'queue', [[1, 'Hara Bhara Kabab', 'No onion', 'G2']]],
+      ['d', 'T8', 1052, 'Priya', 1, 15, 'queue', [[1, 'Paneer Tikka', '', 'G1'], [1, 'Tandoori Chicken', '', 'G2'], [2, 'Butter Naan', '', 'Shared']]],
+      ['e', 'T11', 1053, 'Rohit', 0, 10, 'queue', [[3, 'Tandoori Roti', '', ''], [1, 'Malai Tikka', 'Less spicy', '']]],
+      ['f', 'T9', 1047, 'Rohit', 2, 0, 'ready', [[1, 'Tandoori Chicken', '', ''], [4, 'Butter Naan', '', '']]]
+    ];
+
+    var statusOf = function (t) { return st.st[t[0]] || t[6]; };
+    var next = { queue: 'cooking', cooking: 'ready', ready: 'done' };
+    var counts = { queue: 0, cooking: 0, ready: 0, done: 48 };
+    T.forEach(function (t) { counts[statusOf(t)] += 1; });
+    var tab = st.tab;
+    var tickets = T.filter(function (t) { return statusOf(t) === tab; }).map(function (t) {
+      var s = statusOf(t), late = s !== 'ready' && t[5] && t[4] > t[5];
+      var time = s === 'ready' ? 'Ready ' + t[4] + 'm ago' : (t[4] === 0 ? 'Just now' : t[4] + ' min' + (late ? ' · late' : ''));
+      return { id: t[2], table: t[1], waiter: t[3], time: time, timeFg: late ? '#f5b454' : '#8b8b93', ring: late ? 'rgba(245,180,84,0.45)' : 'transparent',
+        items: t[7].map(function (i) { return { qty: i[0], name: i[1], note: i[2], hasNote: i[2] !== '', who: i[3], hasWho: i[3] !== '' }; }),
+        canAct: s !== 'ready', waiting: s === 'ready',
+        btn: s === 'queue' ? 'Start cooking' : 'Mark ready', btnBg: s === 'queue' ? '#f2f2f3' : '#3b82f6', btnFg: s === 'queue' ? '#0b0b0c' : '#ffffff',
+        act: function () { var n = Object.assign({}, self.state.st); n[t[0]] = next[s]; self.setState({ st: n }); } };
+    });
+    var defs = [['queue', 'Queue', '#a1a1a8'], ['cooking', 'Cooking', '#f5b454'], ['ready', 'Ready', '#5eb88a'], ['done', 'Done', '#3b82f6']];
+    var tabs = defs.map(function (d) { var on = d[0] === tab; return { label: d[1], n: counts[d[0]], on: on, dot: d[2], line: on ? '#7db0f9' : 'transparent', numFg: on ? '#f2f2f3' : '#a1a1a8', labelFg: on ? '#f2f2f3' : '#8b8b93', weight: on ? 700 : 500,
+      pick: function () { self.setState({ tab: d[0] }); } }; });
+    var notes = { queue: 'Waiting to start', cooking: 'On the fire now', ready: 'Waiting for the waiter to pick up', done: 'Finished today' };
+    return Object.assign({ tabs: tabs, tickets: tickets, isEmpty: tickets.length === 0 && tab !== 'done', showDone: tab === 'done', listNote: notes[tab], showCancel: !st.cancelAck, ackCancel: function () { self.setState({ cancelAck: true }); } }, duty);
+  }
+}
+</script>
+</body>
+</html>

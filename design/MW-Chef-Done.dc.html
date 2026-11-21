@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Done today · Chef · Mobile web</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; overflow: hidden; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="flex: none; height: 64px; box-sizing: border-box; padding: 0 16px; display: flex; align-items: center; gap: 12px">
+  <span style="flex: none; width: 40px; height: 40px; border-radius: 20px; background: #232327; display: flex; align-items: center; justify-content: center; font-weight: 700">R</span>
+  <div style="flex: 1; min-width: 0"><div style="font-size: 16px; font-weight: 700">Ravi Kumar</div><div style="color: #a1a1a8; font-size: 12.5px">Done today · Tandoor</div></div>
+  <button type="button" onClick="{{toggleBreak}}" style="height: 34px; padding: 0 12px; border: 0; border-radius: 17px; background: {{dutyBg}}; color: {{dutyFg}}; font: inherit; font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer"><span style="width: 7px; height: 7px; border-radius: 4px; background: {{dutyDot}}"></span>{{dutyLabel}}</button>
+</header>
+<div style="flex: 1; min-height: 0; overflow: hidden; padding: 0 16px; display: flex; flex-direction: column; gap: 20px">
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding-bottom: 14px; border-bottom: 1px solid #1c1c20">
+    <div><div style="font-size: 24px; font-weight: 700">48</div><div style="color: #8b8b93; font-size: 12px">Dishes made</div></div>
+    <div><div style="font-size: 24px; font-weight: 700">12m</div><div style="color: #8b8b93; font-size: 12px">Avg prep time</div></div>
+    <div><div style="font-size: 24px; font-weight: 700; color: #7fcfa3">92%</div><div style="color: #8b8b93; font-size: 12px">On time</div></div>
+  </div>
+  <section>
+    <h2 style="margin: 0 0 10px; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">Dishes per hour</h2>
+    <div style="display: flex; align-items: flex-end; gap: 6px; height: 90px">
+      <sc-for list="{{bars}}" as="b" hint-placeholder-count="6"><div style="flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; align-items: center"><span style="font-size: 11px; color: #a1a1a8">{{b.v}}</span><span style="width: 100%; border-radius: 3px; background: #3b82f6; opacity: {{b.op}}; height: {{b.pct}}%"></span></div></sc-for>
+    </div>
+    <div style="display: flex; gap: 6px; margin-top: 6px"><sc-for list="{{bars}}" as="b" hint-placeholder-count="6"><span style="flex: 1; text-align: center; color: #8b8b93; font-size: 11px">{{b.l}}</span></sc-for></div>
+  </section>
+  <section>
+    <h2 style="margin: 0 0 4px; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">Recent</h2>
+    <sc-for list="{{recent}}" as="r" hint-placeholder-count="6">
+      <div style="display: flex; align-items: center; gap: 12px; min-height: 52px; border-bottom: 1px solid #1c1c20">
+        <span style="flex: none; width: 52px; color: #8b8b93; font-size: 12.5px">{{r.time}}</span>
+        <span style="flex: 1; min-width: 0"><span style="display: block; font-weight: 600">{{r.qty}} × {{r.name}}</span><span style="display: block; color: #8b8b93; font-size: 12px">{{r.table}} · {{r.waiter}}</span></span>
+        <span style="font-size: 13px; font-weight: 600; color: {{r.fg}}">{{r.prep}}</span>
+      </div>
+    </sc-for>
+  </section>
+</div>
+<nav aria-label="Main" style="flex: none; box-sizing: border-box; padding: 8px 16px 14px; background: #0b0b0c"><div style="height: 58px; box-sizing: border-box; border-radius: 29px; background: #17171a; padding: 5px; display: flex; gap: 4px">
+<a href="MW-Chef.dc.html" aria-label="Queue" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"></path></svg></a>
+<a href="MW-Chef-Done.dc.html" aria-label="Done" aria-current="page" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #f2f2f3; background: #2c2c31"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"></path></svg></a>
+<a href="MW-Chef-Stock.dc.html" aria-label="Stock" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4zM3 7v10l9 4 9-4V7M12 11v10"></path></svg></a>
+<a href="MW-Notifications.dc.html" aria-label="Alerts" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg></a>
+<a href="MW-Profile.dc.html" aria-label="Profile" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center"><span style="width: 26px; height: 26px; border-radius: 13px; background: #232327; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">R</span></a>
+</div></nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = {}; }
+  renderVals() {
+
+    var _onBreak = !!this.state.onBreak, _me = this;
+    var duty = { dutyLabel: _onBreak ? 'On break' : 'On duty', dutyBg: 'transparent', dutyFg: _onBreak ? '#f5c27a' : '#7fcfa3', dutyDot: _onBreak ? '#f5b454' : '#5eb88a', toggleBreak: function () { _me.setState({ onBreak: !_onBreak }); } };
+
+    var hv = [4, 9, 6, 3, 11, 15], hl = ['5p', '6p', '7p', '8p', '9p', '10p'];
+    var bars = hv.map(function (v, i) { return { v: v, l: hl[i], pct: Math.round(v / 15 * 80), op: i === hv.length - 1 ? 1 : 0.55 }; });
+    var R = [['10:02', 'T9', 'Rohit', 1, 'Tandoori Chicken', 16, 18], ['10:02', 'T9', 'Rohit', 4, 'Butter Naan', 4, 5], ['9:55', 'T12', 'Amit', 2, 'Paneer Tikka', 11, 12], ['9:48', 'T2', 'Amit', 4, 'Tandoori Roti', 3, 4], ['9:41', 'T15', 'Rohit', 1, 'Malai Tikka', 15, 12], ['9:36', 'T5', 'Priya', 6, 'Butter Naan', 5, 5]];
+    var recent = R.map(function (r) { var late = r[5] > r[6]; return { time: r[0], table: r[1], waiter: r[2], qty: r[3], name: r[4], prep: r[5] + ' min', fg: late ? '#f5c27a' : '#7fcfa3' }; });
+    return Object.assign({ bars: bars, recent: recent }, duty);
+  }
+}
+</script>
+</body>
+</html>

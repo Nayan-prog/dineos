@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Billing · Mobile web</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="position: relative; flex: none; height: 56px; box-sizing: border-box; padding: 0 8px 0 4px; display: flex; align-items: center"><a href="MW-Menu.dc.html" aria-label="Open menu" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></a><span style="flex: 1"></span><a href="MW-Dashboard.dc.html" style="position: absolute; left: 50%; transform: translateX(-50%); font-family: Comfortaa, sans-serif; font-weight: 700; font-size: 20px">DineOS</a><a href="MW-Notifications.dc.html" aria-label="Notifications" style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg><span style="position: absolute; top: 11px; right: 12px; width: 8px; height: 8px; border-radius: 4px; background: #3b82f6"></span></a></header>
+<div style="display: flex; flex-wrap: wrap">
+
+<main style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; padding: 8px 16px 24px; max-width: 1180px; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px">
+  <div>
+    <h1 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.3px">Billing</h1>
+    <div style="color: #a1a1a8; font-size: 13.5px; margin-top: 2px">Open bills, payments and GST · today ₹48,260 collected</div>
+  </div>
+  
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+  <section style="flex: 1 1 360px; min-width: 0">
+    <h2 style="margin: 0 0 12px; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">Bills</h2>
+    <div style="background: #111113; border-radius: 18px; padding: 6px">
+      <sc-for list="{{bills}}" as="b" hint-placeholder-count="7">
+        <button type="button" onClick="{{b.pick}}" aria-pressed="{{b.on}}" style="width: 100%; display: flex; align-items: center; gap: 12px; min-height: 58px; padding: 0 12px; border: 0; border-radius: 12px; background: {{b.bg}}; color: #f2f2f3; font: inherit; text-align: left; cursor: pointer">
+          <span style="flex: none; width: 40px; height: 40px; border-radius: 20px; background: #232327; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px">T{{b.table}}</span>
+          <span style="flex: 1; min-width: 0"><span style="display: block; font-weight: 600">#{{b.id}} · {{b.waiter}}</span><span style="display: block; color: #8b8b93; font-size: 12.5px">{{b.items}} items · {{b.time}}</span></span>
+          <span style="text-align: right"><span style="display: block; font-weight: 700">₹{{b.amount}}</span><span style="display: block; font-size: 12px; font-weight: 600; color: {{b.color}}">{{b.status}}</span></span>
+        </button>
+      </sc-for>
+    </div>
+  </section>
+  <section style="flex: 1 1 380px; min-width: 0">
+    <h2 style="margin: 0 0 12px; font-family: Comfortaa, sans-serif; font-size: 15px; font-weight: 700; color: #a1a1a8">Bill preview</h2>
+    <div style="background: #111113; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <div><div style="font-size: 20px; font-weight: 700">Table {{sel.table}}</div><div style="color: #8b8b93; font-size: 12.5px">Bill #{{sel.id}} · Waiter {{sel.waiter}}</div></div>
+        <span style="background: transparent; border-radius: 0; padding: 0; font-size: 12px; font-weight: 600; color: {{sel.color}}">{{sel.status}}</span>
+      </div>
+      <div>
+        <sc-for list="{{lines}}" as="l" hint-placeholder-count="5">
+          <div style="display: flex; gap: 10px; min-height: 36px; align-items: center; border-bottom: 1px solid #1c1c20">
+            <span style="color: #a1a1a8; width: 26px">{{l.qty}}×</span><span style="flex: 1">{{l.name}}</span><span>₹{{l.total}}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; color: #a1a1a8">
+        <div style="display: flex; justify-content: space-between"><span>Subtotal</span><span>₹{{sub}}</span></div>
+        <div style="display: flex; justify-content: space-between"><span>CGST 2.5%</span><span>₹{{tax}}</span></div>
+        <div style="display: flex; justify-content: space-between"><span>SGST 2.5%</span><span>₹{{tax}}</span></div>
+        <div style="display: flex; justify-content: space-between; color: #f2f2f3; font-size: 18px; font-weight: 700; margin-top: 4px"><span>Total</span><span>₹{{grand}}</span></div>
+      </div>
+      <div>
+        <div style="color: #8b8b93; font-size: 12.5px; margin-bottom: 8px">Payment method</div>
+        <div style="display: flex; gap: 8px">
+          <sc-for list="{{methods}}" as="m" hint-placeholder-count="3">
+            <button type="button" onClick="{{m.pick}}" aria-pressed="{{m.on}}" style="flex: 1; height: 42px; border: 0; border-radius: 12px; background: {{m.bg}}; color: {{m.fg}}; font: inherit; font-weight: 600; cursor: pointer">{{m.label}}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display: flex; gap: 8px">
+        <button type="button" style="flex: 1; height: 46px; border: 0; border-radius: 23px; background: #232327; color: #f2f2f3; font: inherit; font-weight: 600; cursor: pointer">Split bill</button>
+        <button type="button" style="flex: 1; height: 46px; border: 0; border-radius: 23px; background: #232327; color: #f2f2f3; font: inherit; font-weight: 600; cursor: pointer">Print</button>
+        <button type="button" style="flex: 1.4; height: 46px; border: 0; border-radius: 23px; background: #3b82f6; color: #ffffff; font: inherit; font-weight: 600; cursor: pointer">Collect ₹{{grand}}</button>
+      </div>
+    </div>
+  </section>
+</div>
+</main>
+</div>
+<nav aria-label="Main" style="flex: none; box-sizing: border-box; padding: 8px 16px 14px; background: #0b0b0c"><div style="height: 58px; box-sizing: border-box; border-radius: 29px; background: #17171a; padding: 5px; display: flex; gap: 4px"><a href="MW-Dashboard.dc.html" aria-label="Dashboard" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"></path></svg></a><a href="MW-Orders.dc.html" aria-label="Orders" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg></a><a href="MW-Tables.dc.html" aria-label="Tables" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18M5 9v11M19 9v11M8 9V6h8v3"></path></svg></a><a href="MW-Menu.dc.html" aria-label="More" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></a><a href="MW-Profile.dc.html" aria-label="Profile" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center"><span style="width: 26px; height: 26px; border-radius: 13px; background: #232327; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">N</span></a></div></nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1600}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { sel: 0, method: 'UPI' }; }
+  renderVals() {
+    var self = this;
+    var raw = [
+      [1044, 5, 'Priya', 5, '61 min', 'Bill asked', '#d6c3ae', [[1, 'Butter Chicken', 380], [1, 'Veg Biryani', 260], [2, 'Rasmalai', 140], [4, 'Butter Naan', 60], [2, 'Sweet Lassi', 110]]],
+      [1041, 11, 'Amit', 4, '55 min', 'Bill asked', '#d6c3ae', [[2, 'Paneer Tikka', 280], [1, 'Dal Makhani', 240], [4, 'Tandoori Roti', 30], [2, 'Masala Lemonade', 90]]],
+      [1039, 18, 'Amit', 6, '48 min', 'Bill asked', '#d6c3ae', [[2, 'Tandoori Chicken', 360], [2, 'Butter Chicken', 380], [6, 'Garlic Naan', 70], [3, 'Gulab Jamun', 120]]],
+      [1043, 2, 'Amit', 3, '9:12 PM', 'Paid · UPI', '#5eb88a', [[1, 'Dal Makhani', 240], [4, 'Tandoori Roti', 30], [1, 'Sweet Lassi', 110]]],
+      [1040, 6, 'Priya', 4, '8:58 PM', 'Paid · Card', '#5eb88a', [[1, 'Hakka Noodles', 220], [1, 'Chilli Chicken', 320], [2, 'Manchow Soup', 160]]],
+      [1037, 13, 'Rohit', 2, '8:40 PM', 'Paid · Cash', '#5eb88a', [[2, 'Masala Dosa', 180], [2, 'Filter Coffee', 60]]]
+    ];
+    var fmt = function (n) { return Math.round(n).toLocaleString('en-IN'); };
+    var tot = function (r) { return r[7].reduce(function (s, l) { return s + l[0] * l[2]; }, 0); };
+    var bills = raw.map(function (r, i) { var on = i === self.state.sel; return { id: r[0], table: r[1], waiter: r[2], items: r[3], time: r[4], status: r[5], color: r[6], amount: fmt(tot(r) * 1.05), on: on, bg: on ? '#1c1c20' : 'transparent', pick: function () { self.setState({ sel: i }); } }; });
+    var r = raw[this.state.sel], sub = tot(r);
+    var lines = r[7].map(function (l) { return { qty: l[0], name: l[1], total: fmt(l[0] * l[2]) }; });
+    var methods = ['Cash', 'UPI', 'Card'].map(function (m) { var on = m === self.state.method; return { label: m, on: on, bg: on ? '#f2f2f3' : '#17171a', fg: on ? '#0b0b0c' : '#a1a1a8', pick: function () { self.setState({ method: m }); } }; });
+    return { bills: bills, lines: lines, methods: methods, sub: fmt(sub), tax: fmt(sub * 0.025), grand: fmt(sub * 1.05), sel: { id: r[0], table: r[1], waiter: r[2], status: r[5], color: r[6] } };
+  }
+}
+</script>
+</body>
+</html>

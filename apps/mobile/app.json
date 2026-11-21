@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "DineOS",
+    "slug": "dineos-staff",
+    "scheme": "dineos",
+    "version": "1.0.0",
+    "orientation": "default",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#0b0b0c",
+    "splash": {
+      "backgroundColor": "#0b0b0c",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "in.dineos.staff",
+      "backgroundColor": "#0b0b0c"
+    },
+    "android": {
+      "package": "in.dineos.staff",
+      "backgroundColor": "#0b0b0c"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-font"
+    ],
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#0b0b0c"
+    },
+    "androidNavigationBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#0b0b0c"
+    }
+  }
+}

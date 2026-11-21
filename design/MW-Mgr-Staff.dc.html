@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Team (Manager) · Mobile web</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0b0c}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; overflow: hidden; display: flex; flex-direction: column; background: #0b0b0c; color: #f2f2f3; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<header style="position: relative; flex: none; height: 56px; box-sizing: border-box; padding: 0 8px 0 4px; display: flex; align-items: center">
+  <a href="MW-Menu.dc.html" aria-label="Open menu" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></a>
+  <span style="flex: 1"></span>
+  <span style="position: absolute; left: 50%; transform: translateX(-50%); font-family: Comfortaa, sans-serif; font-weight: 700; font-size: 20px">DineOS</span>
+  <a href="MW-Notifications.dc.html" aria-label="Notifications" style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg><span style="position: absolute; top: 11px; right: 12px; width: 8px; height: 8px; border-radius: 4px; background: #3b82f6"></span></a>
+</header>
+<div style="flex: 1; min-height: 0; overflow: hidden; padding: 4px 16px 0; display: flex; flex-direction: column; gap: 16px">
+  <div style="display: flex; align-items: flex-end; justify-content: space-between">
+    <div>
+      <h1 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.3px">Team</h1>
+      <div style="color: #a1a1a8; font-size: 13px; margin-top: 2px">14 of 18 on duty · Evening shift</div>
+    </div>
+    <span style="display: flex; gap: 16px"><a href="MW-Shifts.dc.html" style="display: flex; align-items: center; height: 40px; color: #7db0f9; font-size: 14px; font-weight: 600">Shifts</a><a href="#" style="display: flex; align-items: center; gap: 4px; height: 40px; color: #7db0f9; font-size: 14px; font-weight: 600"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add staff</a></span>
+  </div>
+  <div style="display: flex; gap: 20px; border-bottom: 1px solid #1c1c20">
+    <sc-for list="{{roles}}" as="r" hint-placeholder-count="4"><button type="button" onClick="{{r.pick}}" aria-pressed="{{r.on}}" style="flex: none; height: 40px; padding: 0; border: 0; background: transparent; color: {{r.fg}}; font: inherit; font-size: 14px; font-weight: {{r.weight}}; box-shadow: inset 0 -2px 0 {{r.line}}; cursor: pointer">{{r.label}}</button></sc-for>
+  </div>
+  <div>
+    <sc-for list="{{people}}" as="p" hint-placeholder-count="7">
+      <div style="display: flex; align-items: center; gap: 12px; min-height: 60px; border-bottom: 1px solid #1c1c20">
+        <span style="position: relative; flex: none; width: 40px; height: 40px; border-radius: 20px; background: #232327; display: flex; align-items: center; justify-content: center; font-weight: 600">{{p.initial}}<span style="position: absolute; right: -1px; bottom: -1px; width: 11px; height: 11px; border-radius: 6px; background: {{p.dot}}; box-shadow: 0 0 0 2px #0b0b0c"></span></span>
+        <span style="flex: 1; min-width: 0"><span style="display: block; font-weight: 600">{{p.name}}</span><span style="display: block; color: #8b8b93; font-size: 12.5px">{{p.role}} · {{p.area}}</span></span>
+        <span style="text-align: right"><span style="display: block; font-weight: 600; font-size: 13.5px">{{p.today}}</span><span style="display: block; font-size: 12px; color: {{p.statusFg}}">{{p.status}}</span></span>
+      </div>
+    </sc-for>
+  </div>
+</div>
+<nav aria-label="Main" style="flex: none; box-sizing: border-box; padding: 8px 16px 14px; background: #0b0b0c"><div style="height: 58px; box-sizing: border-box; border-radius: 29px; background: #17171a; padding: 5px; display: flex; gap: 4px">
+<a href="MW-Dashboard.dc.html" aria-label="Dashboard" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"></path></svg></a>
+<a href="MW-Tables.dc.html" aria-label="Tables" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18M5 9v11M19 9v11M8 9V6h8v3"></path></svg></a>
+<a href="MW-Mgr-Staff.dc.html" aria-label="Team" aria-current="page" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #f2f2f3; background: #2c2c31"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2 20c0-3.3 3-5 7-5s7 1.7 7 5M17 11a2.5 2.5 0 1 0 0-5M18 15c2.5.3 4 1.6 4 4"></path></svg></a>
+<a href="MW-Notifications.dc.html" aria-label="Alerts" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; color: #a1a1a8; background: transparent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg></a>
+<a href="MW-Profile.dc.html" aria-label="Profile" style="flex: 1; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center"><span style="width: 26px; height: 26px; border-radius: 13px; background: #232327; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">V</span></a>
+</div></nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { role: 'All' }; }
+  renderVals() {
+    var self = this, role = this.state.role;
+    var col = { 'On duty': '#5eb88a', 'On break': '#f5b454', 'Off': '#6f6f78' };
+    var raw = [
+      ['Priya Sharma', 'Waiter', 'T1 to T7', '23 orders', 'On duty'], ['Amit Joshi', 'Waiter', 'T8 to T14', '19 orders', 'On duty'], ['Rohit More', 'Waiter', 'T15 to T20', '17 orders', 'On duty'],
+      ['Ravi Kumar', 'Chef', 'Tandoor', '48 items', 'On duty'], ['Anita Shah', 'Chef', 'Curry', '41 items', 'On duty'], ['Sunil Pawar', 'Chef', 'South Indian', '27 items', 'On break'],
+      ['Neha Kulkarni', 'Cashier', 'Front desk', '41 bills', 'On duty'], ['Sneha Patil', 'Waiter', 'Terrace', '—', 'Off']
+    ];
+    var people = raw.filter(function (p) { return role === 'All' || p[1] === role; }).map(function (p) { return { name: p[0], role: p[1], area: p[2], today: p[3], status: p[4], dot: col[p[4]], statusFg: col[p[4]], initial: p[0].charAt(0) }; });
+    var roles = [['All', 'All'], ['Waiter', 'Waiters'], ['Chef', 'Chefs'], ['Cashier', 'Cashiers']].map(function (r) { var on = r[0] === role; return { label: r[1], on: on, weight: on ? 700 : 500, fg: on ? '#f2f2f3' : '#a1a1a8', line: on ? '#7db0f9' : 'transparent', pick: function () { self.setState({ role: r[0] }); } }; });
+    return { people: people.slice(0, 8), roles: roles };
+  }
+}
+</script>
+</body>
+</html>
