@@ -1,10 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api, useTick } from '../../api';
-import { ago, Loading, Sec, Title, useMe, useToast } from '../../ui';
+import { ago, Loading, Sec, Title, useIsMobile, useMe, useToast } from '../../ui';
+import { ChefDoneM, ChefHomeM, ChefStockM } from './mobile';
 import { QRow } from '../manager/Service';
 
-/** Station queue: Waiting → Cooking → At the pass. Start takes a dish; nobody else can take it. */
-export function StationQueue() {
+/** Station queue: Waiting → Cooking → At the pass. Start takes a dish; nobody else can take it. Phones get the app's chef home. */
+export function StationQueue() { return useIsMobile() ? <ChefHomeM /> : <StationQueueDesktop />; }
+
+function StationQueueDesktop() {
   useTick(10000);
   const me = useMe();
   const qc = useQueryClient(); const toast = useToast();
@@ -60,7 +63,9 @@ export function StationQueue() {
   );
 }
 
-export function ChefDone() {
+export function ChefDone() { return useIsMobile() ? <ChefDoneM /> : <ChefDoneDesktop />; }
+
+function ChefDoneDesktop() {
   const { data } = useQuery({ queryKey: ['done'], queryFn: () => api('/kitchen/done') });
   if (!data) return <Loading />;
   const avg = data.length ? Math.round(data.reduce((a: number, d: any) => a + (new Date(d.readyAt).getTime() - new Date(d.claimedAt).getTime()) / 60000, 0) / data.length) : 0;
@@ -73,7 +78,9 @@ export function ChefDone() {
   );
 }
 
-export function ChefStock() {
+export function ChefStock() { return useIsMobile() ? <ChefStockM /> : <ChefStockDesktop />; }
+
+function ChefStockDesktop() {
   const me = useMe();
   const qc = useQueryClient();
   const { data } = useQuery({ queryKey: ['menu'], queryFn: () => api('/floor/menu') });

@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link, useNavigate, useRouterState } from '@tanstack/react-router';
 import { api, session, useLive, type Me } from './api';
+import { useNotifications } from './notify';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // ---------- icons (stroke icons from the design) ----------
 const P: Record<string, string> = {
@@ -28,7 +30,25 @@ const P: Record<string, string> = {
   clock: 'M12 5a8 8 0 1 0 0 16 8 8 0 0 0 0-16zM12 9v4l2.5 1.5',
   x: 'M6 6l12 12M18 6L6 18',
   chev: 'M9 6l6 6-6 6',
+  hamburger: 'M4 6h16M4 12h16M4 18h16',
+  crown: 'M4 18h16M5 18l-1-10 5 4 3-6 3 6 5-4-1 10',
+  shield: 'M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z',
+  eye: 'M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',
+  eyeoff: 'M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM4 4l16 16',
 };
+
+/** True below 900px (phones and small tablets). Updates when the window is resized. */
+const PHONE = '(max-width: 899px)';
+export function useIsMobile() {
+  const [m, setM] = useState(() => typeof window !== 'undefined' && window.matchMedia(PHONE).matches);
+  useEffect(() => {
+    const q = window.matchMedia(PHONE);
+    const on = () => setM(q.matches);
+    on(); q.addEventListener('change', on);
+    return () => q.removeEventListener('change', on);
+  }, []);
+  return m;
+}
 export function Icon({ name, size = 20, sw = 1.75 }: { name: keyof typeof P | string; size?: number; sw?: number }) {
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={P[name] ?? ''} /></svg>;
 }
@@ -59,9 +79,147 @@ export const homeFor = (role: string) => (role === 'waiter' ? '/w' : role === 'c
 const MeCtx = createContext<Me | null>(null);
 export const useMe = () => useContext(MeCtx)!;
 
+// ---------- phone shell (same structure as apps/mobile) ----------
+type Tab = { label: string; icon: string; to?: string; profile?: boolean; cta?: boolean };
+const PROFILE: Tab = { label: 'Profile', icon: 'user', profile: true };
+/** Bottom nav per role, same tabs and order as the app. A tab with no `to` has no web page yet. */
+const TABS: Record<string, Tab[]> = {
+  manager: [{ label: 'Dashboard', icon: 'dash', to: '/dashboard' }, { label: 'Tables', icon: 'tables', to: '/tables' }, { label: 'Team', icon: 'staff', to: '/staff' }, { label: 'Alerts', icon: 'bell', to: '/notifications' }, { label: 'Profile', icon: 'user', to: '/profile' }],
+  waiter: [{ label: 'Home', icon: 'home', to: '/w' }, { label: 'My tables', icon: 'tables', to: '/w/tables' }, { label: 'Order', icon: 'plus', to: '/w/take-order', cta: true }, { label: 'Orders', icon: 'orders', to: '/w/orders' }, { label: 'Profile', icon: 'user', to: '/w/profile' }],
+  chef: [{ label: 'Queue', icon: 'kitchen', to: '/c' }, { label: 'Done', icon: 'check', to: '/c/done' }, { label: 'Stock', icon: 'box', to: '/c/stock' }, { label: 'Alerts', icon: 'bell', to: '/c/notifications' }, { label: 'Profile', icon: 'user', to: '/c/profile' }],
+};
+const tabOn = (t: Tab, path: string) => !!t.to && (path === t.to || (t.to === '/c' && (path.startsWith('/c/station') || path.startsWith('/c/ticket'))) || (t.to === '/w/tables' ? path.startsWith('/w/table') : t.to !== '/w' && t.to !== '/c' && path.startsWith(t.to + '/')));
+
+/** "T1 to T7" for a run of codes, otherwise a comma list */
+export function tableRange(codes: string[]) {
+  if (!codes.length) return 'No tables';
+  const m = codes.map((c) => c.match(/^([A-Za-z]*)(\d+)$/));
+  if (codes.length > 1 && m.every(Boolean) && m.every((x) => x![1] === m[0]![1])) {
+    const n = m.map((x) => Number(x![2])).sort((a, b) => a - b);
+    if (n.every((v, i) => i === 0 || v === n[i - 1] + 1)) return `${m[0]![1]}${n[0]} to ${m[0]![1]}${n[n.length - 1]}`;
+  }
+  return codes.join(', ');
+}
+
+/** My tables, area and break state for the waiter (shared by the phone shell and the waiter pages) */
+export function useWaiter(enabled = true) {
+  const me = session.get()?.staff;
+  const qc = useQueryClient();
+  const tables = useQuery({ queryKey: ['tables'], queryFn: () => api('/floor/tables'), enabled });
+  const meQ = useQuery({ queryKey: ['me'], queryFn: () => api('/auth/me'), enabled });
+  const brk = useMutation({ mutationFn: (onBreak: boolean) => api(`/team/staff/${me!.id}`, { method: 'PATCH', body: { onBreak } }), onSuccess: () => qc.invalidateQueries() });
+  const list: any[] = tables.data?.tables ?? [];
+  const onBreak: boolean = meQ.data?.staff.onBreak ?? false;
+  return { me: me!, tables, list, onBreak, toggleBreak: () => brk.mutate(!onBreak), sub: list.length ? `Tables ${tableRange(list.map((t) => t.code))} · ${list[0].area}` : 'No tables assigned' };
+}
+
+/** The shared station queue plus my own state (capacity, break) for the chef (phone shell and chef pages) */
+export function useChef(enabled = true) {
+  const me = session.get()?.staff;
+  const qc = useQueryClient();
+  const queue = useQuery({ queryKey: ['queue'], queryFn: () => api('/kitchen/queue'), refetchInterval: 15000, enabled });
+  const brk = useMutation({ mutationFn: (onBreak: boolean) => api(`/team/staff/${me!.id}`, { method: 'PATCH', body: { onBreak } }), onSuccess: () => qc.invalidateQueries() });
+  const d = queue.data;
+  const onBreak: boolean = d?.chefs.find((c: any) => c.id === me?.id)?.onBreak ?? false;
+  const limit: number = d?.me?.maxParallel ?? 4;
+  const mine: number = d ? d.cooking.filter((i: any) => i.claimedBy === me?.id).length : 0;
+  return { me: me!, queue, d, onBreak, limit, mine, full: mine >= limit, toggleBreak: () => brk.mutate(!onBreak), sub: d ? `${d.station.name} station` : ' ' };
+}
+
+const C_TABS = ['/c', '/c/done', '/c/stock', '/c/profile'];
+const C_NO_NAV = ['/c/ticket'];
+
+// waiter pages: tab pages get the header + nav, detail pages draw their own heading; pages with a sticky action bar hide the nav
+const W_TABS = ['/w', '/w/tables', '/w/orders', '/w/profile'];
+const W_NO_NAV = ['/w/take-order', '/w/bill', '/w/table', '/w/alerts'];
+
+function MobileShell({ me, online, path, logout, children }: { me: Me; online: boolean; path: string; logout: () => void; children: ReactNode }) {
+  const nav = useNavigate();
+  const toast = useToast();
+  const [drawer, setDrawer] = useState(false);
+  const [profile, setProfile] = useState(false);
+  useEffect(() => { setDrawer(false); setProfile(false); }, [path]);
+  const floor = me.role === 'waiter' || me.role === 'chef';
+  const { unread } = useNotifications(!floor);
+  const waiter = me.role === 'waiter';
+  const w = useWaiter(waiter);
+  const chef = me.role === 'chef';
+  const c = useChef(chef);
+  const duty = waiter ? w : c;
+  const bare = waiter ? !W_TABS.includes(path) : chef ? !C_TABS.includes(path) : !floor && path !== '/dashboard'; // detail pages have no top bar: the page draws its own heading
+  const noNav = (waiter && W_NO_NAV.some((x) => path === x || path.startsWith(x + '/'))) || (chef && C_NO_NAV.some((x) => path === x || path.startsWith(x + '/')));
+  const items = NAV[me.role === 'owner' ? 'manager' : me.role];
+  const here = items.find((it) => it.length > 1 && (path === it[2] || path.startsWith(it[2] + '/'))) as [string, string, string] | undefined;
+  const label = here?.[1] ?? (path.startsWith('/w/table') ? 'Table' : 'Home');
+  const home = path === homeFor(me.role);
+  const tabs = TABS[floor ? me.role : 'manager'];
+  const sub = floor ? (me.role === 'waiter' ? 'Waiter' : 'Chef') + ' · ' + label : ROLE_LABEL[me.role] + ' · Spice Garden';
+  const goTab = (t: Tab) => { if (t.profile && !t.to) setProfile(true); else if (t.to) nav({ to: t.to }); else toast(`${t.label} on phones is coming soon`); };
+  return (
+    <div className={'m-app' + (noNav ? ' nonav' : '')}>
+      {!bare && (
+        <header className="m-top">
+          {floor
+            ? <button className="m-ibtn" aria-label="Profile" onClick={() => nav({ to: waiter ? '/w/profile' : '/c/profile' })}><span className="avatar">{me.name[0]}</span></button>
+            : <button className="m-ibtn" aria-label="Open menu" onClick={() => setDrawer(true)}><Icon name="hamburger" size={22} /></button>}
+          {floor
+            ? <div className="grow"><div className="m-title ellipsis">{me.name}</div><div className="muted small ellipsis">{waiter ? w.sub : chef ? c.sub : sub}</div></div>
+            : <span className="brand m-brand">DineOS</span>}
+          {floor
+            ? <button className="m-duty" onClick={duty.toggleBreak} style={{ color: duty.onBreak ? '#f5c27a' : '#7fcfa3' }}><span className="dot" style={{ background: duty.onBreak ? 'var(--amber)' : 'var(--green)' }} />{duty.onBreak ? 'On break' : 'On duty'}</button>
+            : <span className="live" aria-label={online ? 'Live' : 'Connecting'}><span className="dot" style={{ background: online ? 'var(--green)' : 'var(--amber)' }} /></span>}
+          {!floor && <button className="m-ibtn" aria-label="Notifications" onClick={() => nav({ to: '/notifications' })} style={{ position: 'relative' }}><Icon name="bell" size={22} />{unread > 0 && <span className="m-badge" />}</button>}
+        </header>
+      )}
+      <main key={path} className={'m-main' + (bare ? ' bare' : '')}>
+        {!home && !bare && !floor && <button className="link row-flex m-back" onClick={() => window.history.length > 1 ? window.history.back() : nav({ to: homeFor(me.role) })}><Icon name="back" size={18} />Back</button>}
+        {children}
+      </main>
+      {!noNav && <nav className="m-nav" aria-label="Main">
+        <div>
+          {tabs.map((t) => (
+            <button key={t.label} aria-label={t.cta ? 'Take order' : t.label} aria-current={tabOn(t, path) ? 'page' : undefined} className={(t.cta ? 'cta ' : '') + (tabOn(t, path) || (t.profile && profile) ? 'on' : '')} onClick={() => goTab(t)}>
+              {t.profile ? <span className="avatar sm">{me.name[0]}</span> : <Icon name={t.icon} size={t.cta ? 20 : 22} sw={t.cta ? 2.4 : 1.75} />}
+              {t.cta && <span>{t.label}</span>}
+            </button>
+          ))}
+        </div>
+      </nav>}
+
+      {drawer && (
+        <div className="m-drawer" role="dialog" aria-label="Menu">
+          <header className="m-top">
+            <button className="m-ibtn" aria-label="Close menu" onClick={() => setDrawer(false)}><Icon name="x" size={22} /></button>
+            <span className="brand m-brand">DineOS</span><span className="m-ibtn" />
+          </header>
+          <div className="m-drawer-body">
+            <button className="m-who" onClick={() => { setDrawer(false); if (floor) setProfile(true); else nav({ to: '/profile' }); }}>
+              <span className="avatar big">{me.name[0]}</span>
+              <span className="grow"><span className="b" style={{ display: 'block' }}>{me.name}</span><span className="muted small">{ROLE_LABEL[me.role]} · Spice Garden</span></span>
+              <Icon name="chev" size={16} />
+            </button>
+            {items.filter((it) => it.length === 1 || it[2] !== '/stations').map((it, i) => it.length === 1
+              ? <div key={i} className="m-sec">{it[0]}</div>
+              : <Link key={i} to={it[2]} className={'m-item' + (path === it[2] || path.startsWith(it[2] + '/') ? ' on' : '')}><Icon name={it[0]} size={22} />{it[1]}</Link>)}
+            <button className="m-item red m-out" onClick={logout}>Sign out</button>
+          </div>
+        </div>
+      )}
+      {profile && !floor && (
+        <Modal title="Profile" onClose={() => setProfile(false)}>
+          <div className="row-flex"><span className="avatar big">{me.name[0]}</span><div><div className="b">{me.name}</div><div className="muted small">{floor ? ROLE_LABEL[me.role] : ROLE_LABEL[me.role] + ' · Spice Garden'}</div></div></div>
+          {!floor && <Link to="/settings" className="btn ghost block">Settings</Link>}
+          <button className="btn danger block" onClick={logout}>Log out</button>
+        </Modal>
+      )}
+    </div>
+  );
+}
+
 export function Shell({ children, roles }: { children: ReactNode; roles: string[] }) {
   const s = session.get();
   const nav = useNavigate();
+  const mobile = useIsMobile();
   const path = useRouterState({ select: (r) => r.location.pathname });
   const online = useLive(s?.token);
   const [open, setOpen] = useState(false);
@@ -78,6 +236,7 @@ export function Shell({ children, roles }: { children: ReactNode; roles: string[
   const items = NAV[me.role === 'owner' ? 'manager' : me.role];
   const logout = async () => { await api('/auth/logout', { body: {} }).catch(() => {}); session.clear(); nav({ to: '/login' }); };
   const sub = me.role === 'waiter' ? 'Waiter' : me.role === 'chef' ? 'Chef' : ROLE_LABEL[me.role] + ' · Spice Garden';
+  if (mobile) return <MeCtx.Provider value={me}><MobileShell me={me} online={online} path={path} logout={logout}>{children}</MobileShell></MeCtx.Provider>;
   return (
     <MeCtx.Provider value={me}>
       <header className="top">

@@ -3,7 +3,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useNavigate, useSearch } from '@tanstack/react-router';
 import { rupees, SPICE, TASK_LABEL, type TaskKind } from '@dineos/shared';
 import { api, session, useTick } from '../../api';
-import { ago, ErrorText, Icon, Loading, Modal, Sec, Stepper, TABLE_STATE, Title, useMe, useToast, StatusDot } from '../../ui';
+import { ago, ErrorText, Icon, Loading, Modal, Sec, Stepper, TABLE_STATE, Title, useIsMobile, useMe, useToast, StatusDot } from '../../ui';
+import { TakeOrderM, WaiterAlertsM, WaiterHomeM } from './mobile';
+import { tableRange as tableRangeOf } from '../../ui';
 
 const KIND_COLOR: Record<TaskKind, string> = { food_ready: 'var(--green)', call: 'var(--blue)', bill: 'var(--taupe)' };
 
@@ -12,7 +14,18 @@ function useTasks() {
 }
 function useTaskActions() {
   const qc = useQueryClient(); const toast = useToast();
-  return useMutation({ mutationFn: ([id, what]: [number, 'take' | 'done']) => api(`/team/tasks/${id}/${what}`, { body: {} }), onSuccess: () => qc.invalidateQueries(), onError: (e) => { toast((e as Error).message); qc.invalidateQueries(); } });
+  return useMutation({
+    mutationFn: ([id, what]: [number, 'take' | 'done']) => api(`/team/tasks/${id}/${what}`, { body: {} }),
+    // the button reacts at once; the server answer (or a rollback) follows
+    onMutate: async ([id, what]) => {
+      await qc.cancelQueries({ queryKey: ['tasks'] });
+      const prev = qc.getQueryData(['tasks']) as any;
+      if (prev) qc.setQueryData(['tasks'], { ...prev, tasks: prev.tasks.map((t: any) => (t.id === id ? (what === 'take' ? { ...t, status: 'taken', mine: true } : { ...t, status: 'done' }) : t)) });
+      return { prev };
+    },
+    onError: (e, _v, ctx) => { if (ctx?.prev) qc.setQueryData(['tasks'], ctx.prev); toast((e as Error).message); },
+    onSettled: () => qc.invalidateQueries(),
+  });
 }
 function origin(t: any, rules: any) {
   if (t.level === 0) return [`Your table · passes on in ${Math.max(0, rules.areaSecs - Math.round((Date.now() - new Date(t.createdAt).getTime()) / 1000))} s`, 'var(--dim)'];
@@ -32,12 +45,14 @@ function DutyButton() {
 export function WaiterHome() {
   useTick(5000);
   const me = useMe();
+  const mobile = useIsMobile();
   const tables = useQuery({ queryKey: ['tables'], queryFn: () => api('/floor/tables') });
   const tasks = useTasks(); const act = useTaskActions();
   const open = (tasks.data?.tasks ?? []).filter((t: any) => t.status === 'open');
   const mine = (tasks.data?.tasks ?? []).filter((t: any) => t.status === 'taken' && t.mine);
   const ts = tables.data?.tables ?? [];
   const hour = new Date().getHours();
+  if (mobile) return <WaiterHomeM tasks={tasks.data} act={(id, what) => act.mutate([id, what])} />;
   return (
     <>
       <Title title={`Good ${hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'}, ${me.name.split(' ')[0]}`} sub={`Tables ${ts.map((t: any) => t.code).join(', ') || 'not assigned yet'}`}
@@ -86,8 +101,11 @@ function MineRow({ t, onDone }: { t: any; onDone: () => void }) {
 export function Alerts() {
   useTick(5000);
   const me = useMe();
+  const mobile = useIsMobile();
   const tasks = useTasks(); const act = useTaskActions();
   const staff = useQuery({ queryKey: ['me'], queryFn: () => api('/auth/me') });
+  const tables = useQuery({ queryKey: ['tables'], queryFn: () => api('/floor/tables'), enabled: mobile });
+  if (mobile) { const l: any[] = tables.data?.tables ?? []; return <WaiterAlertsM tasks={tasks.data} act={(id, what) => act.mutate([id, what])} sub={l.length ? `${tableRangeOf(l.map((t) => t.code))} · ${l[0].area}` : undefined} />; }
   if (!tasks.data) return <Loading />;
   const all = tasks.data.tasks;
   const open = all.filter((t: any) => t.status === 'open');
@@ -125,7 +143,10 @@ export function Alerts() {
 // ---------------- Take order (POS) ----------------
 type Line = { key: number; dishId: number; name: string; price?: number; qty: number; guestNo: number; spice: string | null; options: string[]; note: string };
 
-export function TakeOrder() {
+/** Phone: the app's take-order flow. Desktop: the two-column POS below. */
+export function TakeOrder() { return useIsMobile() ? <TakeOrderM /> : <TakeOrderDesktop />; }
+
+function TakeOrderDesktop() {
   const search = useSearch({ strict: false }) as { table?: number };
   const qc = useQueryClient(); const toast = useToast(); const nav = useNavigate();
   const tables = useQuery({ queryKey: ['tables'], queryFn: () => api('/floor/tables') });

@@ -25,7 +25,14 @@
       "expo-secure-store",
       "expo-font",
       "expo-build-properties",
-      ["expo-build-properties", { "android": { "usesCleartextTraffic": true } }]
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
     ],
     "androidStatusBar": {
       "barStyle": "light-content",
@@ -34,6 +41,16 @@
     "androidNavigationBar": {
       "barStyle": "light-content",
       "backgroundColor": "#0b0b0c"
+    },
+    "extra": {
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "4a2d27d2-efa3-4dc7-b826-3957fcc5612e"
+      }
     }
   }
 }

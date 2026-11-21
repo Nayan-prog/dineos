@@ -4,16 +4,21 @@ import { Link, useNavigate, useParams } from '@tanstack/react-router';
 import { QRCodeSVG } from 'qrcode.react';
 import { ITEM_LABEL, rupees, type ItemStatus } from '@dineos/shared';
 import { api, useTick } from '../../api';
-import { ago, ErrorText, Icon, Loading, Modal, Sec, STATUS_COLOR, Stepper, TABLE_STATE, Title, useMe, useToast, StatusDot } from '../../ui';
+import { ago, ErrorText, Icon, Loading, Modal, Sec, STATUS_COLOR, Stepper, TABLE_STATE, Title, useIsMobile, useMe, useToast, StatusDot } from '../../ui';
+import { AddTableM, TableAddedM, TableDetailM, TablesM } from './mobile';
+import { WaiterTableM, WaiterTablesM } from '../waiter/mobile';
 
 export function Tables() {
   useTick();
   const me = useMe();
+  const mobile = useIsMobile();
   const { data } = useQuery({ queryKey: ['tables'], queryFn: () => api('/floor/tables') });
   const areas = useQuery({ queryKey: ['areas'], queryFn: () => api('/floor/areas') });
   const [area, setArea] = useState<number | 'all'>('all');
   const [adding, setAdding] = useState(false);
   if (!data) return <Loading />;
+  if (mobile && me.role === 'waiter') return <WaiterTablesM list={data.tables} />;
+  if (mobile) return <TablesM data={data} areas={areas.data ?? []} area={area} setArea={setArea} />;
   const s = data.summary;
   const list = data.tables.filter((t: any) => area === 'all' || t.areaId === area);
   const base = me.role === 'waiter' ? '/w/table/$id' : '/tables/$id';
@@ -79,6 +84,7 @@ function AddTable({ onClose }: { onClose: () => void }) {
 export function TableDetail() {
   useTick();
   const me = useMe();
+  const mobile = useIsMobile();
   const { id } = useParams({ strict: false }) as { id: string };
   const qc = useQueryClient(); const toast = useToast(); const nav = useNavigate();
   const { data, error } = useQuery({ queryKey: ['table', id], queryFn: () => api(`/floor/tables/${id}`) });
@@ -88,6 +94,9 @@ export function TableDetail() {
   if (error) return <ErrorText error={error} />;
   if (!data) return <Loading />;
   const { table, session, items, totals } = data;
+  const newQr = () => confirm('Old printed QR codes for this table will stop working. Continue?') && act.mutate(() => api(`/floor/tables/${table.id}`, { method: 'PATCH', body: { newQr: true } }));
+  if (mobile && me.role === 'waiter') return <WaiterTableM data={data} />;
+  if (mobile) return <><TableDetailM data={data} onBill={() => setPaying(true)} onNewQr={newQr} />{paying && session && <PayBill sessionId={session.id} code={table.code} onClose={() => setPaying(false)} onPaid={() => { setPaying(false); toast(`${table.code} paid · table is free`); }} />}</>;
   const g = guests ?? session?.guestCount ?? 2;
   const groups = new Map<number, any[]>();
   for (const it of items) groups.set(it.guestNo, [...(groups.get(it.guestNo) ?? []), it]);
@@ -171,3 +180,7 @@ export function PayBill({ sessionId, code, onClose, onPaid }: { sessionId: numbe
     </Modal>
   );
 }
+
+/** Phone-only pages: Add table (MW-AddTable) and Table added (MW-TableAdded). The desktop uses the Add table dialog instead. */
+export function AddTablePage() { return <AddTableM />; }
+export function TableAddedPage() { const { id } = useParams({ strict: false }) as { id: string }; return <TableAddedM id={id} />; }

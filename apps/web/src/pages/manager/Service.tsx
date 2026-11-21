@@ -3,11 +3,13 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useSearch } from '@tanstack/react-router';
 import { ITEM_LABEL, rupees, type ItemStatus } from '@dineos/shared';
 import { api, useTick } from '../../api';
-import { ago, Loading, mins, Sec, STATUS_COLOR, Title, useToast, StatusDot } from '../../ui';
+import { ago, Loading, mins, Sec, STATUS_COLOR, Title, useIsMobile, useToast, StatusDot } from '../../ui';
+import { KitchenM, OrdersM } from './mobile';
 
 /** Orders: every dish on the floor, filterable by status */
 export function Orders() {
   useTick();
+  const mobile = useIsMobile();
   const search = useSearch({ strict: false }) as { q?: string };
   const [tab, setTab] = useState<'all' | ItemStatus>('all');
   const [q, setQ] = useState(search.q ?? '');
@@ -16,6 +18,7 @@ export function Orders() {
   const cancel = useMutation({ mutationFn: (id: number) => api(`/floor/items/${id}/cancel`, { body: { reason: 'Voided by manager' } }), onSuccess: () => { qc.invalidateQueries(); toast('Dish cancelled'); }, onError: (e) => toast((e as Error).message) });
   if (!data) return <Loading />;
   const tabs: ['all' | ItemStatus, string][] = [['all', 'All'], ['waiting', 'Placed'], ['cooking', 'Cooking'], ['ready', 'Ready'], ['served', 'Served'], ['cancelled', 'Cancelled']];
+  if (mobile) return <OrdersM data={data} tab={tab} setTab={setTab} q={q} setQ={setQ} cancel={(id) => cancel.mutate(id)} tabs={tabs} />;
   const list = data.filter((x: any) => (tab === 'all' || x.status === tab) && (!q || `${x.table} ${x.name} ${x.station}`.toLowerCase().includes(q.toLowerCase())));
   return (
     <>
@@ -82,6 +85,7 @@ export function StationQueues() {
 /** Kitchen display: every station, read only for the manager team (with release for stuck dishes) */
 export function Kitchen() {
   useTick();
+  const mobile = useIsMobile();
   const stations = useQuery({ queryKey: ['stations'], queryFn: () => api('/kitchen/stations') });
   const search = useSearch({ strict: false }) as { station?: number };
   const [sid, setSid] = useState<number | null>(search.station ?? null);
@@ -89,6 +93,7 @@ export function Kitchen() {
   const qc = useQueryClient(); const toast = useToast();
   const q = useQuery({ queryKey: ['queue', current], queryFn: () => api(`/kitchen/queue?station=${current}`), enabled: !!current });
   const release = useMutation({ mutationFn: (id: number) => api(`/kitchen/items/${id}/release`, { body: {} }), onSuccess: () => { qc.invalidateQueries(); toast('Back in the queue'); } });
+  if (mobile) return <KitchenM stations={stations.data ?? []} current={current} setSid={setSid} q={q} release={(id) => release.mutate(id)} />;
   return (
     <>
       <Title title="Kitchen Display" sub="Shared station queues · urgent and oldest first" />

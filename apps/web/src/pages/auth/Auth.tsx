@@ -1,7 +1,12 @@
 import { useState, type FormEvent, type ReactNode } from 'react';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { api, session } from '../../api';
-import { homeFor, Icon } from '../../ui';
+import { homeFor, Icon, useIsMobile } from '../../ui';
+import { MEmail, MPin, MSignup, MWelcome, type Role, type SignupData } from './MobileAuth';
+
+// data calls shared by the desktop forms and the phone screens
+const signIn = (kind: 'pin' | 'email', a: string, b: string) => api(kind === 'pin' ? '/auth/pin' : '/auth/login', { body: kind === 'pin' ? { phone: a, pin: b } : { email: a, password: b }, token: null });
+const createAccount = (body: SignupData & { role: string }) => api('/auth/signup', { body, token: null });
 
 function Split({ children }: { children: ReactNode }) {
   return (
@@ -25,6 +30,7 @@ function Split({ children }: { children: ReactNode }) {
 
 export function Login() {
   const nav = useNavigate();
+  const mobile = useIsMobile();
   const [mode, setMode] = useState<null | 'email' | 'pin'>(null);
   const [role, setRole] = useState('Owner');
   const [a, setA] = useState(''); const [b, setB] = useState('');
@@ -32,10 +38,18 @@ export function Login() {
   const submit = async (e: FormEvent) => {
     e.preventDefault(); setErr(''); setBusy(true);
     try {
-      const r = await api(mode === 'pin' ? '/auth/pin' : '/auth/login', { body: mode === 'pin' ? { phone: a.trim(), pin: b } : { email: a.trim(), password: b }, token: null });
+      const r = await signIn(mode === 'pin' ? 'pin' : 'email', a.trim(), b);
       session.set(r); nav({ to: homeFor(r.staff.role) });
     } catch (x) { setErr((x as Error).message); } finally { setBusy(false); }
   };
+  if (mobile) {
+    const phoneSignIn = async (kind: 'pin' | 'email', a: string, b: string) => {
+      try { const r = await signIn(kind, a, b); session.set(r); nav({ to: homeFor(r.staff.role) }); } catch (x) { return (x as Error).message; }
+    };
+    if (mode === 'email') return <MEmail role={role.toLowerCase() as Role} onBack={() => setMode(null)} onStaff={() => setMode('pin')} submit={(e, p) => phoneSignIn('email', e, p)} />;
+    if (mode === 'pin') return <MPin onBack={() => setMode(null)} onManager={() => { setRole('Manager'); setMode('email'); }} submit={(ph, pin) => phoneSignIn('pin', ph, pin)} />;
+    return <MWelcome onRole={(r) => { setRole(r[0].toUpperCase() + r.slice(1)); setMode('email'); }} onStaff={() => setMode('pin')} onSignup={() => nav({ to: '/signup' })} />;
+  }
   if (!mode) return (
     <Split>
       <div><h1 className="title">Sign in</h1><div className="muted" style={{ marginTop: 4 }}>Choose how you work at the restaurant</div></div>
@@ -63,14 +77,16 @@ export function Login() {
 
 export function Signup() {
   const nav = useNavigate();
+  const mobile = useIsMobile();
   const [f, setF] = useState({ name: '', email: '', password: '', restaurantName: '', city: '', role: 'owner' });
   const [err, setErr] = useState(''); const [busy, setBusy] = useState(false);
   const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value });
   const submit = async (e: FormEvent) => {
     e.preventDefault(); setErr(''); setBusy(true);
-    try { const r = await api('/auth/signup', { body: f, token: null }); session.set(r); nav({ to: '/tables' }); }
+    try { const r = await createAccount(f); session.set(r); nav({ to: '/tables' }); }
     catch (x) { setErr((x as Error).message); } finally { setBusy(false); }
   };
+  if (mobile) return <MSignup onExit={() => nav({ to: '/login' })} onLogin={() => nav({ to: '/login' })} create={async (d) => { try { const r = await createAccount({ ...d, role: 'owner' }); session.set(r); nav({ to: '/dashboard' }); } catch (x) { return (x as Error).message; } }} />;
   return (
     <Split>
       <div><h1 className="title">Create your account</h1><div className="muted" style={{ marginTop: 4 }}>Set up your restaurant in a minute</div></div>

@@ -3,7 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 import { rupees } from '@dineos/shared';
 import { api, useTick } from '../../api';
-import { ago, Loading, Sec, TABLE_STATE, Title, useMe } from '../../ui';
+import { ago, Loading, Sec, TABLE_STATE, Title, useIsMobile, useMe } from '../../ui';
+import { DashboardM } from './mobile';
 
 const LIMIT = 5;
 const ROW_H = 64;
@@ -11,11 +12,15 @@ const ROW_H = 64;
 export default function Dashboard() {
   const me = useMe();
   useTick();
-  const d = useQuery({ queryKey: ['dashboard'], queryFn: () => api('/manage/dashboard') });
+  const mobile = useIsMobile();
+  const [days, setDays] = useState<1 | 7 | 28>(1);
+  const d = useQuery({ queryKey: ['dashboard', days], queryFn: () => api(`/manage/dashboard?days=${days}`) });
+  const tasks = useQuery({ queryKey: ['tasks'], queryFn: () => api('/team/tasks'), enabled: mobile });
   const t = useQuery({ queryKey: ['tables'], queryFn: () => api('/floor/tables') });
   const a = useQuery({ queryKey: ['activity'], queryFn: () => api('/team/activity') });
   const [allChefs, setAllChefs] = useState(false);
   if (!d.data) return <Loading />;
+  if (mobile) return <DashboardM d={d.data} tasks={tasks.data?.tasks ?? []} days={days} setDays={setDays} />;
   const k = d.data.kpis;
   const money = 'revenue' in k;
   const kpis = [

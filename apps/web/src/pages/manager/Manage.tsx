@@ -3,7 +3,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 import { rupees } from '@dineos/shared';
 import { api } from '../../api';
-import { ago, ErrorText, Icon, Loading, Modal, Sec, Stepper, Title, useMe, useToast } from '../../ui';
+import { ago, ErrorText, Icon, Loading, Modal, Sec, Stepper, Title, useIsMobile, useMe, useToast } from '../../ui';
+import { AnalyticsM, BillingM, MenuM, SettingsM, ShiftsM, StaffM } from './mobile';
 
 const useAct = (msg?: string) => {
   const qc = useQueryClient(); const toast = useToast();
@@ -13,6 +14,7 @@ const useAct = (msg?: string) => {
 // ---------------- Menu & Dishes ----------------
 export function Menu() {
   const me = useMe();
+  const mobile = useIsMobile();
   const { data } = useQuery({ queryKey: ['menu'], queryFn: () => api('/floor/menu') });
   const stations = useQuery({ queryKey: ['stations'], queryFn: () => api('/kitchen/stations') });
   const [cat, setCat] = useState<number | 'all'>('all');
@@ -22,6 +24,7 @@ export function Menu() {
   const dishes = data.flatMap((c: any) => c.dishes.map((d: any) => ({ ...d, category: c.name })));
   const list = dishes.filter((d: any) => cat === 'all' || d.categoryId === cat);
   const stationName = (id: number) => stations.data?.find((s: any) => s.id === id)?.name ?? '';
+  if (mobile) return <><MenuM cats={data} dishes={dishes} cat={cat} setCat={setCat} stationName={stationName} canAdd={me.role !== 'admin'} onAdd={() => setEdit({})} onEdit={setEdit} toggleStock={(d) => act.mutate(() => api(`/kitchen/dishes/${d.id}/stock`, { method: 'PATCH', body: { available: !d.available } }))} />{edit && <DishForm dish={edit} cats={data} stations={stations.data ?? []} onClose={() => setEdit(null)} />}</>;
   return (
     <>
       <Title title="Menu & Dishes" sub={`${dishes.length} dishes · ${dishes.filter((d: any) => !d.available).length} out of stock`} right={me.role !== 'admin' && <button className="btn" onClick={() => setEdit({})}><Icon name="plus" size={18} sw={2} />Add dish</button>} />
@@ -73,6 +76,7 @@ function DishForm({ dish, cats, stations, onClose }: { dish: any; cats: any[]; s
 // ---------------- Staff & Chefs ----------------
 export function Staff() {
   const me = useMe();
+  const mobile = useIsMobile();
   const { data } = useQuery({ queryKey: ['staff'], queryFn: () => api('/team/staff') });
   const [tab, setTab] = useState('all'); const [adding, setAdding] = useState(false);
   if (!data) return <Loading />;
@@ -80,6 +84,7 @@ export function Staff() {
   const list = data.staff.filter((p: any) => tab === 'all' || p.role === tab || (tab === 'manager' && ['owner', 'admin'].includes(p.role)));
   const station = (id: number) => data.stations.find((s: any) => s.id === id)?.name;
   const area = (id: number) => data.areas.find((a: any) => a.id === id)?.name;
+  if (mobile) return <><StaffM data={data} onAdd={() => setAdding(true)} />{adding && <AddStaff data={data} canManagers={me.role !== 'admin'} onClose={() => setAdding(false)} />}</>;
   return (
     <>
       <Title title="Staff & Chefs" sub={`${data.staff.filter((p: any) => p.onDuty).length} of ${data.staff.length} on duty`} right={<div className="row-flex"><Link to="/shifts" className="btn ghost">Shifts & sections</Link><button className="btn" onClick={() => setAdding(true)}><Icon name="plus" size={18} sw={2} />Add staff</button></div>} />
@@ -126,9 +131,11 @@ function AddStaff({ data, canManagers, onClose }: { data: any; canManagers: bool
 // ---------------- Shifts & Sections ----------------
 export function Shifts() {
   const me = useMe();
+  const mobile = useIsMobile();
   const { data } = useQuery({ queryKey: ['staff'], queryFn: () => api('/team/staff') });
   const tables = useQuery({ queryKey: ['tables'], queryFn: () => api('/floor/tables') });
   const [tab, setTab] = useState<'kitchen' | 'floor'>('kitchen');
+  const dash = useQuery({ queryKey: ['dashboard', 1], queryFn: () => api('/manage/dashboard?days=1'), enabled: mobile });
   const [sections, setSections] = useState<any | null>(null);
   const act = useAct();
   const [rules, setRules] = useState<{ areaSecs: number; managerSecs: number } | null>(null);
@@ -138,6 +145,7 @@ export function Shifts() {
   const waiters = data.staff.filter((p: any) => p.role === 'waiter');
   const patch = (id: number, body: any) => act.mutate(() => api(`/team/staff/${id}`, { method: 'PATCH', body }));
   const saveRules = (r: typeof rules) => { setRules(r); act.mutate(() => api('/team/restaurant', { method: 'PATCH', body: { alertAreaSecs: r.areaSecs, alertManagerSecs: r.managerSecs } })); };
+  if (mobile) return <><ShiftsM data={data} waiting={(id) => dash.data?.stations?.find((x: any) => x.id === id)?.waiting ?? 0} patch={patch} rules={rules} saveRules={saveRules} onSections={setSections} />{sections && me.role !== 'chef' && <Sections waiter={sections} all={tables.data?.tables ?? []} onClose={() => setSections(null)} />}</>;
   return (
     <>
       <Title title="Shifts & Sections" sub="Who cooks where and who serves which tables" />
@@ -201,9 +209,11 @@ function Sections({ waiter, all, onClose }: { waiter: any; all: any[]; onClose: 
 
 // ---------------- Billing ----------------
 export function Billing() {
+  const mobile = useIsMobile();
   const tables = useQuery({ queryKey: ['tables'], queryFn: () => api('/floor/tables') });
   const bills = useQuery({ queryKey: ['bills'], queryFn: () => api('/floor/bills') });
   if (!tables.data || !bills.data) return <Loading />;
+  if (mobile) return <BillingM tables={tables.data.tables} bills={bills.data} />;
   const open = tables.data.tables.filter((t: any) => t.state !== 'free');
   const today = bills.data.filter((b: any) => new Date(b.paidAt).toDateString() === new Date().toDateString());
   const sum = (m?: string) => today.filter((b: any) => !m || b.method === m).reduce((a: number, b: any) => a + b.total, 0);
@@ -225,8 +235,10 @@ export function Billing() {
 
 // ---------------- Analytics ----------------
 export function Analytics() {
+  const mobile = useIsMobile();
   const { data } = useQuery({ queryKey: ['analytics'], queryFn: () => api('/manage/analytics') });
   if (!data) return <Loading />;
+  if (mobile) return <AnalyticsM data={data} />;
   const max = Math.max(1, ...data.days.map((d: any) => d.revenue));
   return (
     <>
@@ -248,12 +260,15 @@ export function Analytics() {
 // ---------------- Settings ----------------
 export function Settings() {
   const me = useMe();
+  const mobile = useIsMobile();
   const { data } = useQuery({ queryKey: ['restaurant'], queryFn: () => api('/team/restaurant') });
   const [f, setF] = useState<any>(null);
   const act = useAct('Saved');
   useEffect(() => { if (data) setF(data); }, [data]);
   if (!f) return <Loading />;
   const can = me.role === 'owner' || me.role === 'manager';
+  const saveRestaurant = () => act.mutate(() => api('/team/restaurant', { method: 'PATCH', body: { name: f.name, address: f.address, city: f.city, taxPercent: f.taxPercent } }));
+  if (mobile) return <SettingsM f={f} setF={setF} can={can} save={saveRestaurant} saving={act.isPending} />;
   return (
     <>
       <Title title="Settings" sub="Restaurant details and alert rules" />
