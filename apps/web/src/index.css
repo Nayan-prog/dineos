@@ -1,0 +1,69 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* breakpoints used by the app: phones are < 900px, "narrow" is the small-phone toast offset */
+@custom-variant phone (@media (max-width: 899px));
+@custom-variant narrow (@media (max-width: 600px));
+
+@theme {
+  --color-bg: #0b0b0c;
+  --color-card: #111113;
+  --color-chip: #17171a;
+  --color-chip2: #232327;
+  --color-line: #1c1c20;
+  --color-line2: #232327;
+  --color-edge: #2c2c31;
+  --color-fg: #f2f2f3;
+  --color-muted: #a1a1a8;
+  --color-dim: #8b8b93;
+  --color-blue: #7db0f9;
+  --color-blue2: #3b82f6;
+  --color-green: #5eb88a;
+  --color-amber: #f5b454;
+  --color-taupe: #c9b29b;
+  --color-red: #e0705c;
+  --font-sans: Inter, system-ui, sans-serif;
+  --font-brand: Comfortaa, sans-serif;
+}
+
+/* motion tokens (180-250 ms, ease-out) */
+:root { --ease: cubic-bezier(0, 0, .2, 1); --t-fast: 120ms; --t-base: 200ms; color-scheme: dark; }
+
+@layer base {
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--color-bg); color: var(--color-fg); font: 14px/1.45 Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  html { font-size: 16px; } /* rem = 16px for Tailwind's spacing scale; text stays 14px from body */
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  button:disabled { cursor: not-allowed; opacity: .45; }
+  :focus-visible { outline: 2px solid var(--color-blue); outline-offset: 2px; }
+}
+
+/* rows, tiles and cards fade in and rise 8px, staggered 45 ms (first 8 children) */
+@utility stagger {
+  animation: rise var(--t-base) var(--ease) backwards;
+  animation-delay: calc(var(--i, 0) * 45ms);
+  &:nth-child(2) { --i: 1; }
+  &:nth-child(3) { --i: 2; }
+  &:nth-child(4) { --i: 3; }
+  &:nth-child(5) { --i: 4; }
+  &:nth-child(6) { --i: 5; }
+  &:nth-child(7) { --i: 6; }
+  &:nth-child(n+8) { --i: 7; }
+}
+
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+@keyframes page-in { from { opacity: 0; transform: translateY(6px); } }
+@keyframes fade { from { opacity: 0; } }
+@keyframes pop { from { opacity: 0; transform: scale(.98); } }
+@keyframes sheet-up { from { opacity: 0; transform: translateY(100%); } }
+@keyframes toast-up { from { opacity: 0; transform: translate(-50%, 12px); } }
+@keyframes pulse { 0% { transform: scale(1); } 40% { transform: scale(1.9); } 100% { transform: scale(1); } }
+@keyframes step-fwd { from { opacity: 0; transform: translateX(24px); } }
+@keyframes step-back { from { opacity: 0; transform: translateX(-24px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}

@@ -32,14 +32,14 @@ export default function Guest() {
   const call = useMutation({ mutationFn: () => g('/guest/me/call', { note: '' }), onSuccess: () => toast('Your waiter is on the way'), onError: (e) => toast((e as Error).message) });
 
   const view = (() => {
-  if (info.error) return <div className="phone"><div className="err" style={{ marginTop: 80 }}>{(info.error as Error).message}</div></div>;
-  if (!info.data) return <div className="phone"><Loading /></div>;
+  if (info.error) return <div className="max-w-120 my-0 mx-auto min-h-screen pt-4 px-5 pb-30 flex flex-col gap-4.5"><div className="text-red text-[13.5px] mt-20">{(info.error as Error).message}</div></div>;
+  if (!info.data) return <div className="max-w-120 my-0 mx-auto min-h-screen pt-4 px-5 pb-30 flex flex-col gap-4.5"><Loading /></div>;
   const { table, restaurant, menu } = info.data;
   const head = (title: string, sub?: string, back?: Step) => (
-    <div className="row-flex" style={{ minHeight: 48 }}>
-      {back && <button className="iconbtn" style={{ marginLeft: -12 }} onClick={() => setStep(back)} aria-label="Back"><Icon name="back" size={22} /></button>}
-      <div className="grow"><div className="bb" style={{ fontSize: 18 }}>{title}</div>{sub && <div className="muted small">{sub}</div>}</div>
-      {token && step !== 'thanks' && <button className="iconbtn" aria-label="Call waiter" onClick={() => call.mutate()}><Icon name="phone" size={22} /></button>}
+    <div className="flex items-center gap-2.5 min-h-12">
+      {back && <button className="w-11 h-11 flex items-center justify-center border-0 bg-transparent relative rounded-[22px] [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] [&_.badge]:absolute [&_.badge]:top-2.75 [&_.badge]:right-3 [&_.badge]:w-2 [&_.badge]:h-2 [&_.badge]:rounded-[4px] [&_.badge]:bg-blue2 active:[transform:scale(.98)] -ml-3" onClick={() => setStep(back)} aria-label="Back"><Icon name="back" size={22} /></button>}
+      <div className="flex-1 min-w-0"><div className="font-bold text-[18px]">{title}</div>{sub && <div className="text-muted text-[12.5px]">{sub}</div>}</div>
+      {token && step !== 'thanks' && <button className="w-11 h-11 flex items-center justify-center border-0 bg-transparent relative rounded-[22px] [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] [&_.badge]:absolute [&_.badge]:top-2.75 [&_.badge]:right-3 [&_.badge]:w-2 [&_.badge]:h-2 [&_.badge]:rounded-[4px] [&_.badge]:bg-blue2 active:[transform:scale(.98)]" aria-label="Call waiter" onClick={() => call.mutate()}><Icon name="phone" size={22} /></button>}
     </div>
   );
 
@@ -50,12 +50,12 @@ export default function Guest() {
   if (step === 'name') return <NameStep onDone={async (name) => { await g('/guest/me/name', { name }); guestSession.set(qr, { token: token!, name }); setStep('guests'); }} />;
 
   if (step === 'guests') return (
-    <div className="phone">
+    <div className="max-w-120 my-0 mx-auto min-h-screen pt-4 px-5 pb-30 flex flex-col gap-4.5">
       {head(`Table ${table.code}`, restaurant.name)}
-      <h1 className="title" style={{ marginTop: 40 }}>How many guests?</h1>
-      <div className="muted">So the kitchen can plate for everyone</div>
-      <div className="pills">{[1, 2, 3, 4, 5, 6, 8].map((n) => <button key={n} className={guests === n ? 'on' : ''} style={{ minWidth: 52, height: 48, borderRadius: 24, fontSize: 16 }} onClick={() => setGuests(n)}>{n}</button>)}</div>
-      <div className="bottom-bar"><div><button className="btn block" onClick={async () => { await g('/guest/me/guests', { count: guests }); setStep('menu'); }}>Continue</button></div></div>
+      <h1 className="m-0 text-[30px] font-bold tracking-[-.4px] phone:text-[26px] mt-10">How many guests?</h1>
+      <div className="text-muted">So the kitchen can plate for everyone</div>
+      <div className="flex gap-2 flex-wrap [&_button]:h-8.5 [&_button]:py-0 [&_button]:px-3.5 [&_button]:rounded-[17px] [&_button]:border [&_button]:border-edge [&_button]:bg-transparent [&_button]:text-muted [&_button]:font-medium [&_button.on]:bg-fg [&_button.on]:text-bg [&_button.on]:border-fg [&_button.on]:font-semibold [&_button]:whitespace-nowrap [&_button]:flex-none [&_button]:[transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] [&_button:active]:[transform:scale(.98)]">{[1, 2, 3, 4, 5, 6, 8].map((n) => <button key={n} className={(guests === n) ? "on min-w-13 h-12! rounded-[24px]! text-[16px]" : "min-w-13 h-12! rounded-[24px]! text-[16px]"} onClick={() => setGuests(n)}>{n}</button>)}</div>
+      <div className="fixed left-0 right-0 bottom-0 pt-3 px-5 pb-[calc(16px_+_env(safe-area-inset-bottom))] bg-[linear-gradient(transparent,_var(--color-bg)_30%)] [&>div]:max-w-110 [&>div]:my-0 [&>div]:mx-auto"><div><button className="py-0 px-4.5 border-0 bg-blue2 text-[#fff] font-semibold inline-flex items-center justify-center gap-1.5 whitespace-nowrap [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] w-full h-12 rounded-[24px] text-[15px] active:enabled:[transform:scale(.98)] in-[.m-app]:min-h-11" onClick={async () => { await g('/guest/me/guests', { count: guests }); setStep('menu'); }}>Continue</button></div></div>
     </div>
   );
 
@@ -67,31 +67,31 @@ export default function Guest() {
       onPlace={async () => { await g('/guest/me/orders', { items: cart.map(({ dishId, qty, guestNo, spice, options, note }) => ({ dishId, qty, guestNo, spice, options, note })) }); setCart([]); qc.invalidateQueries(); setStep('track'); toast('Order sent to the kitchen'); }} />;
   }
 
-  if (!ses.data) return <div className="phone"><Loading /></div>;
+  if (!ses.data) return <div className="max-w-120 my-0 mx-auto min-h-screen pt-4 px-5 pb-30 flex flex-col gap-4.5"><Loading /></div>;
   const s = ses.data;
 
   if (step === 'track') return (
-    <div className="phone">
+    <div className="max-w-120 my-0 mx-auto min-h-screen pt-4 px-5 pb-30 flex flex-col gap-4.5">
       {head('Your order', `Table ${table.code} · ${s.session.guestCount} guests`)}
-      <div className="row-flex wrap" style={{ gap: '6px 16px' }}>{(['waiting', 'cooking', 'ready', 'served'] as ItemStatus[]).map((k) => <span key={k} className="row-flex small" style={{ gap: 6 }}><span className="dot" style={{ background: STATUS_COLOR[k] }} />{ITEM_LABEL[k]} {s.items.filter((i: any) => i.status === k).length}</span>)}</div>
+      <div className="flex items-center gap-2.5 flex-wrap gap-y-1.5 gap-x-4">{(['waiting', 'cooking', 'ready', 'served'] as ItemStatus[]).map((k) => <span key={k} className="text-[12.5px] flex items-center gap-1.5"><span className="w-2 h-2 rounded-[4px] inline-block flex-none [transition:background-color_var(--t-base)_var(--ease)]" style={{ background: STATUS_COLOR[k] }} />{ITEM_LABEL[k]} {s.items.filter((i: any) => i.status === k).length}</span>)}</div>
       <div>{s.items.map((i: any) => <TrackRow key={i.id} i={i} token={token!} />)}</div>
-      <div className="dim small">You can change or cancel a dish while it shows Placed. Once the kitchen starts it, ask your waiter.</div>
-      <div className="bottom-bar"><div className="row-flex"><button className="btn ghost block" onClick={() => setStep('menu')}>Order more</button><button className="btn block" onClick={() => setStep('bill')}>Bill · {rupees(s.totals.total)}</button></div></div>
+      <div className="text-dim text-[12.5px]">You can change or cancel a dish while it shows Placed. Once the kitchen starts it, ask your waiter.</div>
+      <div className="fixed left-0 right-0 bottom-0 pt-3 px-5 pb-[calc(16px_+_env(safe-area-inset-bottom))] bg-[linear-gradient(transparent,_var(--color-bg)_30%)] [&>div]:max-w-110 [&>div]:my-0 [&>div]:mx-auto"><div className="flex items-center gap-2.5"><button className="py-0 px-4.5 font-semibold inline-flex items-center justify-center gap-1.5 whitespace-nowrap [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] bg-transparent border border-edge text-fg w-full h-12 rounded-[24px] text-[15px] active:enabled:[transform:scale(.98)] in-[.m-app]:min-h-11" onClick={() => setStep('menu')}>Order more</button><button className="py-0 px-4.5 border-0 bg-blue2 text-[#fff] font-semibold inline-flex items-center justify-center gap-1.5 whitespace-nowrap [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] w-full h-12 rounded-[24px] text-[15px] active:enabled:[transform:scale(.98)] in-[.m-app]:min-h-11" onClick={() => setStep('bill')}>Bill · {rupees(s.totals.total)}</button></div></div>
     </div>
   );
 
   if (step === 'bill') return <BillStep head={head('Bill', `Table ${table.code}`, 'track')} s={s} onAsk={async (method: string) => { await g('/guest/me/bill', { method }); qc.invalidateQueries(); toast('Your waiter is bringing the bill'); }} />;
 
   return (
-    <div className="phone" style={{ justifyContent: 'center', textAlign: 'center', alignItems: 'center' }}>
-      <span className="brand" style={{ fontSize: 22 }}>{restaurant.name}</span>
-      <h1 className="title" style={{ marginTop: 24 }}>Thank you{guestSession.get(qr)?.name ? ', ' + guestSession.get(qr)!.name : ''}!</h1>
-      <div className="muted">Paid {rupees(s.totals.total)} · see you again soon</div>
-      <button className="btn ghost" style={{ marginTop: 24 }} onClick={() => { guestSession.clear(qr); setToken(null); setStep('signin'); }}>Done</button>
+    <div className="max-w-120 my-0 mx-auto min-h-screen pt-4 px-5 pb-30 flex flex-col gap-4.5 justify-center text-center items-center">
+      <span className="font-brand font-bold in-[.top]:text-[22px] text-[22px]!">{restaurant.name}</span>
+      <h1 className="m-0 text-[30px] font-bold tracking-[-.4px] phone:text-[26px] mt-6">Thank you{guestSession.get(qr)?.name ? ', ' + guestSession.get(qr)!.name : ''}!</h1>
+      <div className="text-muted">Paid {rupees(s.totals.total)} · see you again soon</div>
+      <button className="h-10 py-0 px-4.5 rounded-[20px] font-semibold inline-flex items-center justify-center gap-1.5 whitespace-nowrap [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] bg-transparent border border-edge text-fg active:enabled:[transform:scale(.98)] in-[.m-app]:min-h-11 mt-6" onClick={() => { guestSession.clear(qr); setToken(null); setStep('signin'); }}>Done</button>
     </div>
   );
   })();
-  return <div key={step} className={dir.current === 'back' ? 'step-back' : 'step-fwd'}>{view}</div>;
+  return <div key={step} className={(dir.current === 'back') ? "[animation:step-back_250ms_var(--ease)_backwards]" : "[animation:step-fwd_250ms_var(--ease)_backwards]"}>{view}</div>;
 }
 
 function SignIn({ qr, restaurant, table, step, phone, devCode, onSent, onVerified, onBack }: any) {
@@ -100,26 +100,26 @@ function SignIn({ qr, restaurant, table, step, phone, devCode, onSent, onVerifie
   const send = async () => { setErr(''); setBusy(true); try { const r = await api(`/guest/table/${qr}/start`, { body: { phone: p.replace(/\s/g, '') }, token: null }); onSent(p.replace(/\s/g, ''), r.devCode); } catch (e) { setErr((e as Error).message); } finally { setBusy(false); } };
   const verify = async (c: string) => { setErr(''); setBusy(true); try { onVerified(await api(`/guest/table/${qr}/verify`, { body: { phone, code: c }, token: null })); } catch (e) { setErr((e as Error).message); setCode(['', '', '', '', '', '']); refs.current[0]?.focus(); } finally { setBusy(false); } };
   if (step === 'signin') return (
-    <div className="phone">
-      <div className="row-flex" style={{ minHeight: 48 }}><span className="brand grow" style={{ fontSize: 20 }}>{restaurant.name}</span><span className="muted b">Table {table.code}</span></div>
-      <h1 className="title" style={{ marginTop: 32 }}>Welcome</h1>
-      <div className="muted">Enter your mobile number to see the menu and order from your table.</div>
-      <label className="field">Mobile number<input className="input" style={{ height: 52, fontSize: 17 }} inputMode="tel" autoFocus placeholder="98765 43210" value={p} onChange={(e) => setP(e.target.value)} /></label>
-      {err && <div className="err">{err}</div>}
-      <div className="bottom-bar"><div><button className="btn block" disabled={p.replace(/\D/g, '').length < 10 || busy} onClick={send}>{busy ? 'Sending…' : 'Send code'}</button></div></div>
+    <div className="max-w-120 my-0 mx-auto min-h-screen pt-4 px-5 pb-30 flex flex-col gap-4.5">
+      <div className="flex items-center gap-2.5 min-h-12"><span className="font-brand font-bold flex-1 min-w-0 in-[.top]:text-[22px] text-[20px]!">{restaurant.name}</span><span className="text-muted font-semibold">Table {table.code}</span></div>
+      <h1 className="m-0 text-[30px] font-bold tracking-[-.4px] phone:text-[26px] mt-8">Welcome</h1>
+      <div className="text-muted">Enter your mobile number to see the menu and order from your table.</div>
+      <label className="flex flex-col gap-1.5 text-[13px] text-muted">Mobile number<input className="w-full py-0 px-3.5 rounded-[12px] border border-edge bg-chip text-fg [outline:0] focus:border-blue h-13 text-[17px]" inputMode="tel" autoFocus placeholder="98765 43210" value={p} onChange={(e) => setP(e.target.value)} /></label>
+      {err && <div className="text-red text-[13.5px]">{err}</div>}
+      <div className="fixed left-0 right-0 bottom-0 pt-3 px-5 pb-[calc(16px_+_env(safe-area-inset-bottom))] bg-[linear-gradient(transparent,_var(--color-bg)_30%)] [&>div]:max-w-110 [&>div]:my-0 [&>div]:mx-auto"><div><button className="py-0 px-4.5 border-0 bg-blue2 text-[#fff] font-semibold inline-flex items-center justify-center gap-1.5 whitespace-nowrap [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] w-full h-12 rounded-[24px] text-[15px] active:enabled:[transform:scale(.98)] in-[.m-app]:min-h-11" disabled={p.replace(/\D/g, '').length < 10 || busy} onClick={send}>{busy ? 'Sending…' : 'Send code'}</button></div></div>
     </div>
   );
   return (
-    <div className="phone">
-      <div className="row-flex" style={{ minHeight: 48 }}><button className="iconbtn" style={{ marginLeft: -12 }} onClick={onBack} aria-label="Back"><Icon name="back" size={22} /></button></div>
-      <h1 className="title">Enter the code</h1>
-      <div className="muted">Sent to {phone}{devCode ? ` · demo code ${devCode}` : ''}</div>
-      <div className="otp">{code.map((d, i) => <input key={i} ref={(el) => { refs.current[i] = el; }} inputMode="numeric" maxLength={1} value={d} autoFocus={i === 0} aria-label={`Digit ${i + 1}`}
+    <div className="max-w-120 my-0 mx-auto min-h-screen pt-4 px-5 pb-30 flex flex-col gap-4.5">
+      <div className="flex items-center gap-2.5 min-h-12"><button className="w-11 h-11 flex items-center justify-center border-0 bg-transparent relative rounded-[22px] [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] [&_.badge]:absolute [&_.badge]:top-2.75 [&_.badge]:right-3 [&_.badge]:w-2 [&_.badge]:h-2 [&_.badge]:rounded-[4px] [&_.badge]:bg-blue2 active:[transform:scale(.98)] -ml-3" onClick={onBack} aria-label="Back"><Icon name="back" size={22} /></button></div>
+      <h1 className="m-0 text-[30px] font-bold tracking-[-.4px] phone:text-[26px]">Enter the code</h1>
+      <div className="text-muted">Sent to {phone}{devCode ? ` · demo code ${devCode}` : ''}</div>
+      <div className="flex gap-2 [&_input]:w-full [&_input]:h-14 [&_input]:text-center [&_input]:text-[22px] [&_input]:font-bold [&_input]:rounded-[12px] [&_input]:border [&_input]:border-edge [&_input]:bg-chip [&_input]:[outline:0]">{code.map((d, i) => <input key={i} ref={(el) => { refs.current[i] = el; }} inputMode="numeric" maxLength={1} value={d} autoFocus={i === 0} aria-label={`Digit ${i + 1}`}
         onChange={(e) => { const v = e.target.value.replace(/\D/g, '').slice(-1); const n = [...code]; n[i] = v; setCode(n); if (v && i < 5) refs.current[i + 1]?.focus(); if (n.every(Boolean)) verify(n.join('')); }}
         onKeyDown={(e) => { if (e.key === 'Backspace' && !code[i] && i) refs.current[i - 1]?.focus(); }}
         onPaste={(e) => { const t = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6); if (t.length === 6) { setCode(t.split('')); verify(t); } }} />)}</div>
-      {err && <div className="err">{err}</div>}
-      {busy && <div className="dim">Checking…</div>}
+      {err && <div className="text-red text-[13.5px]">{err}</div>}
+      {busy && <div className="text-dim">Checking…</div>}
     </div>
   );
 }
@@ -127,10 +127,10 @@ function SignIn({ qr, restaurant, table, step, phone, devCode, onSent, onVerifie
 function NameStep({ onDone }: { onDone: (name: string) => void }) {
   const [n, setN] = useState('');
   return (
-    <div className="phone">
-      <h1 className="title" style={{ marginTop: 56 }}>What should we call you?</h1>
-      <input className="input" style={{ height: 52, fontSize: 17 }} autoFocus placeholder="Your name" value={n} onChange={(e) => setN(e.target.value)} />
-      <div className="bottom-bar"><div><button className="btn block" disabled={!n.trim()} onClick={() => onDone(n.trim())}>Continue</button></div></div>
+    <div className="max-w-120 my-0 mx-auto min-h-screen pt-4 px-5 pb-30 flex flex-col gap-4.5">
+      <h1 className="m-0 text-[30px] font-bold tracking-[-.4px] phone:text-[26px] mt-14">What should we call you?</h1>
+      <input className="w-full py-0 px-3.5 rounded-[12px] border border-edge bg-chip text-fg [outline:0] focus:border-blue h-13 text-[17px]" autoFocus placeholder="Your name" value={n} onChange={(e) => setN(e.target.value)} />
+      <div className="fixed left-0 right-0 bottom-0 pt-3 px-5 pb-[calc(16px_+_env(safe-area-inset-bottom))] bg-[linear-gradient(transparent,_var(--color-bg)_30%)] [&>div]:max-w-110 [&>div]:my-0 [&>div]:mx-auto"><div><button className="py-0 px-4.5 border-0 bg-blue2 text-[#fff] font-semibold inline-flex items-center justify-center gap-1.5 whitespace-nowrap [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] w-full h-12 rounded-[24px] text-[15px] active:enabled:[transform:scale(.98)] in-[.m-app]:min-h-11" disabled={!n.trim()} onClick={() => onDone(n.trim())}>Continue</button></div></div>
     </div>
   );
 }
@@ -142,18 +142,18 @@ function MenuStep({ head, menu, guestCount, cart, setCart, onNext }: any) {
   const count = cart.reduce((a: number, l: Line) => a + l.qty, 0);
   const total = cart.reduce((a: number, l: Line) => a + l.qty * l.price, 0);
   return (
-    <div className="phone">
+    <div className="max-w-120 my-0 mx-auto min-h-screen pt-4 px-5 pb-30 flex flex-col gap-4.5">
       {head}
-      <input className="input" placeholder="Search dishes" value={q} onChange={(e) => setQ(e.target.value)} />
-      <div className="pills" style={{ flexWrap: 'nowrap', overflowX: 'auto' }}><button className={cat === 'all' ? 'on' : ''} onClick={() => setCat('all')}>All</button>{menu.map((c: any) => <button key={c.id} className={cat === c.id ? 'on' : ''} onClick={() => setCat(c.id)}>{c.name}</button>)}</div>
+      <input className="w-full h-11.5 py-0 px-3.5 rounded-[12px] border border-edge bg-chip text-fg [outline:0] focus:border-blue" placeholder="Search dishes" value={q} onChange={(e) => setQ(e.target.value)} />
+      <div className="flex gap-2 flex-wrap [&_button]:h-8.5 [&_button]:py-0 [&_button]:px-3.5 [&_button]:rounded-[17px] [&_button]:border [&_button]:border-edge [&_button]:bg-transparent [&_button]:text-muted [&_button]:font-medium [&_button.on]:bg-fg [&_button.on]:text-bg [&_button.on]:border-fg [&_button.on]:font-semibold [&_button]:whitespace-nowrap [&_button]:flex-none [&_button]:[transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] [&_button:active]:[transform:scale(.98)] flex-nowrap! overflow-x-auto"><button className={(cat === 'all') ? "on" : ""} onClick={() => setCat('all')}>All</button>{menu.map((c: any) => <button key={c.id} className={(cat === c.id) ? "on" : ""} onClick={() => setCat(c.id)}>{c.name}</button>)}</div>
       <div>{list.map((d: any) => (
-        <div key={d.id} className="row" style={{ alignItems: 'flex-start', opacity: d.available ? 1 : 0.45 }}>
-          <span className={`veg ${d.veg ? '' : 'non'}`} style={{ marginTop: 4 }} />
-          <div className="grow"><div className="b">{d.name}</div>{d.description && <div className="dim small">{d.description}</div>}<div style={{ marginTop: 4 }}>{rupees(d.price)}</div></div>
-          {d.available ? <button className="btn ghost sm" onClick={() => setPick(d)}>Add</button> : <span className="dim small">Sold out</span>}
+        <div key={d.id} className="flex gap-3.5 py-3.5 px-0 border-b border-b-line stagger last:border-b-0 items-start" style={{ opacity: d.available ? 1 : 0.45 }}>
+          <span className={(d.veg) ? "w-3 h-3 border-[1.5px] border-green rounded-[2px] inline-flex items-center justify-center flex-none after:content-[''] after:w-1.25 after:h-1.25 after:rounded-[3px] after:bg-green mt-1" : "w-3 h-3 border-[1.5px] rounded-[2px] inline-flex items-center justify-center flex-none after:content-[''] after:w-1.25 after:h-1.25 after:rounded-[3px] border-red after:bg-red mt-1"} />
+          <div className="flex-1 min-w-0"><div className="font-semibold">{d.name}</div>{d.description && <div className="text-dim text-[12.5px]">{d.description}</div>}<div className="mt-1">{rupees(d.price)}</div></div>
+          {d.available ? <button className="font-semibold inline-flex items-center justify-center gap-1.5 whitespace-nowrap [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] h-9 py-0 px-3.5 rounded-[18px] text-[13.5px] bg-transparent border border-edge text-fg active:enabled:[transform:scale(.98)] in-[.m-app]:min-h-11" onClick={() => setPick(d)}>Add</button> : <span className="text-dim text-[12.5px]">Sold out</span>}
         </div>))}
       </div>
-      {count > 0 && <div className="bottom-bar"><div><button className="btn block" onClick={onNext}>{count} item{count > 1 ? 's' : ''} · {rupees(total)} · Review</button></div></div>}
+      {count > 0 && <div className="fixed left-0 right-0 bottom-0 pt-3 px-5 pb-[calc(16px_+_env(safe-area-inset-bottom))] bg-[linear-gradient(transparent,_var(--color-bg)_30%)] [&>div]:max-w-110 [&>div]:my-0 [&>div]:mx-auto"><div><button className="py-0 px-4.5 border-0 bg-blue2 text-[#fff] font-semibold inline-flex items-center justify-center gap-1.5 whitespace-nowrap [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] w-full h-12 rounded-[24px] text-[15px] active:enabled:[transform:scale(.98)] in-[.m-app]:min-h-11" onClick={onNext}>{count} item{count > 1 ? 's' : ''} · {rupees(total)} · Review</button></div></div>}
       {pick && <GuestCustomise dish={pick} guests={guestCount} onClose={() => setPick(null)} onAdd={(l: any) => { setCart([...cart, { ...l, key: Date.now() }]); setPick(null); }} />}
     </div>
   );
@@ -165,12 +165,12 @@ function GuestCustomise({ dish, guests, onClose, onAdd }: any) {
   const [options, setOptions] = useState<string[]>([]); const [note, setNote] = useState('');
   return (
     <Modal title={dish.name} onClose={onClose}>
-      <div className="row-flex" style={{ justifyContent: 'space-between' }}><span className="muted">Quantity</span><Stepper value={qty} min={1} max={20} onChange={setQty} /></div>
-      {guests > 1 && <div><div className="muted small" style={{ marginBottom: 8 }}>Who is it for?</div><div className="pills"><button className={guestNo === 0 ? 'on' : ''} onClick={() => setGuestNo(0)}>Sharing</button>{Array.from({ length: guests }, (_, i) => i + 1).map((n) => <button key={n} className={guestNo === n ? 'on' : ''} onClick={() => setGuestNo(n)}>Guest {n}</button>)}</div></div>}
-      {dish.hasSpice && <div><div className="muted small" style={{ marginBottom: 8 }}>Spice level</div><div className="pills">{SPICE.map((s) => <button key={s} className={spice === s ? 'on' : ''} onClick={() => setSpice(s)}>{s}</button>)}</div></div>}
-      {dish.options?.length > 0 && <div><div className="muted small" style={{ marginBottom: 8 }}>Options</div><div className="pills">{dish.options.map((o: string) => <button key={o} className={options.includes(o) ? 'on' : ''} onClick={() => setOptions(options.includes(o) ? options.filter((x) => x !== o) : [...options, o])}>{o}</button>)}</div></div>}
-      <label className="field">Anything else for the kitchen?<textarea className="input" rows={2} maxLength={200} placeholder="Less oil, no garlic…" value={note} onChange={(e) => setNote(e.target.value)} /></label>
-      <button className="btn block" onClick={() => onAdd({ dishId: dish.id, name: dish.name, price: dish.price, qty, guestNo, spice, options, note })}>Add · {rupees(dish.price * qty)}</button>
+      <div className="flex items-center gap-2.5 justify-between"><span className="text-muted">Quantity</span><Stepper value={qty} min={1} max={20} onChange={setQty} /></div>
+      {guests > 1 && <div><div className="text-muted text-[12.5px] mb-2">Who is it for?</div><div className="flex gap-2 flex-wrap [&_button]:h-8.5 [&_button]:py-0 [&_button]:px-3.5 [&_button]:rounded-[17px] [&_button]:border [&_button]:border-edge [&_button]:bg-transparent [&_button]:text-muted [&_button]:font-medium [&_button.on]:bg-fg [&_button.on]:text-bg [&_button.on]:border-fg [&_button.on]:font-semibold [&_button]:whitespace-nowrap [&_button]:flex-none [&_button]:[transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] [&_button:active]:[transform:scale(.98)]"><button className={(guestNo === 0) ? "on" : ""} onClick={() => setGuestNo(0)}>Sharing</button>{Array.from({ length: guests }, (_, i) => i + 1).map((n) => <button key={n} className={(guestNo === n) ? "on" : ""} onClick={() => setGuestNo(n)}>Guest {n}</button>)}</div></div>}
+      {dish.hasSpice && <div><div className="text-muted text-[12.5px] mb-2">Spice level</div><div className="flex gap-2 flex-wrap [&_button]:h-8.5 [&_button]:py-0 [&_button]:px-3.5 [&_button]:rounded-[17px] [&_button]:border [&_button]:border-edge [&_button]:bg-transparent [&_button]:text-muted [&_button]:font-medium [&_button.on]:bg-fg [&_button.on]:text-bg [&_button.on]:border-fg [&_button.on]:font-semibold [&_button]:whitespace-nowrap [&_button]:flex-none [&_button]:[transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] [&_button:active]:[transform:scale(.98)]">{SPICE.map((s) => <button key={s} className={(spice === s) ? "on" : ""} onClick={() => setSpice(s)}>{s}</button>)}</div></div>}
+      {dish.options?.length > 0 && <div><div className="text-muted text-[12.5px] mb-2">Options</div><div className="flex gap-2 flex-wrap [&_button]:h-8.5 [&_button]:py-0 [&_button]:px-3.5 [&_button]:rounded-[17px] [&_button]:border [&_button]:border-edge [&_button]:bg-transparent [&_button]:text-muted [&_button]:font-medium [&_button.on]:bg-fg [&_button.on]:text-bg [&_button.on]:border-fg [&_button.on]:font-semibold [&_button]:whitespace-nowrap [&_button]:flex-none [&_button]:[transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] [&_button:active]:[transform:scale(.98)]">{dish.options.map((o: string) => <button key={o} className={(options.includes(o)) ? "on" : ""} onClick={() => setOptions(options.includes(o) ? options.filter((x) => x !== o) : [...options, o])}>{o}</button>)}</div></div>}
+      <label className="flex flex-col gap-1.5 text-[13px] text-muted">Anything else for the kitchen?<textarea className="w-full rounded-[12px] border border-edge bg-chip text-fg [outline:0] h-auto py-3 px-3.5 resize-y focus:border-blue" rows={2} maxLength={200} placeholder="Less oil, no garlic…" value={note} onChange={(e) => setNote(e.target.value)} /></label>
+      <button className="py-0 px-4.5 border-0 bg-blue2 text-[#fff] font-semibold inline-flex items-center justify-center gap-1.5 whitespace-nowrap [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] w-full h-12 rounded-[24px] text-[15px] active:enabled:[transform:scale(.98)] in-[.m-app]:min-h-11" onClick={() => onAdd({ dishId: dish.id, name: dish.name, price: dish.price, qty, guestNo, spice, options, note })}>Add · {rupees(dish.price * qty)}</button>
     </Modal>
   );
 }
@@ -178,18 +178,18 @@ function GuestCustomise({ dish, guests, onClose, onAdd }: any) {
 function PlaceOrder({ head, cart, setCart, total, onPlace }: any) {
   const [busy, setBusy] = useState(false); const [err, setErr] = useState<unknown>(null);
   return (
-    <div className="phone">
+    <div className="max-w-120 my-0 mx-auto min-h-screen pt-4 px-5 pb-30 flex flex-col gap-4.5">
       {head}
       <div>{cart.map((l: Line) => (
-        <div key={l.key} className="row">
-          <div className="grow"><div className="b">{l.name}</div><div className="taupe small">{[l.guestNo ? 'Guest ' + l.guestNo : 'Sharing', l.spice, ...l.options, l.note].filter(Boolean).join(' · ')}</div></div>
+        <div key={l.key} className="flex items-center gap-3.5 py-3.5 px-0 border-b border-b-line stagger last:border-b-0">
+          <div className="flex-1 min-w-0"><div className="font-semibold">{l.name}</div><div className="text-[12.5px] text-taupe">{[l.guestNo ? 'Guest ' + l.guestNo : 'Sharing', l.spice, ...l.options, l.note].filter(Boolean).join(' · ')}</div></div>
           <Stepper value={l.qty} min={0} max={20} onChange={(v) => setCart(v === 0 ? cart.filter((x: Line) => x.key !== l.key) : cart.map((x: Line) => (x.key === l.key ? { ...x, qty: v } : x)))} />
-          <span style={{ width: 64, textAlign: 'right' }}>{rupees(l.price * l.qty)}</span>
+          <span className="w-16 text-right">{rupees(l.price * l.qty)}</span>
         </div>))}
       </div>
-      <div className="row-flex"><span className="muted grow">Total before tax</span><span className="bb" style={{ fontSize: 18 }}>{rupees(total)}</span></div>
+      <div className="flex items-center gap-2.5"><span className="text-muted flex-1 min-w-0">Total before tax</span><span className="font-bold text-[18px]">{rupees(total)}</span></div>
       <ErrorText error={err} />
-      <div className="bottom-bar"><div><button className="btn block" disabled={!cart.length || busy} onClick={async () => { setBusy(true); setErr(null); try { await onPlace(); } catch (e) { setErr(e); } finally { setBusy(false); } }}>{busy ? 'Sending…' : 'Place order'}</button></div></div>
+      <div className="fixed left-0 right-0 bottom-0 pt-3 px-5 pb-[calc(16px_+_env(safe-area-inset-bottom))] bg-[linear-gradient(transparent,_var(--color-bg)_30%)] [&>div]:max-w-110 [&>div]:my-0 [&>div]:mx-auto"><div><button className="py-0 px-4.5 border-0 bg-blue2 text-[#fff] font-semibold inline-flex items-center justify-center gap-1.5 whitespace-nowrap [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] w-full h-12 rounded-[24px] text-[15px] active:enabled:[transform:scale(.98)] in-[.m-app]:min-h-11" disabled={!cart.length || busy} onClick={async () => { setBusy(true); setErr(null); try { await onPlace(); } catch (e) { setErr(e); } finally { setBusy(false); } }}>{busy ? 'Sending…' : 'Place order'}</button></div></div>
     </div>
   );
 }
@@ -199,13 +199,13 @@ function TrackRow({ i, token }: { i: any; token: string }) {
   const m = useMutation({ mutationFn: (fn: () => Promise<any>) => fn(), onSuccess: () => qc.invalidateQueries(), onError: (e) => toast((e as Error).message) });
   const waiting = i.status === 'waiting';
   return (
-    <div className="row" style={{ opacity: i.status === 'cancelled' ? 0.45 : 1 }}>
-      <div className="grow">
-        <div className="b" style={{ textDecoration: i.status === 'cancelled' ? 'line-through' : undefined }}>{i.qty} × {i.name}</div>
-        <div className="small row-flex" style={{ gap: 6, color: STATUS_COLOR[i.status] }}><StatusDot color={STATUS_COLOR[i.status]} ready={i.status === 'ready'} />{ITEM_LABEL[i.status as ItemStatus]}{i.guestNo ? <span className="dim"> · Guest {i.guestNo}</span> : null}</div>
+    <div className="flex items-center gap-3.5 py-3.5 px-0 border-b border-b-line stagger last:border-b-0" style={{ opacity: i.status === 'cancelled' ? 0.45 : 1 }}>
+      <div className="flex-1 min-w-0">
+        <div className="font-semibold" style={{ textDecoration: i.status === 'cancelled' ? 'line-through' : undefined }}>{i.qty} × {i.name}</div>
+        <div className="text-[12.5px] flex items-center gap-1.5" style={{ color: STATUS_COLOR[i.status] }}><StatusDot color={STATUS_COLOR[i.status]} ready={i.status === 'ready'} />{ITEM_LABEL[i.status as ItemStatus]}{i.guestNo ? <span className="text-dim"> · Guest {i.guestNo}</span> : null}</div>
       </div>
       {waiting && <Stepper value={i.qty} min={1} max={20} onChange={(v) => m.mutate(() => api(`/guest/me/items/${i.id}`, { method: 'PATCH', body: { qty: v }, token }))} />}
-      {waiting && <button className="link red" onClick={() => m.mutate(() => api(`/guest/me/items/${i.id}`, { method: 'DELETE', token }))}>Cancel</button>}
+      {waiting && <button className="border-0 bg-transparent p-0 font-semibold text-[13.5px] [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] text-red in-[.m-app]:relative in-[.m-app]:after:content-[''] in-[.m-app]:after:absolute in-[.m-app]:after:left-1/2 in-[.m-app]:after:top-1/2 in-[.m-app]:after:w-[max(100%,_44px)] in-[.m-app]:after:h-[max(100%,_44px)] in-[.m-app]:after:[transform:translate(-50%,_-50%)]" onClick={() => m.mutate(() => api(`/guest/me/items/${i.id}`, { method: 'DELETE', token }))}>Cancel</button>}
     </div>
   );
 }
@@ -215,16 +215,16 @@ function BillStep({ head, s, onAsk }: any) {
   const lines = s.items.filter((i: any) => i.status !== 'cancelled');
   const asked = s.session.status === 'billing';
   return (
-    <div className="phone">
+    <div className="max-w-120 my-0 mx-auto min-h-screen pt-4 px-5 pb-30 flex flex-col gap-4.5">
       {head}
-      <div>{lines.map((i: any) => <div key={i.id} className="row" style={{ padding: '10px 0' }}><span className="grow">{i.qty} × {i.name}</span><span>{rupees(i.unitPrice * i.qty)}</span></div>)}</div>
-      <div className="row-flex"><span className="muted grow">Subtotal</span>{rupees(s.totals.subtotal)}</div>
-      <div className="row-flex"><span className="muted grow">Tax {s.taxPercent}%</span>{rupees(s.totals.tax)}</div>
-      <div className="row-flex"><span className="bb grow" style={{ fontSize: 18 }}>Total</span><span className="bb" style={{ fontSize: 24 }}>{rupees(s.totals.total)}</span></div>
-      {asked ? <div className="green b">Your waiter is bringing the bill. Pay at the table.</div> : <>
-        <div className="muted small">How will you pay?</div>
-        <div className="pills">{['upi', 'card', 'cash'].map((m) => <button key={m} className={method === m ? 'on' : ''} onClick={() => setMethod(m)}>{m.toUpperCase()}</button>)}</div>
-        <div className="bottom-bar"><div><button className="btn block" onClick={() => onAsk(method)}>Ask for the bill</button></div></div>
+      <div>{lines.map((i: any) => <div key={i.id} className="flex items-center gap-3.5 border-b border-b-line stagger last:border-b-0 py-2.5 px-0"><span className="flex-1 min-w-0">{i.qty} × {i.name}</span><span>{rupees(i.unitPrice * i.qty)}</span></div>)}</div>
+      <div className="flex items-center gap-2.5"><span className="text-muted flex-1 min-w-0">Subtotal</span>{rupees(s.totals.subtotal)}</div>
+      <div className="flex items-center gap-2.5"><span className="text-muted flex-1 min-w-0">Tax {s.taxPercent}%</span>{rupees(s.totals.tax)}</div>
+      <div className="flex items-center gap-2.5"><span className="font-bold flex-1 min-w-0 text-[18px]">Total</span><span className="font-bold text-[24px]">{rupees(s.totals.total)}</span></div>
+      {asked ? <div className="text-green font-semibold">Your waiter is bringing the bill. Pay at the table.</div> : <>
+        <div className="text-muted text-[12.5px]">How will you pay?</div>
+        <div className="flex gap-2 flex-wrap [&_button]:h-8.5 [&_button]:py-0 [&_button]:px-3.5 [&_button]:rounded-[17px] [&_button]:border [&_button]:border-edge [&_button]:bg-transparent [&_button]:text-muted [&_button]:font-medium [&_button.on]:bg-fg [&_button.on]:text-bg [&_button.on]:border-fg [&_button.on]:font-semibold [&_button]:whitespace-nowrap [&_button]:flex-none [&_button]:[transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] [&_button:active]:[transform:scale(.98)]">{['upi', 'card', 'cash'].map((m) => <button key={m} className={(method === m) ? "on" : ""} onClick={() => setMethod(m)}>{m.toUpperCase()}</button>)}</div>
+        <div className="fixed left-0 right-0 bottom-0 pt-3 px-5 pb-[calc(16px_+_env(safe-area-inset-bottom))] bg-[linear-gradient(transparent,_var(--color-bg)_30%)] [&>div]:max-w-110 [&>div]:my-0 [&>div]:mx-auto"><div><button className="py-0 px-4.5 border-0 bg-blue2 text-[#fff] font-semibold inline-flex items-center justify-center gap-1.5 whitespace-nowrap [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] w-full h-12 rounded-[24px] text-[15px] active:enabled:[transform:scale(.98)] in-[.m-app]:min-h-11" onClick={() => onAsk(method)}>Ask for the bill</button></div></div>
       </>}
     </div>
   );

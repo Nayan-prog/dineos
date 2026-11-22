@@ -2,10 +2,12 @@
 
 Chefs, dishes, table orders, QR ordering and live dashboards for one restaurant.
 
+**Built with:** PostgreSQL, TypeScript, TanStack (Router and Query), React Native, Supabase and AWS. The web app is styled with Tailwind CSS.
+
 | Part | Folder | Stack |
 |---|---|---|
 | API + live updates | `apps/api` | TypeScript, Hono, Drizzle ORM, PostgreSQL, WebSockets |
-| Web (manager, admin, waiter, chef, customer QR) | `apps/web` | React, TanStack Router, TanStack Query, Vite |
+| Web (manager, admin, waiter, chef, customer QR) | `apps/web` | React, TanStack Router, TanStack Query, Tailwind CSS v4, Vite |
 | Staff app (waiter, chef, manager) | `apps/mobile` | React Native (Expo, expo-router) |
 | Shared types, rules, validation | `packages/shared` | TypeScript, zod |
 

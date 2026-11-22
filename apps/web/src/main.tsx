@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { createRootRoute, createRoute, createRouter, Outlet, redirect, RouterProvider } from '@tanstack/react-router';
-import './styles.css';
+import './index.css';
 import { queryClient, session } from './api';
 import { homeFor, Shell, ToastProvider } from './ui';
 import { Login, Signup } from './pages/auth/Auth';

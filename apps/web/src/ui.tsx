@@ -60,7 +60,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const [msg, setMsg] = useState<string | null>(null);
   const t = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const show = (m: string) => { setMsg(m); clearTimeout(t.current); t.current = setTimeout(() => setMsg(null), 2800); };
-  return <ToastCtx.Provider value={show}>{children}{msg && <div className="toast" role="status">{msg}</div>}</ToastCtx.Provider>;
+  return <ToastCtx.Provider value={show}>{children}{msg && <div className="fixed left-1/2 bottom-6 [transform:translateX(-50%)] bg-fg text-bg py-3 px-4.5 rounded-[22px] font-semibold z-100 shadow-[0_10px_30px_rgba(0,0,0,.4)] narrow:bottom-24 [animation:toast-up_220ms_var(--ease)]" role="status">{msg}</div>}</ToastCtx.Provider>;
 }
 
 // ---------- navigation per role ----------
@@ -156,30 +156,30 @@ function MobileShell({ me, online, path, logout, children }: { me: Me; online: b
   const sub = floor ? (me.role === 'waiter' ? 'Waiter' : 'Chef') + ' · ' + label : ROLE_LABEL[me.role] + ' · Spice Garden';
   const goTab = (t: Tab) => { if (t.profile && !t.to) setProfile(true); else if (t.to) nav({ to: t.to }); else toast(`${t.label} on phones is coming soon`); };
   return (
-    <div className={'m-app' + (noNav ? ' nonav' : '')}>
+    <div className={(noNav) ? "min-h-dvh flex flex-col [&_.mchip.lg]:min-h-11 [&_.chips_button]:relative [&_.wfor_button]:relative [&_.wstep_button]:relative [&_.stepper_button]:relative [&_.mstep_button]:relative [&_.chips_button::after]:content-[''] [&_.chips_button::after]:absolute [&_.chips_button::after]:left-1/2 [&_.chips_button::after]:top-1/2 [&_.chips_button::after]:w-[max(100%,_44px)] [&_.chips_button::after]:h-[max(100%,_44px)] [&_.chips_button::after]:[transform:translate(-50%,_-50%)] [&_.wfor_button::after]:content-[''] [&_.wfor_button::after]:absolute [&_.wfor_button::after]:left-1/2 [&_.wfor_button::after]:top-1/2 [&_.wfor_button::after]:w-[max(100%,_44px)] [&_.wfor_button::after]:h-[max(100%,_44px)] [&_.wfor_button::after]:[transform:translate(-50%,_-50%)] [&_.wstep_button::after]:content-[''] [&_.wstep_button::after]:absolute [&_.wstep_button::after]:left-1/2 [&_.wstep_button::after]:top-1/2 [&_.wstep_button::after]:w-[max(100%,_44px)] [&_.wstep_button::after]:h-[max(100%,_44px)] [&_.wstep_button::after]:[transform:translate(-50%,_-50%)] [&_.stepper_button::after]:content-[''] [&_.stepper_button::after]:absolute [&_.stepper_button::after]:left-1/2 [&_.stepper_button::after]:top-1/2 [&_.stepper_button::after]:w-[max(100%,_44px)] [&_.stepper_button::after]:h-[max(100%,_44px)] [&_.stepper_button::after]:[transform:translate(-50%,_-50%)] [&_.mstep_button::after]:content-[''] [&_.mstep_button::after]:absolute [&_.mstep_button::after]:left-1/2 [&_.mstep_button::after]:top-1/2 [&_.mstep_button::after]:w-[max(100%,_44px)] [&_.mstep_button::after]:h-[max(100%,_44px)] [&_.mstep_button::after]:[transform:translate(-50%,_-50%)] [&_.tabs_button]:min-w-11 [&_.wsearch_input]:h-11 m-app nonav" : "min-h-dvh flex flex-col [&_.mchip.lg]:min-h-11 [&_.chips_button]:relative [&_.wfor_button]:relative [&_.wstep_button]:relative [&_.stepper_button]:relative [&_.mstep_button]:relative [&_.chips_button::after]:content-[''] [&_.chips_button::after]:absolute [&_.chips_button::after]:left-1/2 [&_.chips_button::after]:top-1/2 [&_.chips_button::after]:w-[max(100%,_44px)] [&_.chips_button::after]:h-[max(100%,_44px)] [&_.chips_button::after]:[transform:translate(-50%,_-50%)] [&_.wfor_button::after]:content-[''] [&_.wfor_button::after]:absolute [&_.wfor_button::after]:left-1/2 [&_.wfor_button::after]:top-1/2 [&_.wfor_button::after]:w-[max(100%,_44px)] [&_.wfor_button::after]:h-[max(100%,_44px)] [&_.wfor_button::after]:[transform:translate(-50%,_-50%)] [&_.wstep_button::after]:content-[''] [&_.wstep_button::after]:absolute [&_.wstep_button::after]:left-1/2 [&_.wstep_button::after]:top-1/2 [&_.wstep_button::after]:w-[max(100%,_44px)] [&_.wstep_button::after]:h-[max(100%,_44px)] [&_.wstep_button::after]:[transform:translate(-50%,_-50%)] [&_.stepper_button::after]:content-[''] [&_.stepper_button::after]:absolute [&_.stepper_button::after]:left-1/2 [&_.stepper_button::after]:top-1/2 [&_.stepper_button::after]:w-[max(100%,_44px)] [&_.stepper_button::after]:h-[max(100%,_44px)] [&_.stepper_button::after]:[transform:translate(-50%,_-50%)] [&_.mstep_button::after]:content-[''] [&_.mstep_button::after]:absolute [&_.mstep_button::after]:left-1/2 [&_.mstep_button::after]:top-1/2 [&_.mstep_button::after]:w-[max(100%,_44px)] [&_.mstep_button::after]:h-[max(100%,_44px)] [&_.mstep_button::after]:[transform:translate(-50%,_-50%)] [&_.tabs_button]:min-w-11 [&_.wsearch_input]:h-11 m-app"}>
       {!bare && (
-        <header className="m-top">
+        <header className="sticky top-0 z-20 flex-none h-[calc(56px_+_env(safe-area-inset-top))] pt-[env(safe-area-inset-top)] pr-3 pb-0 pl-1 flex items-center gap-2 bg-bg print:hidden!">
           {floor
-            ? <button className="m-ibtn" aria-label="Profile" onClick={() => nav({ to: waiter ? '/w/profile' : '/c/profile' })}><span className="avatar">{me.name[0]}</span></button>
-            : <button className="m-ibtn" aria-label="Open menu" onClick={() => setDrawer(true)}><Icon name="hamburger" size={22} /></button>}
+            ? <button className="w-11 h-11 flex-none flex items-center justify-center border-0 p-0 bg-transparent rounded-[22px] text-fg [transition:transform_var(--t-fast)_var(--ease)] active:[transform:scale(.94)]" aria-label="Profile" onClick={() => nav({ to: waiter ? '/w/profile' : '/c/profile' })}><span className="w-9 h-9 rounded-[18px] bg-chip2 flex items-center justify-center font-semibold flex-none">{me.name[0]}</span></button>
+            : <button className="w-11 h-11 flex-none flex items-center justify-center border-0 p-0 bg-transparent rounded-[22px] text-fg [transition:transform_var(--t-fast)_var(--ease)] active:[transform:scale(.94)]" aria-label="Open menu" onClick={() => setDrawer(true)}><Icon name="hamburger" size={22} /></button>}
           {floor
-            ? <div className="grow"><div className="m-title ellipsis">{me.name}</div><div className="muted small ellipsis">{waiter ? w.sub : chef ? c.sub : sub}</div></div>
-            : <span className="brand m-brand">DineOS</span>}
+            ? <div className="flex-1 min-w-0"><div className="whitespace-nowrap overflow-hidden text-ellipsis text-[16px] font-bold">{me.name}</div><div className="text-muted text-[12.5px] whitespace-nowrap overflow-hidden text-ellipsis">{waiter ? w.sub : chef ? c.sub : sub}</div></div>
+            : <span className="font-brand font-bold flex-1 text-center text-[20px] in-[.top]:text-[22px]">DineOS</span>}
           {floor
-            ? <button className="m-duty" onClick={duty.toggleBreak} style={{ color: duty.onBreak ? '#f5c27a' : '#7fcfa3' }}><span className="dot" style={{ background: duty.onBreak ? 'var(--amber)' : 'var(--green)' }} />{duty.onBreak ? 'On break' : 'On duty'}</button>
-            : <span className="live" aria-label={online ? 'Live' : 'Connecting'}><span className="dot" style={{ background: online ? 'var(--green)' : 'var(--amber)' }} /></span>}
-          {!floor && <button className="m-ibtn" aria-label="Notifications" onClick={() => nav({ to: '/notifications' })} style={{ position: 'relative' }}><Icon name="bell" size={22} />{unread > 0 && <span className="m-badge" />}</button>}
+            ? <button className="h-8.5 py-0 px-3 flex items-center gap-1.5 border-0 bg-transparent text-[12.5px] font-semibold in-[.m-app]:min-h-11" onClick={duty.toggleBreak} style={{ color: duty.onBreak ? '#f5c27a' : '#7fcfa3' }}><span className="w-2 h-2 rounded-[4px] inline-block flex-none [transition:background-color_var(--t-base)_var(--ease)]" style={{ background: duty.onBreak ? 'var(--color-amber)' : 'var(--color-green)' }} />{duty.onBreak ? 'On break' : 'On duty'}</button>
+            : <span className="flex items-center gap-1.5 text-[13px] font-semibold text-muted" aria-label={online ? 'Live' : 'Connecting'}><span className="w-2 h-2 rounded-[4px] inline-block flex-none [transition:background-color_var(--t-base)_var(--ease)]" style={{ background: online ? 'var(--color-green)' : 'var(--color-amber)' }} /></span>}
+          {!floor && <button className="w-11 h-11 flex-none flex items-center justify-center border-0 p-0 bg-transparent rounded-[22px] text-fg [transition:transform_var(--t-fast)_var(--ease)] active:[transform:scale(.94)] relative!" aria-label="Notifications" onClick={() => nav({ to: '/notifications' })}><Icon name="bell" size={22} />{unread > 0 && <span className="absolute top-2.5 right-2.75 w-2 h-2 rounded-[4px] bg-blue2" />}</button>}
         </header>
       )}
-      <main key={path} className={'m-main' + (bare ? ' bare' : '')}>
-        {!home && !bare && !floor && <button className="link row-flex m-back" onClick={() => window.history.length > 1 ? window.history.back() : nav({ to: homeFor(me.role) })}><Icon name="back" size={18} />Back</button>}
+      <main key={path} className={(bare) ? "flex-1 min-w-0 px-4 pb-[calc(96px_+_env(safe-area-inset-bottom))] flex flex-col gap-5.5 [animation:page-in_220ms_var(--ease)_backwards] pt-[calc(12px_+_env(safe-area-inset-top))] in-[.m-app.nonav]:pb-[calc(24px_+_env(safe-area-inset-bottom))]" : "flex-1 min-w-0 pt-3 px-4 pb-[calc(96px_+_env(safe-area-inset-bottom))] flex flex-col gap-5.5 [animation:page-in_220ms_var(--ease)_backwards] in-[.m-app.nonav]:pb-[calc(24px_+_env(safe-area-inset-bottom))]"}>
+        {!home && !bare && !floor && <button className="flex items-center border-0 bg-transparent p-0 text-blue font-semibold text-[13.5px] [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] self-start gap-1.5 -mb-2 in-[.m-app]:relative in-[.m-app]:after:content-[''] in-[.m-app]:after:absolute in-[.m-app]:after:left-1/2 in-[.m-app]:after:top-1/2 in-[.m-app]:after:w-[max(100%,_44px)] in-[.m-app]:after:h-[max(100%,_44px)] in-[.m-app]:after:[transform:translate(-50%,_-50%)]" onClick={() => window.history.length > 1 ? window.history.back() : nav({ to: homeFor(me.role) })}><Icon name="back" size={18} />Back</button>}
         {children}
       </main>
-      {!noNav && <nav className="m-nav" aria-label="Main">
+      {!noNav && <nav className="fixed left-0 right-0 bottom-0 z-30 pt-2 px-4 pb-[calc(14px_+_env(safe-area-inset-bottom))] bg-bg print:hidden! [&>div]:h-14.5 [&>div]:rounded-[29px] [&>div]:bg-chip [&>div]:p-1.25 [&>div]:flex [&>div]:gap-1 [&_button]:flex-1 [&_button]:h-12 [&_button]:border-0 [&_button]:rounded-[24px] [&_button]:bg-transparent [&_button]:text-muted [&_button]:flex [&_button]:items-center [&_button]:justify-center [&_button]:gap-1 [&_button]:p-0 [&_button]:[transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease)] [&_button.on]:bg-[#2c2c31] [&_button.on]:text-fg [&_button.cta]:flex-[1.3] [&_button.cta]:bg-blue2 [&_button.cta]:text-[#fff] [&_button.cta]:font-bold [&_button.cta]:text-[13px] [&_button:active]:[transform:scale(.96)]" aria-label="Main">
         <div>
           {tabs.map((t) => (
-            <button key={t.label} aria-label={t.cta ? 'Take order' : t.label} aria-current={tabOn(t, path) ? 'page' : undefined} className={(t.cta ? 'cta ' : '') + (tabOn(t, path) || (t.profile && profile) ? 'on' : '')} onClick={() => goTab(t)}>
-              {t.profile ? <span className="avatar sm">{me.name[0]}</span> : <Icon name={t.icon} size={t.cta ? 20 : 22} sw={t.cta ? 2.4 : 1.75} />}
+            <button key={t.label} aria-label={t.cta ? 'Take order' : t.label} aria-current={tabOn(t, path) ? 'page' : undefined} className={(t.cta) ? ((tabOn(t, path) || (t.profile && profile)) ? "cta on" : "cta") : ((tabOn(t, path) || (t.profile && profile)) ? "on" : "")} onClick={() => goTab(t)}>
+              {t.profile ? <span className="bg-chip2 flex items-center justify-center font-semibold flex-none w-6.5 h-6.5 rounded-[13px] text-[12px]">{me.name[0]}</span> : <Icon name={t.icon} size={t.cta ? 20 : 22} sw={t.cta ? 2.4 : 1.75} />}
               {t.cta && <span>{t.label}</span>}
             </button>
           ))}
@@ -187,29 +187,29 @@ function MobileShell({ me, online, path, logout, children }: { me: Me; online: b
       </nav>}
 
       {drawer && (
-        <div className="m-drawer" role="dialog" aria-label="Menu">
-          <header className="m-top">
-            <button className="m-ibtn" aria-label="Close menu" onClick={() => setDrawer(false)}><Icon name="x" size={22} /></button>
-            <span className="brand m-brand">DineOS</span><span className="m-ibtn" />
+        <div className="fixed inset-0 z-50 bg-bg flex flex-col [animation:fade_var(--t-base)_var(--ease)]" role="dialog" aria-label="Menu">
+          <header className="sticky top-0 z-20 flex-none h-[calc(56px_+_env(safe-area-inset-top))] pt-[env(safe-area-inset-top)] pr-3 pb-0 pl-1 flex items-center gap-2 bg-bg print:hidden!">
+            <button className="w-11 h-11 flex-none flex items-center justify-center border-0 p-0 bg-transparent rounded-[22px] text-fg [transition:transform_var(--t-fast)_var(--ease)] active:[transform:scale(.94)]" aria-label="Close menu" onClick={() => setDrawer(false)}><Icon name="x" size={22} /></button>
+            <span className="font-brand font-bold flex-1 text-center text-[20px] in-[.top]:text-[22px]">DineOS</span><span className="w-11 h-11 flex-none flex items-center justify-center border-0 p-0 bg-transparent rounded-[22px] text-fg [transition:transform_var(--t-fast)_var(--ease)] active:[transform:scale(.94)]" />
           </header>
-          <div className="m-drawer-body">
-            <button className="m-who" onClick={() => { setDrawer(false); if (floor) setProfile(true); else nav({ to: '/profile' }); }}>
-              <span className="avatar big">{me.name[0]}</span>
-              <span className="grow"><span className="b" style={{ display: 'block' }}>{me.name}</span><span className="muted small">{ROLE_LABEL[me.role]} · Spice Garden</span></span>
+          <div className="flex-1 min-h-0 overflow-y-auto pt-1 px-3 pb-[calc(16px_+_env(safe-area-inset-bottom))] flex flex-col">
+            <button className="flex items-center gap-3 p-3 border-0 rounded-[16px] bg-card text-left text-fg" onClick={() => { setDrawer(false); if (floor) setProfile(true); else nav({ to: '/profile' }); }}>
+              <span className="bg-chip2 flex items-center justify-center flex-none w-11 h-11 rounded-[22px] text-[16px] font-bold">{me.name[0]}</span>
+              <span className="flex-1 min-w-0"><span className="font-semibold block">{me.name}</span><span className="text-muted text-[12.5px]">{ROLE_LABEL[me.role]} · Spice Garden</span></span>
               <Icon name="chev" size={16} />
             </button>
             {items.filter((it) => it.length === 1 || it[2] !== '/stations').map((it, i) => it.length === 1
-              ? <div key={i} className="m-sec">{it[0]}</div>
-              : <Link key={i} to={it[2]} className={'m-item' + (path === it[2] || path.startsWith(it[2] + '/') ? ' on' : '')}><Icon name={it[0]} size={22} />{it[1]}</Link>)}
-            <button className="m-item red m-out" onClick={logout}>Sign out</button>
+              ? <div key={i} className="font-brand text-[12px] font-bold text-dim pt-4 px-3 pb-1.5">{it[0]}</div>
+              : <Link key={i} to={it[2]} className={(path === it[2] || path.startsWith(it[2] + '/')) ? "flex items-center gap-3.5 h-13 py-0 px-3 border-0 rounded-[14px] text-[16px] [transition:background-color_var(--t-base)_var(--ease),_transform_var(--t-fast)_var(--ease)] text-blue bg-chip font-semibold active:[transform:scale(.98)] on" : "flex items-center gap-3.5 h-13 py-0 px-3 border-0 rounded-[14px] bg-transparent text-[16px] font-medium text-muted [transition:background-color_var(--t-base)_var(--ease),_transform_var(--t-fast)_var(--ease)] active:[transform:scale(.98)]"}><Icon name={it[0]} size={22} />{it[1]}</Link>)}
+            <button className="flex items-center gap-3.5 h-13 py-0 px-3 border-0 rounded-[14px] bg-transparent text-[16px] text-muted [transition:background-color_var(--t-base)_var(--ease),_transform_var(--t-fast)_var(--ease)] mt-auto font-semibold active:[transform:scale(.98)]" onClick={logout}>Sign out</button>
           </div>
         </div>
       )}
       {profile && !floor && (
         <Modal title="Profile" onClose={() => setProfile(false)}>
-          <div className="row-flex"><span className="avatar big">{me.name[0]}</span><div><div className="b">{me.name}</div><div className="muted small">{floor ? ROLE_LABEL[me.role] : ROLE_LABEL[me.role] + ' · Spice Garden'}</div></div></div>
-          {!floor && <Link to="/settings" className="btn ghost block">Settings</Link>}
-          <button className="btn danger block" onClick={logout}>Log out</button>
+          <div className="flex items-center gap-2.5"><span className="bg-chip2 flex items-center justify-center flex-none w-11 h-11 rounded-[22px] text-[16px] font-bold">{me.name[0]}</span><div><div className="font-semibold">{me.name}</div><div className="text-muted text-[12.5px]">{floor ? ROLE_LABEL[me.role] : ROLE_LABEL[me.role] + ' · Spice Garden'}</div></div></div>
+          {!floor && <Link to="/settings" className="py-0 px-4.5 font-semibold inline-flex items-center justify-center gap-1.5 whitespace-nowrap [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] bg-transparent border border-edge text-fg w-full h-12 rounded-[24px] text-[15px] active:enabled:[transform:scale(.98)] in-[.m-app]:min-h-11">Settings</Link>}
+          <button className="py-0 px-4.5 font-semibold inline-flex items-center justify-center gap-1.5 whitespace-nowrap [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] bg-transparent border border-edge text-red w-full h-12 rounded-[24px] text-[15px] active:enabled:[transform:scale(.98)] in-[.m-app]:min-h-11" onClick={logout}>Log out</button>
         </Modal>
       )}
     </div>
@@ -239,34 +239,34 @@ export function Shell({ children, roles }: { children: ReactNode; roles: string[
   if (mobile) return <MeCtx.Provider value={me}><MobileShell me={me} online={online} path={path} logout={logout}>{children}</MobileShell></MeCtx.Provider>;
   return (
     <MeCtx.Provider value={me}>
-      <header className="top">
-        <Link to={homeFor(me.role)} className="brand">DineOS</Link>
+      <header className="h-16 py-0 px-6 flex items-center gap-3.5 sticky top-0 bg-bg z-20 phone:py-0 phone:px-3 [&_.role]:text-muted [&_.role]:text-[15px] [&_.role]:font-semibold top">
+        <Link to={homeFor(me.role)} className="font-brand font-bold in-[.top]:text-[22px]">DineOS</Link>
         <span className="role">{ROLE_LABEL[me.role]}</span>
-        <span className="grow" />
-        {['owner', 'manager', 'admin'].includes(me.role) && <label className="search"><Icon name="search" size={18} /><input type="search" aria-label="Search" placeholder="Search orders, dishes, tables" onKeyDown={(e) => { if (e.key === 'Enter') nav({ to: '/orders', search: { q: (e.target as HTMLInputElement).value } as any }); }} /></label>}
-        <span className="grow" />
-        <span className="live"><span className="dot" style={{ background: online ? 'var(--green)' : 'var(--amber)' }} />{online ? 'Live' : 'Connecting'}</span>
-        {me.role === 'waiter' && <Link to="/w/alerts" className="iconbtn" aria-label="Alerts"><Icon name="bell" size={22} /></Link>}
-        <div className="menu-wrap">
-          <button onClick={() => setOpen(!open)} aria-label="Account menu" aria-expanded={open}><span className="avatar">{me.name[0]}</span></button>
+        <span className="flex-1 min-w-0" />
+        {['owner', 'manager', 'admin'].includes(me.role) && <label className="flex items-center gap-2 h-10 w-80 max-w-[36vw] py-0 px-3.5 rounded-[20px] bg-chip text-muted phone:hidden [&_input]:flex-1 [&_input]:min-w-0 [&_input]:border-0 [&_input]:[outline:0] [&_input]:bg-transparent"><Icon name="search" size={18} /><input type="search" aria-label="Search" placeholder="Search orders, dishes, tables" onKeyDown={(e) => { if (e.key === 'Enter') nav({ to: '/orders', search: { q: (e.target as HTMLInputElement).value } as any }); }} /></label>}
+        <span className="flex-1 min-w-0" />
+        <span className="flex items-center gap-1.5 text-[13px] font-semibold text-muted"><span className="w-2 h-2 rounded-[4px] inline-block flex-none [transition:background-color_var(--t-base)_var(--ease)]" style={{ background: online ? 'var(--color-green)' : 'var(--color-amber)' }} />{online ? 'Live' : 'Connecting'}</span>
+        {me.role === 'waiter' && <Link to="/w/alerts" className="w-11 h-11 flex items-center justify-center border-0 bg-transparent relative rounded-[22px] [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] [&_.badge]:absolute [&_.badge]:top-2.75 [&_.badge]:right-3 [&_.badge]:w-2 [&_.badge]:h-2 [&_.badge]:rounded-[4px] [&_.badge]:bg-blue2 active:[transform:scale(.98)]" aria-label="Alerts"><Icon name="bell" size={22} /></Link>}
+        <div className="relative [&>button]:border-0 [&>button]:p-0 [&>button]:bg-transparent">
+          <button onClick={() => setOpen(!open)} aria-label="Account menu" aria-expanded={open}><span className="w-9 h-9 rounded-[18px] bg-chip2 flex items-center justify-center font-semibold flex-none">{me.name[0]}</span></button>
           {open && (
-            <div className="menu" role="menu">
-              <div className="who"><div className="b">{me.name}</div><div className="dim small">{sub}</div></div>
+            <div className="absolute right-0 top-11.5 w-60 p-1.5 rounded-[14px] bg-card border border-line2 shadow-[0_12px_32px_rgba(0,0,0,.5)] z-40 [&_.who]:pt-2.5 [&_.who]:px-3 [&_.who]:pb-3 [&_.who]:border-b [&_.who]:border-b-line2 [&_.who]:mb-1.5 [&_a]:flex [&_a]:items-center [&_a]:gap-2.5 [&_a]:w-full [&_a]:h-10 [&_a]:py-0 [&_a]:px-3 [&_a]:rounded-[8px] [&_a]:border-0 [&_a]:bg-transparent [&_a]:text-[14px] [&_a]:text-left [&_button.item]:flex [&_button.item]:items-center [&_button.item]:gap-2.5 [&_button.item]:w-full [&_button.item]:h-10 [&_button.item]:py-0 [&_button.item]:px-3 [&_button.item]:rounded-[8px] [&_button.item]:border-0 [&_button.item]:bg-transparent [&_button.item]:text-[14px] [&_button.item]:text-left [&_a:hover]:bg-chip [&_button.item:hover]:bg-chip [&_hr]:border-0 [&_hr]:h-0.25 [&_hr]:bg-line2 [&_hr]:my-1.5 [&_hr]:mx-0" role="menu">
+              <div className="who"><div className="font-semibold">{me.name}</div><div className="text-dim text-[12.5px]">{sub}</div></div>
               {['owner', 'manager', 'admin'].includes(me.role) && <Link to="/settings"><Icon name="settings" size={18} />Settings</Link>}
               <hr />
-              <button className="item red" onClick={logout}><Icon name="logout" size={18} />Log out</button>
+              <button className="text-red item" onClick={logout}><Icon name="logout" size={18} />Log out</button>
             </div>
           )}
         </div>
       </header>
-      <div className="layout">
-        <nav className="side" aria-label="Main">
+      <div className="flex items-start phone:flex-col">
+        <nav className="flex-none w-59 pt-2 px-3 pb-6 sticky top-16 phone:w-full phone:static phone:flex phone:overflow-x-auto phone:gap-1 phone:py-0 phone:px-3 [&_.sec]:font-brand [&_.sec]:text-[12px] [&_.sec]:font-bold [&_.sec]:text-dim [&_.sec]:pt-3.5 [&_.sec]:px-3.5 [&_.sec]:pb-1.5 [&_a]:flex [&_a]:items-center [&_a]:gap-3 [&_a]:h-11 [&_a]:py-0 [&_a]:px-3.5 [&_a]:rounded-[12px] [&_a]:text-[14.5px] [&_a]:font-medium [&_a]:text-muted [&_a:hover]:text-fg [&_a.active]:text-blue [&_a.active]:bg-chip [&_a.active]:font-semibold [&_a_.count]:ml-auto [&_a_.count]:text-[12.5px] [&_a_.count]:text-blue [&_a_.count]:font-semibold phone:[&_.sec]:hidden phone:[&_a]:flex-none phone:[&_a]:h-10 [&_a]:[transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)]" aria-label="Main">
           {items.map((it, i) => it.length === 1
             ? <div key={i} className="sec">{it[0]}</div>
-            : <Link key={i} to={it[2]} className={path === it[2] || (it[2] !== '/w' && it[2] !== '/c' && path.startsWith(it[2] + '/')) ? 'active' : ''}><Icon name={it[0]} />{it[1]}</Link>)}
+            : <Link key={i} to={it[2]} className={(path === it[2] || (it[2] !== '/w' && it[2] !== '/c' && path.startsWith(it[2] + '/'))) ? "active" : ""}><Icon name={it[0]} />{it[1]}</Link>)}
         </nav>
-        <main key={path} className="main">
-          {path !== homeFor(me.role) && <button className="link row-flex" style={{ gap: 6, marginBottom: 10 }} onClick={() => window.history.length > 1 ? window.history.back() : nav({ to: homeFor(me.role) })}><Icon name="back" size={18} />Back</button>}
+        <main key={path} className="flex-1 min-w-0 pt-6 px-10 pb-16 max-w-305 flex flex-col gap-7 phone:pt-4 phone:px-4 phone:pb-12 [animation:page-in_220ms_var(--ease)_backwards]">
+          {path !== homeFor(me.role) && <button className="flex items-center border-0 bg-transparent p-0 text-blue font-semibold text-[13.5px] [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] in-[.m-app]:relative in-[.m-app]:after:content-[''] in-[.m-app]:after:absolute in-[.m-app]:after:left-1/2 in-[.m-app]:after:top-1/2 in-[.m-app]:after:w-[max(100%,_44px)] in-[.m-app]:after:h-[max(100%,_44px)] in-[.m-app]:after:[transform:translate(-50%,_-50%)] gap-1.5 mb-2.5" onClick={() => window.history.length > 1 ? window.history.back() : nav({ to: homeFor(me.role) })}><Icon name="back" size={18} />Back</button>}
           {children}
         </main>
       </div>
@@ -275,23 +275,23 @@ export function Shell({ children, roles }: { children: ReactNode; roles: string[
 }
 
 export function Title({ title, sub, right }: { title: string; sub?: ReactNode; right?: ReactNode }) {
-  return <div className="title-row"><div><h1 className="title">{title}</h1>{sub && <div className="muted" style={{ fontSize: 13.5, marginTop: 2 }}>{sub}</div>}</div>{right}</div>;
+  return <div className="flex flex-wrap items-end justify-between gap-3"><div><h1 className="m-0 text-[30px] font-bold tracking-[-.4px] phone:text-[26px]">{title}</h1>{sub && <div className="text-muted text-[13.5px] mt-0.5">{sub}</div>}</div>{right}</div>;
 }
 
 export function Sec({ title, n, children, right }: { title: string; n?: ReactNode; children?: ReactNode; right?: ReactNode }) {
-  return <section><h2 className="sec-h">{title}{n !== undefined && <span className="n">{n}</span>}{right && <span style={{ marginLeft: n === undefined ? 'auto' : 12 }}>{right}</span>}</h2>{children}</section>;
+  return <section><h2 className="mt-0 mx-0 mb-3 font-brand text-[15px] font-bold text-muted flex items-center gap-2 [&_.n]:ml-auto [&_.n]:font-sans [&_.n]:font-semibold">{title}{n !== undefined && <span className="n">{n}</span>}{right && <span style={{ marginLeft: n === undefined ? 'auto' : 12 }}>{right}</span>}</h2>{children}</section>;
 }
 
 export function Stepper({ value, onChange, min = 1, max = 99, fmt }: { value: number; onChange: (v: number) => void; min?: number; max?: number; fmt?: (v: number) => string }) {
-  return <span className="stepper"><button type="button" aria-label="Less" onClick={() => onChange(Math.max(min, value - 1))}>−</button><span>{fmt ? fmt(value) : value}</span><button type="button" aria-label="More" onClick={() => onChange(Math.min(max, value + 1))}>+</button></span>;
+  return <span className="inline-flex items-center gap-0.5 [&_button]:w-8 [&_button]:h-8 [&_button]:rounded-[16px] [&_button]:border [&_button]:border-edge [&_button]:bg-transparent [&_button]:text-[16px] [&_span]:min-w-10 [&_span]:text-center [&_span]:font-bold [&_button]:[transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] [&_button:active]:[transform:scale(.98)] stepper"><button type="button" aria-label="Less" onClick={() => onChange(Math.max(min, value - 1))}>−</button><span>{fmt ? fmt(value) : value}</span><button type="button" aria-label="More" onClick={() => onChange(Math.min(max, value + 1))}>+</button></span>;
 }
 
 export function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
   useEffect(() => { const k = (e: KeyboardEvent) => e.key === 'Escape' && onClose(); window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k); }, [onClose]);
   return (
-    <div className="overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="sheet" role="dialog" aria-label={title}>
-        <div className="row-flex"><h2 style={{ margin: 0, fontSize: 20 }} className="grow">{title}</h2><button className="iconbtn" onClick={onClose} aria-label="Close"><Icon name="x" /></button></div>
+    <div className="fixed inset-0 bg-[rgba(0,0,0,.6)] flex items-center justify-center z-60 p-4 [animation:fade_var(--t-base)_var(--ease)] phone:items-end" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div className="w-[min(520px,_100%)] max-h-[92vh] overflow-auto bg-card border border-line2 rounded-[20px] p-5.5 flex flex-col gap-4 [animation:pop_var(--t-base)_var(--ease)] phone:[animation:sheet-up_250ms_var(--ease)]" role="dialog" aria-label={title}>
+        <div className="flex items-center gap-2.5"><h2 className="flex-1 min-w-0 m-0 text-[20px]">{title}</h2><button className="w-11 h-11 flex items-center justify-center border-0 bg-transparent relative rounded-[22px] [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] [&_.badge]:absolute [&_.badge]:top-2.75 [&_.badge]:right-3 [&_.badge]:w-2 [&_.badge]:h-2 [&_.badge]:rounded-[4px] [&_.badge]:bg-blue2 active:[transform:scale(.98)]" onClick={onClose} aria-label="Close"><Icon name="x" /></button></div>
         {children}
       </div>
     </div>
@@ -300,15 +300,15 @@ export function Modal({ title, onClose, children }: { title: string; onClose: ()
 
 /** Status dot: colour fades; when `ready` (food ready / new alert) it pulses once. Remounts on change so the pulse replays. */
 export function StatusDot({ color, ready }: { color: string; ready?: boolean }) {
-  return <span key={String(!!ready)} className={ready ? 'dot pulse' : 'dot'} style={{ background: color }} />;
+  return <span key={String(!!ready)} className={(ready) ? "w-2 h-2 rounded-[4px] inline-block flex-none [transition:background-color_var(--t-base)_var(--ease)] [animation:pulse_500ms_var(--ease)_1]" : "w-2 h-2 rounded-[4px] inline-block flex-none [transition:background-color_var(--t-base)_var(--ease)]"} style={{ background: color }} />;
 }
 
-export const Loading = () => <div className="dim">Loading…</div>;
-export const ErrorText = ({ error }: { error: unknown }) => error ? <div className="err">{(error as Error).message}</div> : null;
+export const Loading = () => <div className="text-dim">Loading…</div>;
+export const ErrorText = ({ error }: { error: unknown }) => error ? <div className="text-red text-[13.5px]">{(error as Error).message}</div> : null;
 
-export const STATUS_COLOR: Record<string, string> = { waiting: 'var(--muted)', cooking: 'var(--amber)', ready: 'var(--green)', served: 'var(--blue)', cancelled: 'var(--red)' };
+export const STATUS_COLOR: Record<string, string> = { waiting: 'var(--color-muted)', cooking: 'var(--color-amber)', ready: 'var(--color-green)', served: 'var(--color-blue)', cancelled: 'var(--color-red)' };
 export const TABLE_STATE: Record<string, [string, string]> = {
-  free: ['Free', '#3a3a40'], seated: ['Seated', 'var(--blue)'], eating: ['Food on the way', 'var(--amber)'], ready: ['Food ready', 'var(--green)'], served: ['Eating', 'var(--taupe)'], billing: ['Bill asked', 'var(--red)'],
+  free: ['Free', '#3a3a40'], seated: ['Seated', 'var(--color-blue)'], eating: ['Food on the way', 'var(--color-amber)'], ready: ['Food ready', 'var(--color-green)'], served: ['Eating', 'var(--color-taupe)'], billing: ['Bill asked', 'var(--color-red)'],
 };
 export const ago = (d: string | Date | null) => { if (!d) return ''; const m = Math.max(0, Math.round((Date.now() - new Date(d).getTime()) / 60000)); return m < 1 ? 'just now' : m < 60 ? `${m} min` : `${Math.floor(m / 60)} h ${m % 60} min`; };
 export const mins = (d: string | Date | null) => (d ? Math.max(0, Math.round((Date.now() - new Date(d).getTime()) / 60000)) : 0);

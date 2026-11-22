@@ -22,26 +22,26 @@ export function Orders() {
   const list = data.filter((x: any) => (tab === 'all' || x.status === tab) && (!q || `${x.table} ${x.name} ${x.station}`.toLowerCase().includes(q.toLowerCase())));
   return (
     <>
-      <Title title="Orders" sub={`${data.filter((x: any) => x.status === 'waiting' || x.status === 'cooking').length} dishes in progress`} right={<input className="input" style={{ width: 260, height: 40 }} placeholder="Search table or dish" value={q} onChange={(e) => setQ(e.target.value)} />} />
-      <div className="tabs">{tabs.map(([k, l]) => <button key={k} className={tab === k ? 'on' : ''} onClick={() => setTab(k)}>{l} <span className="dim">{k === 'all' ? data.length : data.filter((x: any) => x.status === k).length}</span></button>)}</div>
-      <table className="table">
+      <Title title="Orders" sub={`${data.filter((x: any) => x.status === 'waiting' || x.status === 'cooking').length} dishes in progress`} right={<input className="py-0 px-3.5 rounded-[12px] border border-edge bg-chip text-fg [outline:0] focus:border-blue w-65 h-10" placeholder="Search table or dish" value={q} onChange={(e) => setQ(e.target.value)} />} />
+      <div className="flex gap-5.5 border-b border-b-line overflow-x-auto [&_button]:h-11 [&_button]:p-0 [&_button]:border-0 [&_button]:bg-transparent [&_button]:text-muted [&_button]:font-medium [&_button]:text-[14.5px] [&_button]:shadow-[inset_0_-2px_0_transparent] [&_button]:whitespace-nowrap [&_button.on]:text-fg [&_button.on]:font-bold [&_button.on]:shadow-[inset_0_-2px_0_var(--color-blue)] [&_button]:[transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] tabs">{tabs.map(([k, l]) => <button key={k} className={(tab === k) ? "on" : ""} onClick={() => setTab(k)}>{l} <span className="text-dim">{k === 'all' ? data.length : data.filter((x: any) => x.status === k).length}</span></button>)}</div>
+      <table className="w-full [border-collapse:collapse] [&_th]:text-left [&_th]:font-medium [&_th]:text-dim [&_th]:text-[12.5px] [&_th]:pt-0 [&_th]:pr-3 [&_th]:pb-2.5 [&_th]:pl-0 [&_td]:pt-3 [&_td]:pr-3 [&_td]:pb-3 [&_td]:pl-0 [&_td]:border-t [&_td]:border-t-line [&_tbody_tr]:stagger">
         <thead><tr><th>Table</th><th>Dish</th><th>Guest</th><th>Station</th><th>Status</th><th>Time</th>{data[0] && 'unitPrice' in data[0] && <th>Amount</th>}<th /></tr></thead>
         <tbody>
           {list.map((x: any) => (
             <tr key={x.id}>
-              <td><Link to="/tables/$id" params={{ id: String(x.tableId) }} className="bb">{x.table}</Link></td>
-              <td><div className="b">{x.qty} × {x.name}</div>{(x.note || x.spice) && <div className="taupe small">{[x.spice, x.note].filter(Boolean).join(' · ')}</div>}</td>
-              <td className="muted">{x.guestNo ? 'G' + x.guestNo : 'Shared'}</td>
-              <td className="muted">{x.station}{x.chef && <div className="dim small">{x.chef}</div>}</td>
-              <td><span className="row-flex" style={{ gap: 6, color: STATUS_COLOR[x.status] }}><StatusDot color={STATUS_COLOR[x.status]} ready={x.status === 'ready'} />{ITEM_LABEL[x.status as ItemStatus]}</span></td>
-              <td className="dim">{ago(x.createdAt)}</td>
+              <td><Link to="/tables/$id" params={{ id: String(x.tableId) }} className="font-bold">{x.table}</Link></td>
+              <td><div className="font-semibold">{x.qty} × {x.name}</div>{(x.note || x.spice) && <div className="text-[12.5px] text-taupe">{[x.spice, x.note].filter(Boolean).join(' · ')}</div>}</td>
+              <td className="text-muted">{x.guestNo ? 'G' + x.guestNo : 'Shared'}</td>
+              <td className="text-muted">{x.station}{x.chef && <div className="text-dim text-[12.5px]">{x.chef}</div>}</td>
+              <td><span className="flex items-center gap-1.5" style={{ color: STATUS_COLOR[x.status] }}><StatusDot color={STATUS_COLOR[x.status]} ready={x.status === 'ready'} />{ITEM_LABEL[x.status as ItemStatus]}</span></td>
+              <td className="text-dim">{ago(x.createdAt)}</td>
               {'unitPrice' in x && <td>{rupees(x.unitPrice * x.qty)}</td>}
-              <td style={{ textAlign: 'right' }}>{(x.status === 'waiting' || x.status === 'cooking') && <button className="link red" onClick={() => confirm(`Cancel ${x.qty} × ${x.name} for ${x.table}?`) && cancel.mutate(x.id)}>Cancel</button>}</td>
+              <td className="text-right">{(x.status === 'waiting' || x.status === 'cooking') && <button className="border-0 bg-transparent p-0 font-semibold text-[13.5px] [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] text-red in-[.m-app]:relative in-[.m-app]:after:content-[''] in-[.m-app]:after:absolute in-[.m-app]:after:left-1/2 in-[.m-app]:after:top-1/2 in-[.m-app]:after:w-[max(100%,_44px)] in-[.m-app]:after:h-[max(100%,_44px)] in-[.m-app]:after:[transform:translate(-50%,_-50%)]" onClick={() => confirm(`Cancel ${x.qty} × ${x.name} for ${x.table}?`) && cancel.mutate(x.id)}>Cancel</button>}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      {list.length === 0 && <div className="empty">Nothing here</div>}
+      {list.length === 0 && <div className="border border-dashed border-edge rounded-[16px] p-5.5 text-dim text-center">Nothing here</div>}
     </>
   );
 }
@@ -54,24 +54,24 @@ export function StationQueues() {
   return (
     <>
       <Title title="Station queues" sub="Live load per station" />
-        <div className="stations">
+        <div className="grid grid-cols-[repeat(auto-fit,_minmax(240px,_1fr))] gap-y-6 gap-x-0 phone:grid-cols-[1fr] phone:gap-0 [&>a]:block [&>a]:py-0 [&>a]:px-6 [&>a]:text-current [&>a:first-child]:pl-0 [&>a:last-child]:pr-0 [&>a+a]:border-l [&>a+a]:border-l-line2 phone:[&>a]:py-4! phone:[&>a]:px-0! phone:[&>a+a]:border-l-0 phone:[&>a+a]:border-t phone:[&>a+a]:border-t-line2 [&>a]:stagger">
           {(d.data.stations ?? []).map((st: any) => (
             <Link key={st.id} to="/kitchen" search={{ station: st.id }}>
-              <div className="b" style={{ fontSize: 15 }}>{st.name}</div>
-              <div className="row-flex" style={{ gap: 18, margin: '10px 0 8px' }}>
-                {[['Waiting', st.waiting, 'var(--muted)'], ['Cooking', st.cooking, 'var(--amber)'], ['At the pass', st.ready, 'var(--green)']].map(([l, n, c]) => (
-                  <div key={l as string}><div className="bb" style={{ fontSize: 24 }}>{n}</div><div className="dim small row-flex" style={{ gap: 6 }}><span className="dot" style={{ background: c as string }} />{l}</div></div>
+              <div className="font-semibold text-[15px]">{st.name}</div>
+              <div className="flex items-center gap-4.5 mt-2.5 mx-0 mb-2">
+                {[['Waiting', st.waiting, 'var(--color-muted)'], ['Cooking', st.cooking, 'var(--color-amber)'], ['At the pass', st.ready, 'var(--color-green)']].map(([l, n, c]) => (
+                  <div key={l as string}><div className="font-bold text-[24px]">{n}</div><div className="text-dim text-[12.5px] flex items-center gap-1.5"><span className="w-2 h-2 rounded-[4px] inline-block flex-none [transition:background-color_var(--t-base)_var(--ease)]" style={{ background: c as string }} />{l}</div></div>
                 ))}
               </div>
-              <div className={st.late > 0 ? 'amber small' : 'dim small'}>Oldest {st.oldestWaitMin} min · {st.late} late</div>
-              <div className={st.chefsOnDuty === 0 && st.waiting > 0 ? 'amber small' : 'dim small'} style={{ marginTop: 2 }}>{st.chefsOnDuty} of {st.chefsTotal} chefs on duty</div>
-              <div style={{ marginTop: 10 }}>
+              <div className={(st.late > 0) ? "text-[12.5px] text-amber" : "text-dim text-[12.5px]"}>Oldest {st.oldestWaitMin} min · {st.late} late</div>
+              <div className={(st.chefsOnDuty === 0 && st.waiting > 0) ? "text-[12.5px] text-amber mt-0.5" : "text-dim text-[12.5px] mt-0.5"}>{st.chefsOnDuty} of {st.chefsTotal} chefs on duty</div>
+              <div className="mt-2.5">
                 {st.next.map((i: any, n: number) => (
-                  <div key={n} className="row-flex small" style={{ gap: 8, padding: '5px 0' }}>
-                    <span className="bb" style={{ width: 28 }}>{i.table}</span>
-                    <span className="grow" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{i.qty} × {i.name}</span>
-                    {i.remake && <span className="red bb">Remake</span>}
-                    <span className="dim">{i.minutes} min</span>
+                  <div key={n} className="text-[12.5px] flex items-center gap-2 py-1.25 px-0">
+                    <span className="font-bold w-7">{i.table}</span>
+                    <span className="flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">{i.qty} × {i.name}</span>
+                    {i.remake && <span className="text-red font-bold">Remake</span>}
+                    <span className="text-dim">{i.minutes} min</span>
                   </div>
                 ))}
               </div>
@@ -97,13 +97,13 @@ export function Kitchen() {
   return (
     <>
       <Title title="Kitchen Display" sub="Shared station queues · urgent and oldest first" />
-      <div className="tabs">{stations.data?.map((x: any) => <button key={x.id} className={current === x.id ? 'on' : ''} onClick={() => setSid(x.id)}>{x.name}</button>)}</div>
+      <div className="flex gap-5.5 border-b border-b-line overflow-x-auto [&_button]:h-11 [&_button]:p-0 [&_button]:border-0 [&_button]:bg-transparent [&_button]:text-muted [&_button]:font-medium [&_button]:text-[14.5px] [&_button]:shadow-[inset_0_-2px_0_transparent] [&_button]:whitespace-nowrap [&_button.on]:text-fg [&_button.on]:font-bold [&_button.on]:shadow-[inset_0_-2px_0_var(--color-blue)] [&_button]:[transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] tabs">{stations.data?.map((x: any) => <button key={x.id} className={(current === x.id) ? "on" : ""} onClick={() => setSid(x.id)}>{x.name}</button>)}</div>
       {!q.data ? <Loading /> : (
         <>
-          <div className="row-flex wrap" style={{ gap: '12px 28px' }}>{q.data.chefs.map((c: any) => <span key={c.id}><span className="b">{c.name}</span> <span className={c.onBreak ? 'amber small' : 'dim small'}>{c.onBreak ? 'on break' : `${c.cooking} of ${c.maxParallel} cooking`}</span></span>)}</div>
-          <div className="cols">
-            <Sec title="Waiting" n={q.data.waiting.length}>{q.data.waiting.map((i: any) => <QRow key={i.id} i={i} />)}{!q.data.waiting.length && <div className="empty">Queue is clear</div>}</Sec>
-            <Sec title="Cooking" n={q.data.cooking.length}>{q.data.cooking.map((i: any) => <QRow key={i.id} i={i} right={<button className="link" onClick={() => release.mutate(i.id)}>Release</button>} />)}</Sec>
+          <div className="flex items-center gap-2.5 flex-wrap gap-y-3 gap-x-7">{q.data.chefs.map((c: any) => <span key={c.id}><span className="font-semibold">{c.name}</span> <span className={(c.onBreak) ? "text-[12.5px] text-amber" : "text-dim text-[12.5px]"}>{c.onBreak ? 'on break' : `${c.cooking} of ${c.maxParallel} cooking`}</span></span>)}</div>
+          <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-y-8 gap-x-0 [&>*]:py-0 [&>*]:px-7 [&>*:first-child]:pl-0 [&>*:last-child]:pr-0 [&>*+*]:border-l [&>*+*]:border-l-line2 phone:[&>*]:p-0! phone:[&>*]:border-l-0!">
+            <Sec title="Waiting" n={q.data.waiting.length}>{q.data.waiting.map((i: any) => <QRow key={i.id} i={i} />)}{!q.data.waiting.length && <div className="border border-dashed border-edge rounded-[16px] p-5.5 text-dim text-center">Queue is clear</div>}</Sec>
+            <Sec title="Cooking" n={q.data.cooking.length}>{q.data.cooking.map((i: any) => <QRow key={i.id} i={i} right={<button className="border-0 bg-transparent p-0 text-blue font-semibold text-[13.5px] [transition:transform_var(--t-fast)_var(--ease),_background-color_var(--t-base)_var(--ease),_color_var(--t-base)_var(--ease),_border-color_var(--t-base)_var(--ease),_box-shadow_var(--t-base)_var(--ease)] in-[.m-app]:relative in-[.m-app]:after:content-[''] in-[.m-app]:after:absolute in-[.m-app]:after:left-1/2 in-[.m-app]:after:top-1/2 in-[.m-app]:after:w-[max(100%,_44px)] in-[.m-app]:after:h-[max(100%,_44px)] in-[.m-app]:after:[transform:translate(-50%,_-50%)]" onClick={() => release.mutate(i.id)}>Release</button>} />)}</Sec>
             <Sec title="At the pass" n={q.data.ready.length}>{q.data.ready.map((i: any) => <QRow key={i.id} i={i} />)}</Sec>
           </div>
         </>
@@ -116,12 +116,12 @@ export function QRow({ i, right }: { i: any; right?: React.ReactNode }) {
   const age = mins(i.status === 'cooking' ? i.claimedAt : i.status === 'ready' ? i.readyAt : i.createdAt);
   const late = i.status !== 'ready' && mins(i.createdAt) > i.prepMinutes;
   return (
-    <div className="row">
-      <div style={{ width: 52, flex: 'none' }}><div className="bb" style={{ fontSize: 16 }}>{i.table}</div><div className="small" style={{ color: late ? 'var(--amber)' : 'var(--dim)' }}>{age} min</div></div>
-      <div className="grow">
-        <div className="row-flex wrap" style={{ gap: 8 }}><span className="b">{i.qty} × {i.name}</span><span className="dim small">{i.guestNo ? 'G' + i.guestNo : 'Shared'}</span>{i.remake && <span className="red small bb">Remake</span>}{i.chef && i.status !== 'waiting' && <span className="blue small b">{i.chef.split(' ')[0]}</span>}</div>
-        {(i.spice || i.note || i.options?.length > 0) && <div className="taupe small">{[i.spice, ...(i.options ?? []), i.note].filter(Boolean).join(' · ')}</div>}
-        {i.status === 'ready' && i.waiter && <div className="dim small">{i.waiter} alerted</div>}
+    <div className="flex items-center gap-3.5 py-3.5 px-0 border-b border-b-line stagger last:border-b-0">
+      <div className="w-13 flex-none"><div className="font-bold text-[16px]">{i.table}</div><div className="text-[12.5px]" style={{ color: late ? 'var(--color-amber)' : 'var(--color-dim)' }}>{age} min</div></div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center flex-wrap gap-2"><span className="font-semibold">{i.qty} × {i.name}</span><span className="text-dim text-[12.5px]">{i.guestNo ? 'G' + i.guestNo : 'Shared'}</span>{i.remake && <span className="text-[12.5px] text-red font-bold">Remake</span>}{i.chef && i.status !== 'waiting' && <span className="text-[12.5px] text-blue font-semibold">{i.chef.split(' ')[0]}</span>}</div>
+        {(i.spice || i.note || i.options?.length > 0) && <div className="text-[12.5px] text-taupe">{[i.spice, ...(i.options ?? []), i.note].filter(Boolean).join(' · ')}</div>}
+        {i.status === 'ready' && i.waiter && <div className="text-dim text-[12.5px]">{i.waiter} alerted</div>}
       </div>
       {right}
     </div>
